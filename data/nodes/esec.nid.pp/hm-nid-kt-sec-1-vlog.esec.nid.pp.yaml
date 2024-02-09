@@ -1,0 +1,44 @@
+#RHEL 6
+lookup_options:
+  profile::base::ssh_keys:
+    merge: unique
+  profile::cis::mounts: #overrides profile::cis::mounts in esec.nid.pp.yaml and 6.yaml
+    merge: first
+    
+profile::base::ssh_keys:
+- title: 'nemid@r5-nid-kt-sec-1-vlog.esec.test'
+  user: 'nemid'
+  pub_key: 'AAAAB3NzaC1yc2EAAAABIwAAAQEAwZ5H9SMqTfzXdxfRD4UnGyTFooBNguZFC3Bv0QT5w7vRPfNKhICOyp6galhDS6eBVXGQrf5FB/YA6iiUNzQ/KSfx0B7crZm3TQRXHK1C80jXPFgLS7FIDgKKQvS086k+oodIaDURVS0zlJiW0KIKR6ZQmEu9B+MEDdnI0fvcA349VlR+hhP/tcmOAyk+U6kMNqXq+8lOzQghV+629v8+zbc9t0AZP3fQmoSs5GASoSUF4e+BoPEGRLRAfKvwYTeWYzXpc2Tft4du6PutHGk+6hWfSjk5wDoL+2eV/G8qj1t/uT8/aN4r+bwr9P+/h12NNdHjjti8kLO+6pYWcWs16Q=='
+  options: 'from="r5-nid-kt-sec-1-vlog.esec.test"'
+
+- title: 'nemid@hm-nid-kt-sec-1-vica.esec.test'
+  user: 'nemid'
+  pub_key: 'AAAAB3NzaC1yc2EAAAABIwAAAQEA6Rao6ZCvx6/4it5HEwD9qXqg2Wg4qsskz7qhbrU1impqjtTudCOJjkSCwht0GTmSq6ku+5x6ayCkCzGOhLdNV3PX0fNSg4yQIs8ynqGRfCcl6oqjerZgGneC0e326rzNYZByzB7AyUvNDMnOAD6SKEl1xQcNzxPBMFb0kE+/VJNpLgOdrs7ZwhscnSQjMU8SXsahENKcOn+98fZQWMg7z2pA33OK3caa1JesiN1+B6uzROaO2fIycResBbg+k+C0AmHxXuw7o/MBzyILns/7gSglMu/L0sV7KxDe+pgeGt9tz3+r6NKMLLLatNxydaAjA/J05vvSxDRdZpnIdY7Aiw=='     
+  options: 'from="hm-nid-kt-sec-1-vica.esec.test"'
+
+- title: 'nemid@hm-nid-kt-sec-2-vica.esec.test'
+  user: 'nemid'
+  pub_key: 'AAAAB3NzaC1yc2EAAAABIwAAAQEAvlSe+6judBhh7dgDf6i0l9oOEN6E1mdnaKmGvqb8sZi7ctNW8IMvmUIFT3rd9xU14a70Jzuu9Q088edANx+CxvyinsgDf022XF8bPLfbFiWOJWLk4VTOI4pdv/nNJyaj/z8SFwuzU+plvkhCB4tCVYU9MBXCrefPRUwLS+Y6AawBrQF2cglvP7rMdZ3nM0SpWvpps7CsdtQPw8+ogRJnYFLU5nk1cYek6X43EjQChB99H5W7zhQdT4CKFwFnhZBe0Ep1zfOyY4Ooqw3pnXaKA1wa1z/ggeydunGFcRIt5hP7iJTmOLQtnPCgXlm3ELI4XPB6WC3+1zNwZ9n2oLi1FQ=='
+  options: 'from="hm-nid-kt-sec-2-vica.esec.test"'
+
+- title: 'nemid@hm-nid-kt-sec-1-vpca.esec.test'
+  user: 'nemid'
+  pub_key: 'AAAAB3NzaC1yc2EAAAABIwAAAQEAu5S+naspRkOUakqKg8aKc7Cw+mnHMBgQ9BWquji5Kt/nprMWDCzDC87q2YxxM3iFYVR8xxpHD2bW85pMPz23xP/6RAhfYNgoh/TBygZpulikjcbqsnMjI8x/aIlu2ZeoEEzNNCROnPOv6IzHtOpjyatQp2bEWnMBfrRCijjnO5P34h+xq2ZJJALH26qlYUTitNN9wgmYSVDwrHcQfcD2ZknLzDItdkpYpPL7hFAkLfpIcI6nBGAD2DiRUgZZn7POrPE1KK+VRl9kfNd3LsbJY0kf63DrFP9ntnMdRK4ALgdGBEQl0Fa4TOguhSJ+NhijLIBNhz1zSd7PdyIwGH/KcQ=='
+  options: 'from="hm-nid-kt-sec-1-vpca.esec.test"'
+
+- title: 'root@hm-nid-kt-sec-1-vpca'
+  user: 'nemid'
+  pub_key: 'AAAAB3NzaC1yc2EAAAABIwAAAQEAyZEha4JOaqrc4ZIGRIU7qpwkKxRHbEgauDM3WDz4d4i4HVCZKoAzEIY1ipiyxAGl9x8Y7pGx2csgLBykktZw3Q/ZkISd/0NTATQcOs06rUtQFpuxmsH0sTWpRJ1WVOAafQ3EW3xfNUBV9qJtXhNP9/v74yI0gDuSBTcKjLnbbgenOM96//s/KiSXs1QprguQbcBzIHoElEfLolxDUiXS6YDhZbneBBJFPalD+KjUCXMhHB27MU283BjWDFo2ShoXpNGruLB9xyrvGmcfYkhXzgryLnsmTjToTZwKex2TcM5NHgZr4su9rmWqVWUdGBIUuIFlpGdvlPtwpYtx4hImsQ=='
+  options: 'from="hm-nid-kt-sec-1-vpca.esec.test"'
+
+#overrides profile::cis::mounts in esec.nid.test
+profile::cis::mounts:
+- title: '/dev/shm'
+  options: 'defaults,size=1G,nosuid,noexec,nodev'
+  fstype: 'tmpfs'
+  device: 'tmpfs'
+
+- title: '/home'
+  options: 'defaults,nodev,nosuid'
+  fstype: 'ext4'
+  device: '/dev/mapper/vg01-home'

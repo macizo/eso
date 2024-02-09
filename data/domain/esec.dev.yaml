@@ -1,0 +1,36 @@
+lookup_options:
+  cron::job: #looks up the data from all sources with the cron::job key in this case it finds it in common.yaml
+    merge: unique
+  profile::cis::mounts:
+    merge: unique
+    
+profile::base::dns:
+- title: 'dns1'
+  path: '/etc/sysconfig/network-scripts/ifcfg-ens192'
+  line: 'DNS1=10.20.131.18'
+  match: 'DNS1'
+
+- title: 'dns2'
+  path: '/etc/sysconfig/network-scripts/ifcfg-ens192'
+  line: 'DNS2=10.20.131.19'
+  match: 'DNS2'
+
+- title: 'search'
+  path: '/etc/sysconfig/network-scripts/ifcfg-ens192'
+  line: 'SEARCH="esec.pp esec.test esec.sis.dev esec.sis.test esec.sis.pp esec.nid.test esec.nid.pp"'
+  match: 'SEARCH'
+
+cron::job:
+  'puppet':
+    command: '/opt/puppetlabs/bin/puppet agent --test >/dev/null 2>&1'
+    minute: '*/15'
+    hour: '*'
+    date: '*'
+    month: '*'
+    weekday: '*'
+
+profile::cis::mounts:
+- title: '/dev/shm'
+  options: 'defaults,nosuid,noexec,nodev'
+  fstype: 'tmpfs'
+  device: 'tmpfs'

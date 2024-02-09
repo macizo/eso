@@ -1,0 +1,319 @@
+lookup_options: 
+  profile::base::system_users: # looks up the data from all sources with the profile::base::system_users key in this case it finds it in common.yaml
+    merge: unique
+  profile::base::ssh_keys:
+    merge: unique
+  profile::base::dirs:
+    merge: unique
+  profile::base::files:
+    merge: unique
+  profile::base::pkgs:
+    merge: unique
+  pam::limits:
+    merge:
+      strategy: deep
+      merge_hash_arrays: true
+  sudo::configs: # looks up the data from all sources with the sudo::configs key in this case it finds it in esec.sis.test and common.yaml
+      merge:
+        strategy: deep
+        merge_hash_arrays: true
+  pam::allowed_users: #creates a hash from all the sources of this key
+    merge:
+      strategy: deep
+      merge_hash_arrays: true
+
+pam::allowed_users: # add users to this list
+ - 'tomcat'
+ - 'bastian'
+
+sudo::configs:
+  'tomcat':
+    content: 'tomcat ALL=NOPASSWD: /bin/systemctl restart sis-console.service'
+
+# ssh::users_client_options:
+#     'bastian':
+#         'options':
+#             'Host *':
+#                 'StrictHostKeyChecking': 'no'
+#     'tomcat':
+#         'options':
+#             'Host *':
+#                 'StrictHostKeyChecking': 'no'
+
+profile::base::ssh_keys:
+- title: 'bastian@hm-sis-t-sec-3-vtsapp'
+  user: 'bastian'
+  pub_key: 'AAAAB3NzaC1yc2EAAAABIwAAAQEApwzm4a+aZS8SJ2ZuExEi5N+5M66OpK1lf8fAPAMbs1vnY9AzwSA8R5v82Ci1yn5GXc3SLaW49LOQyTN/3tNAaa+sRB9wLVGYcsMh/3iaCFLxFuQZMx1DC/LQGAOk5TzpQm4nZNeN9SVveov/3xZzy7BdvopUVENBA7/gYdkV+MqiFCmbBwdIffFS/MWuw3F78abeP/LuEFtD2aSwdcL3E80yoHaFHM0lI5LXgQTFPYZ/lyWtDXjvzr5bJa1pYOGqo66fm5PshY5X7cffab2YK2tvGHyPm4v0pWK7jUFz5Nt/WBCKKfJsPkGSK/8HrFRSM1n+FK5+zcHXhYPY+pWZmQ=='
+
+- title: 'tomcat@hm-sis-t-sec-4-vtsapp.esec.test'
+  user: 'bastian'
+  pub_key: 'AAAAB3NzaC1yc2EAAAADAQABAAABAQCstWAxWAqgOtlxe3bx3YFwccTjLp8HBu1VPFTVrhpmjXqG9qMyacvdDvY+NoocsvjRJ6aiPpiR83sajABZe4r9234GN92JgUsQ8YM0hkw8s/+job94tIiMGAh4p6L/7UHMi641mGolyVuxWaz7o5ro9CuUGw9j9gMnIvuUMshfyOPaCl6fWgtQpNPx6j/hMobozS03dB7pXJsXLuY0aUPNMLRRHY602z0kkxnFFlIXs40f3xbzd9ytONLU0i0BS+21yljkQsLlEhsUl1lLSIrzYUJZrH0wRToN/Gx4rrRmAPoUlZqsSwQsstHDU5lcNGDlzWToJv4gPh7/OfrJyJi5'
+
+- title: 'BastianForTomcat'
+  user: 'tomcat'
+  pub_key: 'AAAAB3NzaC1yc2EAAAABIwAAAQEAxAjVttknB/JzqDvIi3/je0QuO38EtKtsIWIva2xmZ459AFhe36ULcFpmiMXI8+fNP7JuJ/CmaXu09Mc2f5VFDbvKccjTE2q/L/lyRq1+vV3x22bJ03XaTqF75oWNN43jY7YkQ4qVR18Q9gJJfHCjBNsODraVYUeUXbvFr3evtiji1Rh/ailEW4RdXxN4xUtgRvHi9uU8i8yUZJzV6KPedVDlQb7cYsH66BEdvGxXIUsGBpDIbvKBKTYjbcuK6WXZlmYNghr6FvzNkZB9BHdohLekrK8iQ7BiS1ADcgvYbFy9kLBRMI1JLg+QD1qieYZS7bQyYEoM4FykbD6oVF2MjQ=='
+
+- title: 'bastian@hm-sis-d-sec-3-vtsapp'
+  user: 'bastian'
+  pub_key: 'AAAAB3NzaC1yc2EAAAABIwAAAQEA6KbtTPECSgYNRcUHzLLSZPrViWCjtle25cZbv563a05x9hi7gnp3/xdwoOBOkRr1YH0qBc8jf6AF1hB4zLNe4XD3hsdL1T32+8gnhdXK2O7ZNHNOT/WqEP7NSLUDErTL7Ynp0NszQ5GyWsxeIKxDoVUfHYC9W8aq9biudI6ERWPIk8rI5nLSR4TpRqlY/6ZdhIt3tBmdMLgya9NfDJtdBfJStMpPjCZXAyTFR3jx9V6CuytTn5kNeExd3tLiNMNmkthO/m5iPhbkYXHbSJE8xrDAhvpCU7bjZix0supmk4v1LGKBcgKZUBRA4oZA90O6qgKXPXjRk/ptbqnh9lEJ/w=='
+
+profile::base::system_users:
+- title: 'tomcat'
+  uid: '571'
+  gid: users
+  comment: 'Tomcat System User'
+  groups: 'ssh-users'
+
+- title: 'bastian'
+  uid: '2011'
+  comment: 'Bastian System User'
+  groups: ['users','ssh-users']
+
+profile::sis::cleanscripts:
+- title: '/opt/service/scripts/cleantomcat.sh'
+  content: 'sis/scripts/cleantomcat.sh'
+  owner: 'root'
+  group: 'root'
+  mode: '0755'
+
+profile::base::files: #don't put templates in the path
+- title: '/etc/init.d/tomcats'
+  content: 'sis/scripts/tomcats.sh'
+  owner: 'root'
+  group: 'root'
+  mode: '0755'
+
+- title: '/home/bastian/.ssh/config'
+  content: 'sis/ssh/ssh_config.epp'
+  owner: 'bastian'
+  group: 'bastian'
+  mode: '0600'
+
+- title: '/home/tomcat/.ssh/config'
+  content: 'sis/ssh/ssh_config.epp'
+  owner: 'tomcat'
+  group: 'users'
+  mode: '0600'
+
+- title: '/root/logrotate.sh'
+  content: 'sis/scripts/logrotate.sh'
+  owner: 'root'
+  group: 'root'
+  mode: '0755'
+
+pam::limits:
+  'config_file_lines':
+    - 'tomcat          soft    nproc           40000000'
+    - 'tomcat          hard    nproc           40000000'
+
+profile::base::dirs:
+- title: '/tmp/hsperfdata_tomcat'
+  mode: '0644'
+  owner: 'tomcat'
+  group: 'users'
+
+- title: '/opt/tomcats'
+  owner: 'tomcat'
+  group: 'users'
+  mode:  '0755'
+
+- title: '/opt/service'
+  owner: 'root'
+  group: 'root'
+  mode:  '0755'
+
+- title: '/opt/service/logs'
+  owner: 'tomcat'
+  group: 'users'
+  mode:  '0755'
+
+- title: '/opt/service/logs/maintenance'
+  owner: 'tomcat'
+  group: 'users'
+  mode:  '0755'
+   
+- title: '/opt/service/logs/archive'
+  owner: 'tomcat'
+  group: 'users'
+  mode:  '0755'
+  
+- title: '/opt/service/properties'
+  owner: 'tomcat'
+  group: 'users'
+  mode:  '0755'
+  
+- title: '/opt/service/software'
+  owner: 'tomcat'
+  group: 'users'
+  mode:  '0755'
+  
+- title: '/opt/service/scripts'
+  owner: 'root'
+  group: 'root'
+  mode:  '0755'
+
+- title: '/opt/service/backup'
+  owner: 'bastian'
+  group: 'users'
+  mode:  '0755'
+
+- title: '/opt/service/statistics'
+  owner: 'bastian'
+  group: 'users'
+  mode:  '0775'
+
+- title: '/opt/service/statistics/dw'
+  owner: 'bastian'
+  group: 'users'
+  mode:  '0775'
+
+- title: '/opt/service/tools'
+  owner: 'bastian'
+  group: 'users'
+  mode:  '0755'
+
+- title: '/opt/service/fileshare'
+  owner: 'bastian'
+  group: 'users'
+  mode:  '0755'
+
+- title: '/var/log/logrotate'
+  owner: 'root'
+  group: 'root'
+  mode:  '0755'
+  
+systemd::dropin_files:
+  sis-console.service:
+    unit: sis-console.service
+    content: 'sis/systemd/sis-console.service'
+#logrotate values
+# for more information: https://forge.puppet.com/modules/puppet/logrotate
+
+aide::rules:
+  - '/opt/service/logs  LOG'
+  - '!/opt/service/tools'
+  - '/opt/splunkforwarder/var/log LOG'
+  - '!/opt/tomcats'
+  - '!/opt/nimsoft'
+
+logrotate::rules: #no 5
+  'httpd-logs':
+    create: true
+    create_mode: '0644'
+    create_owner: 'root'
+    create_group: 'root'
+    compress: true
+    copytruncate: true
+    delaycompress: true
+    path: '/opt/service/logs/maintenance/httpd*.log'
+    dateext: true
+    dateformat: '.%Y-%m-%d'
+    maxage: 3
+    missingok: true
+    postrotate: '/bin/systemctl reload httpd.service > /dev/null 2>/dev/null || true'
+    rotate: 7
+    rotate_every: 'day'
+    sharedscripts: true
+  'stdout-logs':
+    create: true
+    create_mode: '0640'
+    create_owner: 'tomcat'
+    create_group: 'users'
+    compress: true
+    copytruncate: true
+    path: '/opt/service/logs/maintenance/[eimns]*-stdout.log'
+    dateext: true
+    dateformat: '.%Y-%m-%d'
+    maxage: 3
+    missingok: true
+    rotate: 7      
+    rotate_every: 'day'
+    su: true
+    su_user: 'tomcat'
+    su_group: 'users'
+  'ts-logs': 
+    create: true
+    create_mode: '0640'
+    create_owner: 'tomcat'
+    create_group: 'users'
+    compress: true
+    copytruncate: true
+    path: '/opt/service/logs/maintenance/ts*.log'
+    dateext: true
+    dateformat: '.%Y-%m-%d'
+    maxage: 3
+    missingok: true
+    rotate: 7      
+    rotate_every: 'day'
+    su: true
+    su_user: 'tomcat'
+    su_group: 'users'
+  'signing-logs':
+    create: true
+    create_mode: '0640'
+    create_owner: 'tomcat'
+    create_group: 'users'
+    compress: true
+    copytruncate: true
+    path: '/opt/service/logs/maintenance/signing_server.log'
+    dateext: true
+    dateformat: '.%Y-%m-%d'
+    maxage: 3
+    missingok: true
+    rotate: 7      
+    rotate_every: 'day'
+    su: true
+    su_user: 'tomcat'
+    su_group: 'users'
+  'signing-t-logs':
+    create: true
+    create_mode: '0640'
+    create_owner: 'tomcat'
+    create_group: 'users'
+    compress: true
+    copytruncate: true
+    path: '/opt/service/logs/maintenance/signing_server-t*.log'
+    dateext: true
+    dateformat: '.%Y-%m-%d'
+    maxage: 3
+    missingok: true
+    rotate: 7      
+    rotate_every: 'day'
+    su: true
+    su_user: 'tomcat'
+    su_group: 'users'
+  'certificate-logs':
+    create: true
+    create_mode: '0640'
+    create_owner: 'tomcat'
+    create_group: 'users'
+    compress: true
+    copytruncate: true
+    path: '/opt/service/logs/maintenance/certificate*.log'
+    dateext: true
+    dateformat: '.%Y-%m-%d'
+    maxage: 3
+    missingok: true
+    rotate: 7      
+    rotate_every: 'day'
+    su: true
+    su_user: 'tomcat'
+    su_group: 'users'
+
+# auditd::config::audit_profiles::custom::rules:
+# - '-w /opt/service/logs/maintenance -p a -k logs'
+
+cron::job:
+  'logrotate-debug':
+    command: '/usr/bin/strace -s 2000 -o /tmp/strace.log /root/logrotate.sh'
+    minute: 0
+    hour: 3
+    date: '*'
+    month: '*'
+    weekday: '*'
+    user: root
+    description: 'test logrotate'
+
+profile::base::pkgs:
+- 'java-11-openjdk'
+- 'httpd'

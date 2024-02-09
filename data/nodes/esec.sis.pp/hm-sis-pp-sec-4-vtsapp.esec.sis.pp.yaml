@@ -1,0 +1,119 @@
+---
+# node specific hiera data, most data will be merged with other sources in the hierarchy
+lookup_options: # looks up the data from all sources with the profile::base::files key in this case it finds it in common.yaml
+  profile::base::files:
+    merge: unique
+  profile::base::dirs:
+    merge: unique
+  cron::job::multiple:
+    merge: unique
+  logrotate::rules:
+    merge:
+      strategy: deep
+      merge_hash_arrays: true
+  sudo::configs: # looks up the data from all sources with the sudo::configs key in this case it finds it in esec.sis.test 
+    merge:
+      strategy: deep
+      merge_hash_arrays: true
+ 
+sudo::configs:
+ 'bastian_rsync':
+    template: 'sis/sudo/bastian_rsync_pp'
+ 'bastian_tee':
+    template: 'sis/sudo/bastian_tee_pp'
+
+profile::base::files:
+- title: '/etc/hosts'
+  mode: '0644'
+  owner: 'root'
+  group: 'root'
+  content: 'sis/hosts/pp/hm-sis-pp-sec-4-vtsapp.erb'
+
+- title: '/opt/service/scripts/syncCommonFiles-sis-linux.ksh'
+  content: 'sis/scripts/syncCommonFiles-sis-linux-pp'
+  owner: 'bastian'
+  group: 'users'
+  mode: '0755'
+
+- title: '/opt/service/logs/maintenance/backup-masterFileshare.log'
+  owner: 'bastian'
+  group: 'users'
+  mode: '0644'
+
+profile::base::dirs:
+- title: '/opt/service/masterFileshare'
+  owner: 'bastian'
+  group: 'users'
+  mode: '0775'
+  file_mode: '0644'
+  recurse: True
+
+- title: '/opt/service/backup/masterFileshare'
+  owner: 'bastian'
+  group: 'users'
+  mode: '0775'
+  file_mode: '0644'
+  recurse: True
+  
+logrotate::rules:
+  'activemq-logs':
+      create: true
+      create_mode: '0640'
+      create_owner: 'tomcat'
+      create_group: 'users'
+      compress: true
+      copytruncate: true
+      path: '/opt/service/logs/maintenance/activemq*.log'
+      dateext: true
+      dateformat: '.%Y-%m-%d'
+      maxage: 3
+      missingok: true
+      rotate: 7      
+      rotate_every: 'day'
+      su: true
+      su_user: 'tomcat'
+      su_group: 'users'
+  
+cron::job::multiple:
+  'Housekeeping':
+      jobs:
+        - {
+            minute: 14,
+            hour: 4,
+            date: '*',
+            month: '*',
+            weekday: 0,
+            user: root,
+            command: '/opt/service/scripts/cleantomcat.sh',
+            description: 'Clean tomcat files',
+          }      
+        - {
+            minute: '*/5',
+            hour: '*',
+            date: '*',
+            month: '*',
+            weekday: '*',
+            user: tomcat,
+            command: '/opt/service/tools/amqmon/bin/amqmon',
+            description: 'amqmon',
+          }   
+        - {
+            minute: 0,
+            hour: 6,
+            date: '*',
+            month: '*',
+            weekday: 1,
+            user: bastian,
+            command: '/opt/service/scripts/backup-masterfileshare.sh',
+            description: 'bastian backup masterfileshare',
+          }
+        - {
+            minute: 1,
+            hour: 1,
+            date: '*',
+            month: '*',
+            weekday: '1,4',
+            user: root,
+            command: '/opt/service/tools/certificate_validator/certificate_validator.sh',
+            description: 'Certificate Check',
+          }

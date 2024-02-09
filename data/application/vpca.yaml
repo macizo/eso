@@ -1,0 +1,74 @@
+lookup_options:
+  pam::allowed_users: #creates a hash from all the sources of this key
+    merge:
+      strategy: deep
+      merge_hash_arrays: true
+  profile::base::system_users: # looks up the data from all sources with the profile::base::system_users key in this case it finds it in common.yaml
+    merge: unique
+  # cron::job::multiple:
+  #   merge: unique
+
+#add users that are allowed to login here:
+pam::allowed_users:
+  - 'entrust'
+
+profile::base::system_users:
+- title: 'entrust'
+  uid: '2009'
+  comment: 'Entrust system user'
+  ssh_title: 'nemid'
+  groups: ['users','ssh-users','easm_entrust_pg']
+
+# cron::job::multiple:
+#   'LDAP LOG CLEANING':
+#       jobs:
+#         - {
+#             minute: '*/10',
+#             hour: '*',
+#             date: '*',
+#             month: '*',
+#             weekday: '*',
+#             user: root,
+#             command: '/opt/service/scripts/ldap_log_rotation_script.sh',
+#             description: 'ldap log rotation',
+#           }      
+#         - {
+#             minute: '*/10',
+#             hour: '*',
+#             date: '*',
+#             month: '*',
+#             weekday: '*',
+#             user: root,
+#             command: '/opt/service/scripts/ldap-remove-users.sh > /dev/null',
+#             description: 'ldap remove users',
+#           } 
+#           - {
+#             minute: '*',
+#             hour: '4',
+#             date: '*',
+#             month: '*',
+#             weekday: '*',
+#             user: root,
+#             command: '/opt/service/scripts/backupLDAP.sh 30389',
+#             description: 'backup ldap',
+#           }  
+#           - {
+#             minute: '15',
+#             hour: '9',
+#             date: '*',
+#             month: '*',
+#             weekday: '*',
+#             user: root,
+#             command: '/opt/service/scripts/ldapBackupCleaningNID.ksh -d',
+#             description: 'ldap cleaning',
+#           }  
+#           - {
+#             minute: '15',
+#             hour: '10,22',
+#             date: '*',
+#             month: '*',
+#             weekday: '*',
+#             user: root,
+#             command: '/opt/service/scripts/syncLdapLog_nid.ksh -s',
+#             description: 'ldap sync',
+#           }  

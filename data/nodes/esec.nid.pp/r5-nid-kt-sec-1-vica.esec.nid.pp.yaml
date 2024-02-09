@@ -1,0 +1,16 @@
+#RHEL 6
+lookup_options:
+  profile::cis::mounts:
+    merge: first
+
+#overrides profile::cis::mounts in esec.nid.pp
+profile::cis::mounts:
+- title: '/dev/shm'
+  options: 'defaults,size=1G,nosuid,noexec,nodev'
+  fstype: 'tmpfs'
+  device: 'tmpfs'
+
+- title: '/home'
+  options: 'defaults,nodev,nosuid'
+  fstype: 'ext4'
+  device: '/dev/mapper/vg01-home'

@@ -1,0 +1,4 @@
+# This file is under Puppet control
+Host_Alias SISPPSERVER = 10.20.140.6,10.20.140.7
+Cmnd_Alias COMMANDS = /bin/chown -R bastian\:users /opt/service/masterFileshare, /bin/chown -R bastian\:users /opt/service/fileshare
+bastian    SISPPSERVER = NOPASSWD:COMMANDS

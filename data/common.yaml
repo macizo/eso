@@ -1,0 +1,606 @@
+---
+# lookup_options: 
+#   profile::base::system_users: 
+#     merge: unique 
+#   profile::base::ssh_users: # looks up the data from all sources with the profile::base::system_users key in this case it finds it in common.yaml
+#     merge: unique 
+#   profile::base::groups:
+#     merge: unique
+#   profile::cis::allow_groups: 
+#     merge: unique
+#   pam::allowed_users: #creates a hash from all the sources of this key
+#     merge:
+#       strategy: deep
+#       merge_hash_arrays: true
+#   profile::cis::mounts:
+#     merge: unique
+
+#add users that are allowed to login here:
+pam::allowed_users:
+  - root
+  - autopatch
+  - ehval
+  - aakki
+  - fhenr
+  - ekokk
+  - saspe
+  - mvegd
+  - hpanc
+  - aroch
+  
+# These are the default values in the defined type, they can also be modified here in common.yaml
+
+# groups: 'wheel'
+# password_max_age: '99999'
+# password_min_age: '0'
+# managehome: true
+# shell: '/bin/bash'
+# ensure = present 
+# by default
+# ssh_title is a mandatory field
+
+#password login is usually disabled
+profile::base::password_enabled: false #set to true or false, then puppet will change it to yes for sshd_config
+
+profile::base::ssh_users:
+- title: 'ehval'
+  ssh_title: 'ehval@hm-eso-common-1-mgmt'
+  uid: '1136'
+  pub_key: 'AAAAB3NzaC1yc2EAAAADAQABAAABgQDAxIUrVAdelah7huT9G+m7CrfpK15LuD1nNJ8SzmfBnHN5q7y1ZRiNISipV+1gxEzdIzveT5/Ahc7MH20XGYi8eFJiSLulR1nkn+bGG83gFwkKle/tWg/KzRV2O11+bFJLsV/0WX71vbFMua962nm5lhU8xebtg+9ZF8QsWMNyvblpyyVASWLSVxo+G9yTdzlD8VqoLNAPMwi2Wp4/NGElu5MrpC9e/zUZTUEKF6+xJBoGvrSypk1NOuso2/49bEt4fa7JCffJamEOfqnh3bmeW+OkQ6GypVlZE8R1A/2FRbE2X0ZiR47uyHVFIjCiQqZVIe0w2UxhnRVBt8JQ31Kt/0XAQYYqyJW38hhfE19qvhTZ3BPevXccHpfKwlPPcNKqB6ksFidWeMwo6FpvdzQzdz0Ev1YgsPV+9zBs63na0gV05kkqkFSjblBL0jGf9K90bfmgD2ouFVpXEGTBhFKsVwj9liWUD0lhxerukuWNExnnv/niU64CNDIXmye9fzM='
+  comment: 'user for Eduardo Hasbun'
+  groups: ['wheel','ssh-users']
+
+- title: 'aakki'
+  ssh_title: 'aakki@hm-eso-common-1-mgmt'
+  uid: '1056'
+  pub_key: 'AAAAB3NzaC1yc2EAAAADAQABAAABAQDFWaBbphf9bdgZIjyOGELYqvU1VUWGFCVBW4mHKGtSOmk7s4yBw5mApoUa8MdPbPam4el4EJn9Lh7UGWp7RPepfo7KzWjVNhkvc+IM1w5JqxsGlGoCpOYXfFLCAUhG74br4BTypOfdW+4mvLwsCpM1Lrtk97dZUkWuDMtYNP/iyRS462f8oMyCzfzCHmAhJb0KKYcfl99iPu/6smh2PMLUnJ77zD2P4Sjhyl4CFV0lgbYU/YjEODWqSgkqsvhETGZSVkhV2uQKSQqL21aieYJG82kp6gsR+Px0Dkanf0K4tOzjBfWm52u61m0DuVUpPVIXicVWT1pMZK87SdSzTMI1'
+  comment: 'Personal user Anupama'
+  groups: ['wheel','ssh-users']
+
+- title: 'fhenr'
+  uid: '1009'
+  ssh_title: 'fhenr@hm-eso-t-man-2-mgmt.esec.test'
+  pub_key: 'AAAAB3NzaC1yc2EAAAADAQABAAABAQDAZbtT75VGB/Q7EXuAlT02pJfyzQSO2/UyZz93GCZ/pOT6Jzkf3Sw5XCNt5tc35d2hIPZDOyGVXj4KASElkWp6y5NTviRvBwZ8GYQMzDnr6dDEVJ4NHZ1Rn2u631e72KveGUXscEQH+B8mUxgz/Zc19AtjYPazUdR11bQjx4O4FIq4bQOJCVhg+Eyih9LJlCGQXuMUYoLA3hYSdTOQ+G53XPBz2VsuK4uoYN/YQrianFWZ1g1WNIpv37U3MCYfVjkC002XA5NUC2ll9pzgob/bZ6eVsUHYkpCoYcKiF6+zZk8jGRIcn6wmTpKAGUNVKZ+mhLgrU2AEEi5m+II4Fa+r'
+  comment: 'Personal user Frank'
+  groups: ['wheel','ssh-users']
+
+- title: 'msnov'
+  ensure: absent
+  
+- title: 'ekokk'
+  uid: '1138'
+  ssh_title: 'ekokk@hm-eso-common-1-mgmt'
+  pub_key: 'AAAAB3NzaC1yc2EAAAADAQABAAABgQC6HfLU3zKHwYFTY6G5mC5N+Kgn5sBU+Wq5ICqJbBgrzUE3UY84f7zABd2c+8TUbtqDxRM6u4ln3NtxLtp8y41kGJ975YBisOj3Jq1MW59ugTB/diXLjNdqe1f5DO7FuQgPQR+pXmNH7RAZOmKtYHzo4pO/h0AR1Uc4VgbYvu/S8Sqmofat4QVzU2idCaNYOJqnsnVpSFcZ5ekmqfe2nvOXqC+R0ZRQJNOH5Y18UFnCWnq0pA4BQVucsBZXWWmoQjm2wW79c82Jz5zuYokNykISKjNlBZonvpPZ7ZJXyWR4V7CaTcoW3uJsKH9wtnGnMCR0dfT0k4RuvpdQL2mnPGqX/8kOXhPmnPJJSueg5YTAqlrJLH8YbzrYdsd4f6SCj7hvtGVkDT3BaMJ+hhcYgnwHM7z6LgcCTLH81gUotmk4X51dyg1TZqllYMCiRwrkOd/Sg/5SzlBlh2ynXgiQzzxGmArfQin3rOfAWhQc2FbfCmD70tkqp3S0QjOGs2F5uA0='
+  comment: 'Personal user Edvin'
+  groups: ['wheel', 'ssh-users']
+
+- title: 'aroch'
+  uid: '1141'
+  ssh_title: 'aroch@NOOSLLPT121731'
+  pub_key: 'AAAAB3NzaC1yc2EAAAADAQABAAABgQCqOgB3nEcD0eWAQInXOPCxbT4Hi8Yqoneam0rTrVbNybejMId8lWA9o7+x7wUdNaD+d8SrtcKsrvFlGqyOIRqk/adBcBA7GkIYrhDX3iP4OXWsRXTo+Mz8THTMtn8VMMrP4837fuIkJz/ORfvCzTy9g23Vu/TqUG3IrkHYZZ6Pmq8J1+LTZZCYbUIRGpja3YBL27w7Co+gg+GStirzFR0IF0fj379i0mhN5RzkfHcdy/sHGu9suYCdU2Xqwa5QvvLf4hNfgieXeUU1C2nEsCuT6g/OwQr1nU5BggyfsqM/aphbPyOc3y53FKIVfe32yPn5BValUjtX+kuiB+7QCcfN3rlkNwtZ+Tb8CFwD6jdeBVJak0EKd0OU0keM94yzpDydUdQYhLG6ZYPmdbn+dF8XWO4qXW2b1kE05XwqrXFzRStzUIvZVXc8ndOjFcPNRjWgvfRRrVStWbPph0F3CbHTBPrtYnogCkwPizqC4/HN8TJi56mKZtEcNuG9hrEOH0k='
+  comment: 'Personal user Alexssandro'
+  groups: ['wheel', 'ssh-users']
+
+# - title: 'mvegd'
+#   uid: '1008'
+#   ssh_title: 'mvegd@sis'
+#   groups: 'sis'
+#   pub_key: 'AAAAB3NzaC1yc2EAAAADAQABAAABAQDlm7FjSZ/UI/slj8DZUnM4b4edKAs5L6PFUHzmr2dqgnzOOPN2lZdD8/TIKCZFvJXCnQlW/+0X/VTscmdNq7lpgAB1C/0hZXNZrA7PbYxXaoKkZUYa2ctTnUOoX6M3Px+f48Qjoi5X7gjo+zofE9hFNG+l8sYyOTYF3eiJXxnhftmwPo2FPMKBuLvjFEYs1rl+1/LgLPVu24QCsm8BcFL2N0aXeFNMQ1h+h0zuNoG16JeJJFdDefb+ap+XQxvhOnmgsK3WpMaedGXni9UzydS/6NBKSOGrFPwAiqjFx+GL5U0fXpsneFqBSVRRRSOkqnHCYGBn4HKADbq32qPDJYlX'
+#   comment: 'Personal user mvegd'
+#   state: 'absent'
+
+- title: 'rahmi'
+  ensure: absent
+
+- title: 'hpanc'
+  uid: '1190'
+  ssh_title: 'hpanc@hm-eso-common-1-mgmt'
+  pub_key: 'AAAAB3NzaC1yc2EAAAABIwAAAQEA1YozLR5xKM7BymwwWLcJg2z43uP5KMaTfkuSdoLNZvnyxaTMbeWksb6zdZETBTGopWcbhOub4cqN7ENGIOf9e3qyiFfRhR9vf7AXyquLU8iIZsPhi3IriTv5EUaGlYr34bzoZPM5abYuOYszmgXpNToeLJUEAXRrzyBY0ypmzziUia+r1I1NT/mtpQrFM04Y7lEJ5YAYvGYwapCTqhHPZAMA/ekGctF9eNpTahWFzBrz1oErdtoG6FqUDe56+7l9LJokKAdTgu9+YnWPxkXiQyywsasFGdCcxgKYV9K0dPNUlyIBGkMVHNGy/kY7wpfSTiX3MQCJzZDaJOD3wzusrQ=='
+  comment: 'User for Harikaran Panchalingam'
+  groups: ['wheel','ssh-users']
+
+- title: 'prboh'
+  ensure: absent
+
+- title: 'esoadmin'
+  ensure: absent
+
+- title: 'fzappa'
+  ensure: absent
+
+- title: 'dongy'
+  ensure: absent
+
+- title: 'dong'
+  ensure: absent
+
+- title: 'mjord'
+  ensure: absent
+
+- title: 'eerik'
+  ensure: absent
+
+- title: 'hank'
+  ensure: 'absent'
+
+- title: 'rmann'
+  ensure: 'absent'
+
+- title: 'etage'
+  ensure: 'absent'
+
+# - title: 'saa'
+#   ensure: 'absent'
+  
+#system users
+profile::base::system_users:
+- title: 'autopatch'
+  uid: '2019'
+  comment: 'autopatch system user'
+  groups: ['users','ssh-users','wheel']
+ 
+profile::base::ssh_keys:
+- title: 'autopatch-key'
+  user: 'autopatch'
+  pub_key: 'AAAAB3NzaC1yc2EAAAADAQABAAABAQDUsr77Vd3uJo6m6Hu/9tXTctErK0ytOUuuFJMAhHu4+CoHE1FunF49ckxL9uDNK7KBZNXGrx+FnBV5as7YKgQFiMo5bUfejEwVlfQB1q43iI/scVckAaRX3MjV0CT8bUD90g1sdcOTmAsNEddVZl02LVussXg+8aDYxKiFKui2gYACbQrwpNo4IP+1+kSpGlqZJ+PMk1xVKpU8sPacI1ebIaCcw17wV+XFxZltoRiVjKXQb3D7k/EAPOzVE8kHXN4ooVeq0pAd5FyleE/EzPteHqeLYVRZ2lh5keM70PVA/YLTjrHLZIzcu4o59OW/wuMA6C1NekhR4ri3c7/HOBU7'
+
+profile::base::system_users: #users is the secondary group by default, home is /home/{user}
+- title: 'loguser'
+  comment: 'Loguser System User'
+
+- title: 'nimbus'
+  comment: 'Nimbus System User'
+ 
+- title: node_exporter
+  comment: 'Node exporter System User'
+
+profile::cis::allow_groups:
+- 'ssh-users'
+
+profile::base::dirs:
+- title: '/opt/splunkforwarder'
+  mode: '0700'
+  owner: 'loguser'
+  group: 'loguser'
+
+- title: '/opt/nimbus'
+  mode: '0700'
+  owner: 'nimbus'
+  group: 'nimbus'
+
+- title: '/var/log/CIS'
+  mode: '0700'
+  owner: 'root'
+  group: 'root'
+
+- title: '/opt/CIS'
+  mode: '0700'
+  owner: 'root'
+  group: 'root'
+
+- title: '/opt/CIS/scripts'
+  mode: '0700'
+  owner: 'root'
+  group: 'root'
+
+profile::base::tidy:
+- title: '/opt/service/scripts'
+  matches: 'puppet6_client*'
+
+profile::base::files:
+- title: '/etc/profile.d/bash_hist.sh'
+  mode: '0644'
+  owner: 'root'
+  group: 'root'
+  content: 'common/bash_hist.sh'
+
+- title: '/etc/profile.d/autologout.sh'
+  mode: '0644'
+  owner: 'root'
+  group: 'root'
+  content: 'cis/scripts/autologout.sh'
+
+- title: '/etc/sysctl.d/CIS.conf'
+  ensure: absent
+
+profile::cis::services:
+# ensure => stopped by default
+# can add a line for ensure, eg. ensure: running
+- title: 'autofs'
+
+- title: 'chargen-dgram'
+
+- title: 'chargen-stream'
+
+- title: 'daytime-dgram'
+
+- title: 'daytime-stream'
+
+- title: 'echo-dgram'
+
+- title: 'echo-stream'
+
+- title: 'tcpmux-server'
+
+- title: 'dhcp'
+
+- title: 'avahi-daemon'
+
+- title: 'cups'
+
+- title: 'xinetd'
+
+- title: 'nfslock'
+
+- title: 'rpcgssd'
+
+- title: 'rpcbind'
+
+- title: 'rpcidmapd'
+
+- title: 'rpcsvcgssd'
+
+- title: 'ybind'
+
+- title: 'ypserv'
+
+- title: 'rsh-server'
+
+- title: 'rsh'
+
+- title: 'talk'
+
+- title: 'talk-server'
+
+- title: 'tftp-server'
+
+- title: 'tftp'
+
+# - title: 'crond'
+#   ensure: running
+
+profile::cis::pkgs:
+- 'squid'
+- 'samba'
+- 'dhcp'
+- 'ybind'
+- 'ypserv'
+- 'rsh'
+- 'talk'
+- 'talk-server'
+- 'telnet-server'
+- 'tftp'
+- 'tftp-server'
+- 'xinetd'
+- 'dovecot'
+- 'vsftpd'
+
+profile::base::pkgs: 
+- 'unzip'
+- 'zip'
+- 'rsync'
+- 'strace'
+# - 'scap-security-guide'
+profile::base::latest: 
+- 'puppet-agent'
+
+profile::base::groups: 
+- title: 'ssh-users'
+  gid: '5010'
+
+profile::cis::files: #default user: root and group: root
+- title: '/etc/sysconfig/init'
+  mode: '0644'
+  content: 'umask 027'
+
+- title: '/etc/password'
+  mode: '0644'
+  
+- title: '/etc/group'
+  mode: '0644'
+  
+- title: '/etc/shadow'
+  mode: '0000'
+  
+- title: '/etc/gshadow'
+  mode: '0000'
+  
+- title: '/etc/issue'
+  mode: '0644'
+  content: 'Authorized users only. All activity is monitored'
+
+- title: '/etc/issue.net'
+  mode: '0644'  
+  content: 'Authorized users only'
+
+  ## for cron
+- title: '/etc/at.deny'
+  ensure: absent
+
+- title: '/etc/at.allow'
+  mode: '0600'
+  
+- title: '/etc/crontab'
+  mode: '0600'  
+     
+- title: '/etc/cron.hourly'
+  mode: '0600'  
+  
+- title: '/etc/cron.daily'
+  mode: '0600'  
+   
+- title: '/etc/cron.monthly'
+  mode: '0600'  
+  
+- title: '/etc/cron.d'
+  mode: '0600'  
+  
+- title: '/etc/anacrontab'
+  mode: '0600'  
+  
+# - title: 'mail transfer agent'
+#   path: '/etc/postfix/main.cf'
+#   line: 'inet_interfaces = localhost'
+#   match: '^inet_interfaces ='
+
+profile::cis::lines:
+- title: 'password minimum length'
+  path: '/etc/security/pwquality.conf'
+  line: 'minlen = 18'
+  match: 'minlen'
+
+- title: 'upper char'
+  path: '/etc/security/pwquality.conf'
+  line: 'ucredit = 1'
+  match: 'ucredit'
+
+- title: 'spec char'
+  path: '/etc/security/pwquality.conf'
+  line: 'ocredit = 1'
+  match: 'ocredit'
+
+kmod::list_of_installs:
+  'cramfs':
+    command: '/bin/false'
+  'freevxfs':
+    command: '/bin/false'
+  'hfs':
+    command: '/bin/false'
+  'hfsplus':
+    command: '/bin/false'
+  'jffs2':
+    command: '/bin/false'
+  'squashfs':
+    command: '/bin/false'
+  'udf':
+    command: '/bin/false'
+  'dccp':
+    command: '/bin/false'
+  'rds':
+    command: '/bin/false'
+  'sctp':
+    command: '/bin/false'
+  'tipc':
+    command: '/bin/false'
+  'usb-storage':
+    command: '/bin/false'
+  'vfat':
+    command: '/bin/false'
+    
+sysctl_conf::values:
+  kernel.randomize_va_space:
+    value: '2'
+  net.ipv4.ip_forward:
+    value: '0'
+  net.ipv4.conf.all.send_redirects:
+    value: '0'
+  net.ipv4.conf.default.send_redirects:
+    value: '0'
+  net.ipv4.conf.all.accept_source_route:
+    value: '0'
+  net.ipv4.conf.default.accept_source_route:
+    value: '0'
+  net.ipv4.conf.all.accept_redirects:
+    value: '0'
+  net.ipv4.conf.default.accept_redirects:
+    value: '0'
+  net.ipv4.conf.all.secure_redirects:
+    value: '0'
+  net.ipv4.conf.default.secure_redirects:
+    value: '0'
+  net.ipv4.conf.all.log_martians:
+    value: '1'
+  net.ipv4.conf.default.log_martians:
+    value: '1'
+  net.ipv4.icmp_echo_ignore_broadcasts:
+    value: '1'
+  net.ipv4.icmp_ignore_bogus_error_responses:
+    value: '1'
+  net.ipv4.conf.all.rp_filter:
+    value: '1'
+  net.ipv4.conf.default.rp_filter:
+    value: '1'
+  net.ipv4.tcp_syncookies:
+    value: '1'
+  net.ipv6.conf.all.disable_ipv6:
+    value: '1'
+
+profile::cis::scripts:
+- title: '/opt/CIS/scripts/cis-1.2.6.sh' 
+  mode: '0744'
+  content: 'cis/scripts/package_integrity.sh'
+
+- title: '/opt/CIS/scripts/cis-9.2.1.sh' 
+  mode: '0744'
+  content: 'cis/scripts/ensure_pwd.sh'
+
+- title: '/opt/CIS/scripts/cis-9.1.10.sh' 
+  mode: '0744'
+  content: 'cis/scripts/world_writable.sh'
+
+- title: '/opt/CIS/scripts/cis-9.1.11.sh' 
+  mode: '0744'
+  content: 'cis/scripts/un-owned.sh'
+
+- title: '/opt/CIS/scripts/cis-9.1.12.sh' 
+  mode: '0744'
+  content: 'cis/scripts/un-grouped.sh'
+
+- title: '/opt/CIS/scripts/cis-9.1.13.sh' 
+  mode: '0744'
+  content: 'cis/scripts/suid-system-exe.sh'
+
+- title: '/opt/CIS/scripts/cis-9.1.14.sh' 
+  mode: '0744'
+  content: 'cis/scripts/sgid-system-exe.sh'
+
+- title: '/opt/CIS/scripts/cis-9.1.1.sh' 
+  mode: '0744'
+  content: 'cis/scripts/system_file_permission.sh'
+
+- title: '/opt/CIS/scripts/cis-9.2.sh' 
+  mode: '0744'
+  content: 'cis/scripts/review_user_and_group.sh'
+
+cron::job::multiple:
+  'CIS_auditing':
+    jobs:
+      - {
+          minute: 0,
+          hour: 5,
+          date: '*',
+          month: '*',
+          weekday: '0',
+          user: root,
+          command: '/opt/CIS/scripts/cis-1.2.6.sh',
+          description: 'Package integrity',
+        }
+      - {
+          minute: 10,
+          hour: 5,
+          date: '*',
+          month: '*',
+          weekday: '0',
+          user: root,
+          command: '/opt/CIS/scripts/cis-9.2.1.sh',
+          description: 'Check for users with no password set',
+        }
+      - {
+          minute: 15,
+          hour: 5,
+          date: '*',
+          month: '*',
+          weekday: '0',
+          user: root,
+          command: '/opt/CIS/scripts/cis-9.1.10.sh',
+          description: 'Ensure no world writable files exist',
+        }
+      - {
+          minute: 20,
+          hour: 5,
+          date: '*',
+          month: '*',
+          weekday: '0',
+          user: root,
+          command: '/opt/CIS/scripts/cis-9.1.12.sh ',
+          description: 'Ensure no ungrouped files or directories exist',
+      }
+      - {
+          minute: 25,
+          hour: 5,
+          date: '*',
+          month: '*',
+          weekday: '0',
+          user: root,
+          command: '/opt/CIS/scripts/cis-9.1.13.sh',
+          description: 'Audit SUID executables',
+      }
+      - {
+          minute: 30,
+          hour: 5,
+          date: '*',
+          month: '*',
+          weekday: '0',
+          user: root,
+          command: '/opt/CIS/scripts/cis-9.1.14.sh',
+          description: 'Audit SGID executables',
+      }
+      - {
+          minute: 35,
+          hour: 5,
+          date: '*',
+          month: '*',
+          weekday: '0',
+          user: root,
+          command: '/opt/CIS/scripts/cis-9.1.1.sh',
+          description: 'Audit system file permissions',
+      }
+      - {
+          minute: 40,
+          hour: 5,
+          date: '*',
+          month: '*',
+          weekday: '0',
+          user: root,
+          command: '/opt/CIS/scripts/cis-9.2.sh',
+          description: 'Review users and groups',
+      }
+    environment:
+      - 'PATH="/usr/sbin:/usr/bin:/sbin:/bin"'
+
+auditd::syslog: true
+auditd::at_boot: true # to set auditd to 1
+auditd::config::audisp::syslog::enable: false #floods /var/log/messages if set to true
+auditd::config::audisp::syslog::drop_audit_logs: false
+auditd::config::audit_profiles::custom::rules:
+# CIS 4.1.9 
+- '-a always,exit -F arch=b64 -S chmod -S fchmod -S fchmodat -F auid>=1000 -F auid!=4294967295 -k perm_mod'
+- '-a always,exit -F arch=b32 -S chmod -S fchmod -S fchmodat -F auid>=1000 -F auid!=4294967295 -k perm_mod'
+- '-a always,exit -F arch=b64 -S chown -S fchown -S fchownat -S lchown -F auid>=1000 -F auid!=4294967295 -k perm_mod'
+- '-a always,exit -F arch=b32 -S chown -S fchown -S fchownat -S lchown -F auid>=1000 -F auid!=4294967295 -k perm_mod'
+- '-a always,exit -F arch=b64 -S setxattr -S lsetxattr -S fsetxattr -S removexattr -S lremovexattr -S fremovexattr -F auid>=1000 -F auid!=4294967295 -k perm_mod'
+- '-a always,exit -F arch=b32 -S setxattr -S lsetxattr -S fsetxattr -S removexattr -S lremovexattr -S fremovexattr -F auid>=1000 -F auid!=4294967295 -k perm_mod'
+# CIS 4.1.10
+- '-a always,exit -F arch=b64 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EACCES -F auid>=1000 -F auid!=4294967295 -k access'
+- '-a always,exit -F arch=b32 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EACCES -F auid>=1000 -F auid!=4294967295 -k access'
+- '-a always,exit -F arch=b64 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EPERM -F auid>=1000 -F auid!=4294967295 -k access'
+- '-a always,exit -F arch=b32 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EPERM -F auid>=1000 -F auid!=4294967295 -k access'
+
+# CIS 4.1.14
+- '-a always,exit -F arch=b64 -S unlink -S unlinkat -S rename -S renameat -F auid>=1000 -F auid!=4294967295 -k delete'
+- '-a always,exit -F arch=b32 -S unlink -S unlinkat -S rename -S renameat -F auid>=1000 -F auid!=4294967295 -k delete'
+# CIS 4.1.3
+- '-w /var/log/sudo.log -p wa -k actions'
+- '-a always,exit -F arch=b64 -S init_module -S delete_module -k modules'
+# CIS 4.1.17
+- '-e 2'
+
+auditd::default_audit_profiles:
+  - 'simp'
+  - 'stig'
+  - 'custom'
+
+# systemd::dropin_files:
+#   node_exporter.service:
+#       unit: node_exporter.service
+#       content: 'common/node_exporter.service'
+
+#Ensure journald is configured to send logs to rsyslog
+systemd::journald_settings:
+  ForwardToSyslog: 'yes'
+  Compress: 'yes'
+  Storage: 'persistent'
+
+pam::limits_fragments:
+  1-limits:
+    list:
+     - '*               hard    core            0'
+# ssh::server_options:
+#     Protocol: '2'
+#     ListenAddress:
+#         - '127.0.0.0'
+#         - '%{::hostname}'
+#     PasswordAuthentication: 'yes'
+#     SyslogFacility: 'AUTHPRIV'
+#     UsePAM: 'yes'
+#     X11Forwarding: 'yes'

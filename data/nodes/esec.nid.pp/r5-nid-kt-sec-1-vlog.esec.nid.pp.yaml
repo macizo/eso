@@ -1,0 +1,39 @@
+#RHEL 6
+lookup_options:
+  profile::base::ssh_keys:
+    merge: unique
+  profile::cis::mounts:
+    merge: first
+
+profile::base::ssh_keys:
+- title: 'nemid@hm-nid-kt-sec-1-vlog.esec.test'
+  user: 'nemid'
+  pub_key: 'AAAAB3NzaC1yc2EAAAABIwAAAQEAyLJMlon+Bz5HuaBolbWjkMrYrm7MNN3firZbBmuKnE/FqiAM8737xEwTuMJau43Ee1lUUw6F8qS9p8htJxAuO4eLtcA7dpHMzxpR/Ue5ahMEaur16HOsTi2GxKTkN/Qa3AjEs9DEtHV1erjRm81zOqo/N11AgRZAPmEQBdhCxmKrYGaXJThzqtDTJLm3iyYPd0Miug8lYZSbVu6L+3w/40bI/KiKWM7XxOkw2B8MVLKsP+RYZfLOop2TRSsIzK44i3ASQUJzGzIdON5WvXn25BlIFp1qxVqjCFw+XzowQadZ1sNsMqW+a6JgSTG/uikNhH4i8Qwa1/vhy5TXxCZvMQ=='
+  options: 'from="hm-nid-kt-sec-1-vlog.esec.test"'
+
+- title: 'nemid@r5-nid-kt-sec-1-vica.esec.test'
+  user: 'nemid'
+  pub_key: 'AAAAB3NzaC1yc2EAAAABIwAAAQEAzZ9U1E9NhlnvjSTHATI5xYfOSRkdvMD395qVzGGTyu5rlFi0t9RffdU0rGAipCSYhFjUCGVUUd04JnUO/qni7Q/DBkdBUN4pfyy5Bsa0yMPhTaBgnBSxzNMki27uzh1+doIaAdZ5scHxS34U3fW/5siHlSE5+wNtZtc9CyNhiWDgyHOKQaGdF9nOkKehWicVmP2BhOZAYcdn+mg4tS6B9kmgkwoDBQrriZaq9JWE7N9zUszBXGzUZq3WTu5n0YIctK8tdSCOGqZR/md0kc7mMlemxqBjj50X66YbbxiPtJ+pFfBFEV7jvwnVde3C2PgKTiQfkepxnKDnhgOeToojaw=='
+  options: 'from="r5-nid-kt-sec-1-vica.esec.test"'
+
+- title: 'nemid@r5-nid-kt-sec-2-vica.esec.test'
+  user: 'nemid'
+  pub_key: 'AAAAB3NzaC1yc2EAAAABIwAAAQEAycRQsMwjJ4FD8ycUxAo9ji0YQ35SuxmN652r0//fTTVSNEne91rGst8DLg0KYTb2SPX3A87z8WasL0+VEFzV4LtDPxqCJO2YCZZZk6zojBJiLIagNljMTCWhY/fTpP5tqvb8EsJRqoaKbs/7QqYupdQ9zex2T682grhDWrmqSflw1ELK3DV7DzWzhCIBcQA/3cJMahLCNtNG/NPpJ1V7IWy+AtirVuNzr4twgc2liMqqCrZdXFcfUBFlPreq+TL2L9BJb7HhwHY7oGBf0ODRmk/yGKCrQrz6aO8RWqVCt2p4LYG7DfLZfUd1qTQ4fo5g38sNYPw1E+SadtA8xXZcOQ=='
+  options: 'from="r5-nid-kt-sec-2-vica.esec.test"'
+
+- title: 'nemid@r5-nid-kt-sec-1-vpca.esec.test'
+  user: 'nemid'
+  pub_key: 'AAAAB3NzaC1yc2EAAAABIwAAAQEApFtvHQERai3jDw8V+EdXuBcSynNpdok0PRXrwwp2esEi0bjJO2VD7A9XNQUaEeaOqHCOYPCkYVSXFDz1HBPX6VsW6zcz3Wr6RHDgJBci9hBwhZDgBfrFgUfjvS3cSTdEFT/Bxgi+7eUW+x2zBRb3F9GHaSa0U/Fbg4aYvU3FlLKPgOoWrugnd0cyDykkZ4CvXjIzhAJ+URG8PM41Sspsq1HmXqGyoU14kOCUulZfuNyQsp7fxRhGv24C2A+R8y4h/45PToqJd2Ben5fQp8JK+cWSAaEHrlmf7MVCZZmF/fhDALD40ZmFfdiCk3NWBT/kRH7FaOrhprJaob8ShcEVCw=='
+  options: 'from="r5-nid-kt-sec-1-vpca.esec.test"'
+
+#overrides profile::cis::mounts in esec.nid.test
+profile::cis::mounts:
+- title: '/dev/shm'
+  options: 'defaults,size=1G,nosuid,noexec,nodev'
+  fstype: 'tmpfs'
+  device: 'tmpfs'
+
+- title: '/home'
+  options: 'defaults,nodev,nosuid'
+  fstype: 'ext4'
+  device: '/dev/mapper/vg01-home'

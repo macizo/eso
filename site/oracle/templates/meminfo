@@ -1,0 +1,36 @@
+#!/bin/bash
+
+##############################################
+# This script collects memory information    #
+# Alexander Holte-Davidsen (adavi@nets.eu)   #
+##############################################
+
+getTotalMemory=$(grep MemTotal /proc/meminfo | awk {'print $2'})
+getFreeMemory=$(grep MemFree /proc/meminfo | awk {'print $2'})
+getTotalHugePages=$(grep HugePages_Total /proc/meminfo |awk {'print $2'})
+getFreeHugePages=$(grep HugePages_Free /proc/meminfo |awk {'print $2'})
+totalMemoryMB=$(echo ${getTotalMemory}/1024|bc)
+freeMemoryMB=$(echo ${getFreeMemory}/1024|bc)
+totalHugePagesMB=$(echo ${getTotalHugePages}*2|bc)
+freeHugePagesMB=$(echo ${getFreeHugePages}*2|bc)
+vmwareBalloon=$(vmware-toolbox-cmd stat balloon|awk {'print $1'})
+vmwareSwap=$(vmware-toolbox-cmd stat swap|awk {'print $1'})
+totalSwap=$(free -m|tail -n1|awk {'print $2'})
+usedSwap=$(free -m|tail -n1|awk {'print $3'})
+cache=$(free -m|head -n2 | tail -n1| awk {' print $6'})
+
+echo "---------Memory---------"
+printf "%20s\t%5i\n" "Total memory:" ${totalMemoryMB}
+printf "%20s\t%5i\n" "Free memory:" ${freeMemoryMB}
+printf "%20s\t%5i\n" "Cache:" ${cache}
+echo "----------Swap----------"
+printf "%20s\t%5i\n" "Total swap:" ${totalSwap}
+printf "%20s\t%5i\n" "Used swap:" ${usedSwap}
+echo "---------VMWare---------"
+printf "%20s\t%5i\n" "VMWare Balloon MB:" ${vmwareBalloon}
+printf "%20s\t%5i\n" "VMWare Swap MB:" ${vmwareSwap}
+echo "---------Oracle---------"
+printf "%20s\t%5i\n" "Total Hugepages:" ${getTotalHugePages}
+printf "%20s\t%5i\n" "Total Hugepages MB:" ${totalHugePagesMB}
+printf "%20s\t%5i\n" "Free Hugepages:" ${getFreeHugePages}
+printf "%20s\t%5i\n" "Free Hugepages MB:" ${freeHugePagesMB}

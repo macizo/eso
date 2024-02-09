@@ -1,0 +1,23 @@
+lookup_options:
+  profile::base::ssh_keys:
+    merge: unique
+  profile::cis::mounts:
+    merge: first
+
+profile::base::ssh_keys:
+- title: 'entrust@r5-nid-t-sec-1-vpca'
+  user: 'entrust'
+  pub_key: 'AAAAB3NzaC1yc2EAAAABIwAAAQEArwZJHgsJ7yyZxnvI18Xs1HtuQC9L/uYVSRwY2NsgNAX9+dmsGHO/mtk5p8WATFeLfChwvk1jyObOLAFRehQcobzGBfikSyO1jfooBoq9vpPB9extAhfiQTWJyP7iIRhnDHFZ9Y2CKCt/y90vRwLRKcCFOGiecxnUgaJs8tuQNfF2Dw3oMD9vU+dTS9o8DLG5w7rhlue7MVtJTydCdLDkk44Wtf2LAdx+UEXCEKRv6BImXjflXokFiUZOmfU75fj4uRpMYfBJYrlrVuRjB5r9IxDDWcS1uLlD/ryqaAIo3Mx0GtwvnpDh0sM0kvG0w+s3L8+OAFW8cY8dFSw+L+Wf1w=='
+  options: 'from="r5-nid-t-sec-1-vpca.esec.test"'
+
+#overrides profile::cis::mounts in esec.nid.test.yaml and 6.yaml
+profile::cis::mounts:
+- title: '/dev/shm'
+  options: 'defaults,size=1G,nosuid,noexec,nodev'
+  fstype: 'tmpfs'
+  device: 'tmpfs'
+
+- title: '/home'
+  options: 'defaults,nodev,nosuid'
+  fstype: 'ext4'
+  device: '/dev/mapper/vg01-home' 

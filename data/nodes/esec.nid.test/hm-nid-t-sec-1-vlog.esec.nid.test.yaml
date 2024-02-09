@@ -1,0 +1,34 @@
+lookup_options:
+  profile::base::ssh_keys:
+    merge: unique
+  profile::cis::mounts:
+    merge: first
+
+profile::base::ssh_keys:
+- title: 'nemid@hm-nid-t-sec-1-vlog.esec.test'
+  user: 'nemid'
+  pub_key: 'AAAAB3NzaC1yc2EAAAABIwAAAQEA4DgoaceF0T/EfS4vOQlhiELUT5XWmbjnF8s4qmGV6SQjwUnLK7aerxkr4RwLQt6zPuWSCSdelOpkvZIg+lcgjcTKoBR/uk0CgeRUkzzIjRGZO9d15agf3XQ5RCehxxTJctUbEs0G+K2roZ3D2lMIFswXd10a7+ZYiIldKLIOd22dmXO8S6m2/wO7rNCJ6fB8Em+qLagZiP4a+zfcXDWTO7vEhN/IKECAsoIhedq3qJaWafdB1bvxKIl3N8vyr2oRnb6y84evTFg9giS0ydgg7+jAsES/XJpMh/gsxZNK5G3LFJuJetfd8Jw9jAt+WMG+R4e6dDGSOWnC0gPTNM167w=='
+  options: 'from="r5-nid-t-sec-1-vlog.esec.test"'
+
+- title: 'root@hm-nid-t-sec-1-vpca'
+  user: 'nemid'
+  pub_key: 'AAAAB3NzaC1yc2EAAAABIwAAAQEAyvCHPAfE45tVyqmdh23NCngz0IaV2P1Hmcm0QBeCizHo3q2SnuCVXXVFD2QMO4U+fx45x9ez6TuEj9Tt3RtZWJI5lNMaijbaxvbC5UxbTxdM6AtX+o7ilVF/HIPIn2E/E5VgYjdxC20lArshbDwmgheOJJd96nYGusU2xW7+fsoemjQve2tPvjLtnPsbZ52wf1o8O2aKhYE2MYIRq6TJsyeZzMCyq9oT76G1eOzZamg1eD8zsnT1GM5plEj9cbbg1drr+tesKuNUC7rgf3Dx9Hhzy4lC6jVhbF3K388A+KbHTwFcw+PgG+AWeIVAeQjS09P8LuecOcpn3m5hVRMZNQ=='
+  options: 'from="r5-nid-t-sec-1-vpca.esec.test"'
+
+- title: 'nemid@hm-nid-t-sec-1-vpca.esec.test'
+  user: 'nemid'
+  pub_key: 'AAAAB3NzaC1yc2EAAAABIwAAAQEAy/4Tb9Mo7qmREpwHShQQqK2CRj2ZEFQSsFA0U/OnoR7RKfFghF18C1xhekMhruja+G32THWDcloTRMrHTc9vhmuEX///MNzQcwLtv1+3AHsP7rkDAns3sjQTfmkwNhadBygDUyp3ccBY5VFD1oOhgu5BH7EmBs4Gt/MC5WjvZ6dNM4wj827h5teZoyWyjhTTktR85Xbk3cworB+OoNkg6TInfudL4viWJvl2ke8CF2EXweMvpWxkFUSBOJQfbpwvUxjIbZRSY8OZRZ6xYfYJYbyJu6cgVj+fusUIfwxQdMBUgd1j83ey6WqfWjmopjY9Q2nLKNbU3v/WXc3p2CuwBQ=='
+  options: 'from="hm-nid-t-sec-1-vpca.esec.test"'
+
+#overrides profile::cis::mounts in esec.nid.test.yaml and 6.yaml
+profile::cis::mounts:
+- title: '/dev/shm'
+  options: 'defaults,size=1G,nosuid,noexec,nodev'
+  fstype: 'tmpfs'
+  device: 'tmpfs'
+
+- title: '/home'
+  options: 'defaults,nodev,nosuid'
+  fstype: 'ext4'
+  device: '/dev/mapper/vg01-home'
+

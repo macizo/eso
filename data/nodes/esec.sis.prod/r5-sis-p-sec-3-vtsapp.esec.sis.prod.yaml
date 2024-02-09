@@ -1,0 +1,77 @@
+---
+# node specific hiera data, most data will be merged with other sources in the hierarchy
+lookup_options: 
+  profile::base::files:
+    merge: unique 
+  profile::base::ssh_keys:
+    merge: first
+  profile::base::system_users:
+    merge: first
+  cron::job:
+    merge: first
+  sudo::configs: # looks up the data from all sources with the sudo::configs key in this case it finds it in esec.sis.test 
+    merge:
+      strategy: deep
+      merge_hash_arrays: true
+  
+profile::base::files:
+- title: '/etc/hosts'
+  mode: '0644'
+  owner: 'root'
+  group: 'root'
+  content: 'sis/hosts/prod/r5-sis-p-sec-3-vtsapp.erb'
+
+profile::base::ssh_keys:
+- title: 'bastian@hm-sis-p-sec-3-vtsapp'
+  user: 'bastian'
+  pub_key: 'AAAAB3NzaC1yc2EAAAABIwAAAQEAsGBVEWcxn2HBuOl7zdHAjZ3t0RKDaFuWY5hBDXNu5fPpD+rAL8FgtJIS6GHT6mGdClFDmhqlhB6bKIxMvzL9hqPTCP1HuNSxPzvCntDzGSUK+pfI1ZwAbDw8w4DndKI8aLh9S3QOya9jWs2O+XKME4VH4UyWoMConaxI8jWw8xxloulBJIdwUBPL3cdq1Tgbxf1+WYNjoKk3vLssnmouMxnjL4+CxJYEUoxuJhPWFRu4pf3WyTQRk8ids44fH2RN6tHlirRTgLVAfzFlSMnoePz4sRJBTtiC7JRRX5LLGCb5JcNFRZfkXbdMhWVQeoBEDIpJeJPzi2LeKC2+hlZfNQ=='
+
+- title: 'tomcat@hm-sis-p-sec-4-vtsapp'
+  user: 'tomcat'
+  pub_key: 'AAAAB3NzaC1yc2EAAAABIwAAAQEA1cxG22ZMEuFpaEF7ZqqS19xyEMNyx8rKs3scpNN0km1od2nsxfD6tUbB4xDrQOy/MpSgBFqUVQdg/k4YgWC3h42Z2V7SjkvKlOkBwnpUzcNrm0S990xPhVBs/WREnLQlUBj1l3LNBzTqInL0q0OPXEuWVDvBcgexNJSNcxU1YoYkJUKX/ButWV0WOAzgrQL572avS3owqIycCt7v1pg9416jLIu13WAVHpVNQzcQ6td2JT462oIN4xsRpXsgXXqsGEugNzLOSsxrG3t3zie9JjOkCiZCzAOyrs54vy9OmQXYI+djSygXYoSk/F6ivZPSMOh7u4xQOVOyTmbypbqw7w=='
+
+- title: 'autopatch-key'
+  user: 'autopatch'
+  pub_key: 'AAAAB3NzaC1yc2EAAAADAQABAAABgQDR420qxL0GJCx5PUqiTwLEyrzPLAuIij7NFoMrxte5pyi9CrVpXdapYfjFKRm3ZGV3gNZt7sWCVEs7V54vgF6O+iNG13IzghJdiz9Flqu+jGv9CZAIdVwUq7UO7LAkk7jclMsnWXUhH++MBieP8pnyoPHYw+J6yKUdenQNfAepjWxkawavvXtKOzn3AjIGcqwPtUkk6mt9vDzWjvNEkhxDRsCOUSJTEp/8TiD/bR+9BZTZux0O6t5W+hhne+cJgBvi2yBQKNvHB8hgBD16SPLBOm+EtqlRmEgWkqpTYstHFQ+ksFlXxyucGYxExgF5nt9FwxddXpxFyKt4aculLC4eOehvZVvcxHKeiis1iuGPkwSKlqAL/zupf+WMoKG6ywg1mx0sGz3lNBcPQb+J7PBVNDtTksoRTh+rQ52T8dCDIgIMjbAzQ5kUtriC4JJZ+tjPQLqdSoq2BckYbbq2nPZSO3j38O7VEntkKleEh+LC69UwwrSUU5LNYxg3fLcuKmU='
+
+sudo::configs:
+  'bastian_rsync':
+    template: 'sis/sudo/bastian_rsync_prod'
+  'bastian_tee':
+    template: 'sis/sudo/bastian_tee_prod'
+
+profile::base::system_users:
+- title: 'tomcat'
+  uid: '571'
+  gid: users
+  comment: 'Tomcat System User'
+  groups: 'ssh-users'
+
+- title: 'bastian'
+  uid: '581'
+  comment: 'Bastian System User'
+  groups: ['users','ssh-users']
+
+- title: 'autopatch'
+  uid: '2019'
+  comment: 'autopatch system user'
+  groups: ['users','ssh-users','wheel']
+
+- title: 'loguser'
+  uid: '2006'
+  comment: 'Loguser System User'
+
+- title: 'nimbus'
+  uid: '2004'
+  comment: 'Nimbus System User'
+
+cron::job:
+  'Sync_logs': 
+    minute: 15
+    hour: 3
+    date: '*'
+    month: '*'
+    weekday: '*'
+    user: root
+    command: '/opt/service/scripts/syncLogsLinux.ksh -s -d'
+    description: 'Sync logs'

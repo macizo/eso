@@ -1,0 +1,77 @@
+* Fri Sep 18 2020 Liz Nemsick <lnemsick.simp@gmail.com> - 0.7.1
+- Advertise EL8 support in metadata.json
+- Fixed bad URL to docker's libkv project
+
+* Wed Feb 26 2020 Trevor Vaughan <tvaughan@onyxpoint.com> - 0.7.0
+- Changed name of module from libkv to simpkv
+
+* Tue Oct 01 2019 Liz Nemsick <lnemsick.simp@gmail.com> - 0.7.0
+- Merged in changes released with 0.6.1 and on the 'develop' branch
+- Documented libkv requirements
+  (See 'Requirements' section of docs/Design_Protoype2.md).
+- Created and documented design for second prototype
+  (See 'Changes from Version 0.6.X' section of docs/Design_Protoype2.md).
+- Implemented second prototype and file plugin + store
+  to demonstrate the design
+
+* Wed Jan 31 2018 Dylan Cochran <dylan.cochran@onyxpoint.com> - 0.6.1
+- Release 0.6.1
+
+* Thu Oct 26 2017 Nick Markowski <nicholas.markowski@onyxpoint.com> - 0.6.0
+- (SIMP-3923) Moved libkv::consul to pupmod-simp-simp_consul
+- Updated README
+- Updated travis with CI credentials
+
+* Wed Oct 25 2017 Dylan Cochran <dylan.cochran@onyxpoint.com> - 0.5.0
+- (SIMP-3445) Add acceptance test for consul configuration and bootstrap
+- (SIMP-3629) libkv::atomic_put returns false for a successful put on consul >0.9.0
+
+* Thu Aug 24 2017 Dylan Cochran <dylan.cochran@onyxpoint.com> - 0.4.3
+- (SIMP-3623) libkv::lookup_key backend should turn softfail on by default
+- Add fix for 0.9.x consul installations
+
+* Tue Jul 18 2017 Dylan Cochran <dylan.cochran@onyxpoint.com> - 0.4.2
+- (SIMP-3001) Prevent '.' and '..' from being used in keys
+- (SIMP-3446) Add parameters to reconfigure http and https listen
+- (SIMP-3429) libkv::list isn't always removing keys
+
+* Tue Jul 18 2017 Dylan Cochran <dylan.cochran@onyxpoint.com> - 0.4.1
+- Always copy over consul-acl, and update metadata
+
+* Tue Jul 18 2017 Dylan Cochran <dylan.cochran@onyxpoint.com> - 0.4.0
+- (SIMP-3275) libkv auto-config uses the root acl
+
+* Tue Jul 11 2017 Dylan Cochran <dylan.cochran@onyxpoint.com> - 0.3.3
+- (SIMP-3406) Fix docker containers for travisci
+- (SIMP-3128) Delete .meta keys
+
+* Tue Jul 11 2017 Dylan Cochran <dylan.cochran@onyxpoint.com> - 0.3.2
+- (SIMP-3407) Fix idempoency on acl token generation
+- (SIMP-3403) Spurious 'undefined method unpack'
+
+* Mon Jul 10 2017 Dylan Cochran <dylan.cochran@onyxpoint.com> - 0.3.1
+- (SIMP-3360) Use module data for certificate paths
+- (SIMP-3087) Add libkv::lookup hierav5 backend function
+
+* Mon Jul 10 2017 Dylan Cochran <dylan.cochran@onyxpoint.com> - 0.3.0
+- (SIMP-2961) Add automatic cluster creation for consul.
+- (SIMP-3130) metadata needs to default to 'String'.
+- (SIMP-3129) atomic_create needs to create metadata
+- (SIMP-3127) libkv can't list / since metadata update
+- (SIMP-3122) Move the libkv wrapper outside the loader
+- (SIMP-3125) Move key regex match into libkv wrapper
+- (SIMP-3110) Use <key>.meta to convert a value to the correct type
+- (SIMP-3060) Fix travisci tests
+- (SIMP-3109) Create a <key>.meta key to store type
+
+* Sat Apr 29 2017 Dylan Cochran <dylan.cochran@onyxpoint.com> - 0.2.0
+- (SIMP-2978) Fix readme generation
+- (SIMP-3019) Add ssl/tls support to consul backend
+- (SIMP-2962) Add consul_members fact
+- (SIMP-3097) Add 'serialize' and 'mode' parameters to all libkv functions
+- (SIMP-3102) Flesh out spec tests
+- (SIMP-2964) Add generic 'libkv::auth' parameter
+
+
+* Fri Jan 6 2017 Dylan Cochran <dylan.cochran@onyxpoint.com> - 0.1.0
+- Initial release

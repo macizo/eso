@@ -1,0 +1,20 @@
+lookup_options:
+  profile::cis::mounts:
+    merge: first
+  profile::cis::services:
+    merge: unique
+    
+#overrides profile::cis::mounts in esec.nid.dev.yaml and 6.yaml
+profile::cis::mounts:
+- title: '/dev/shm'
+  options: 'defaults,size=1G,nosuid,noexec,nodev'
+  fstype: 'tmpfs'
+  device: 'tmpfs'
+
+- title: '/home'
+  options: 'defaults,nodev,nosuid'
+  fstype: 'ext4'
+  device: '/dev/mapper/vg01-home'
+
+profile::cis::services:
+- title: 'ntpd'

@@ -1,0 +1,18 @@
+lookup_options:
+  pam::allowed_users: #creates a hash from all the sources of this key
+    merge:
+      strategy: deep
+      merge_hash_arrays: true
+  profile::base::system_users:
+    merge: unique
+  
+#add users that are allowed to login here:
+pam::allowed_users:
+  - 'nemid'
+
+profile::base::system_users:
+- title: 'nemid'
+  uid: '570'
+  comment: 'Nemid user to copy logs'
+  ssh_title: 'nemid'
+  groups: ['users','ssh-users']

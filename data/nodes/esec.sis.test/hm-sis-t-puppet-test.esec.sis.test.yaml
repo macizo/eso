@@ -1,0 +1,26 @@
+#host hiera data
+# looks up the data from all sources with the profile::base::ssh_users key, in this case it finds it in the node and merges the 
+# rest from the domain and common.yaml
+# lookup_options: 
+#   profile::base::ssh_users:
+#     merge: unique 
+
+  
+lookup_options: # looks up the data from all sources with the cron::job key in this case it finds it in common.yaml
+  cron::job:
+    merge: unique 
+    
+cron::job:
+  'bastian-backup-masterfileshare':
+    command: '/opt/service/scripts/backup-masterfileshare.sh'
+    minute: 0
+    hour: 6
+    date: '*'
+    month: '*'
+    weekday: 1
+    user: bastian
+    description: 'bastian backup masterfileshare'
+  
+sudo::configs:
+  'tomcat':
+    content: 'tomcat ALL=NOPASSWD: /bin/systemctl restart sis-console.service'

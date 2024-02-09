@@ -1,0 +1,3 @@
+# This file is under Puppet control
+Host_Alias SISPP = 10.20.140.0/24
+%sis SISPP = NOPASSWD:ALL

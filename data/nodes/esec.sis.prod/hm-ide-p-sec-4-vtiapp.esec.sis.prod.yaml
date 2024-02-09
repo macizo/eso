@@ -1,0 +1,11 @@
+# node specific hiera data, most data will be merged with other sources in the hierarchy
+lookup_options: # looks up the data from all sources with the profile::base::files key in this case it finds it in common.yaml
+  profile::base::files:
+    merge: unique 
+
+profile::base::files:
+- title: '/etc/hosts'
+  mode: '0644'
+  owner: 'root'
+  group: 'root'
+  content: 'sis/hosts/prod/hm-ide-pp-sec-4-vtiapp.erb'

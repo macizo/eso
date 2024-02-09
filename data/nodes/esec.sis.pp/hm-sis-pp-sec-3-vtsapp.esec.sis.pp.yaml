@@ -1,0 +1,71 @@
+---
+# node specific hiera data, most data will be merged with other sources in the hierarchy
+lookup_options: 
+  cron::job: # looks up the data from all sources with the cron::job key in this case it finds it in sis.esec.test
+    merge: unique 
+  profile::base::files:
+    merge: unique 
+  profile::base::dirs:
+    merge: unique
+  sudo::configs: # looks up the data from all sources with the sudo::configs key in this case it finds it in esec.sis.test 
+    merge:
+      strategy: deep
+      merge_hash_arrays: true
+ 
+profile::base::files:
+- title: '/etc/hosts'
+  mode: '0644'
+  owner: 'root'
+  group: 'root'
+  content: 'sis/hosts/pp/hm-sis-pp-sec-3-vtsapp.erb'
+
+- title: '/opt/service/scripts/backup-masterfileshare.sh'
+  mode: '0755'
+  owner: 'bastian'
+  group: 'users'
+  content: 'sis/scripts/pp-backup-masterfileshare.sh'
+
+- title: '/opt/service/scripts/syncCommonFiles-sis-linux.ksh'
+  content: 'sis/scripts/syncCommonFiles-sis-linux-pp'
+  owner: 'bastian'
+  group: 'users'
+  mode: '0755'
+
+- title: '/opt/service/logs/maintenance/backup-masterFileshare.log'
+  owner: 'bastian'
+  group: 'users'
+  mode: '0644'
+  
+profile::base::dirs:
+- title: '/opt/service/masterFileshare'
+  owner: 'bastian'
+  group: 'users'
+  mode: '0775'
+  file_mode: '0664'
+  recurse: True
+
+- title: '/opt/service/backup/masterFileshare'
+  owner: 'bastian'
+  group: 'users'
+  mode: '0775'
+  recurse: True
+  
+sudo::configs:
+ 'bastian':
+    template: 'sis/sudo/bastian_pp'
+ 'bastian_rsync':
+    template: 'sis/sudo/bastian_rsync_pp'
+ 'bastian_tee':
+    template: 'sis/sudo/bastian_tee_pp'
+
+cron::job:
+  'Bastian-backup-masterfileshare':
+    command: '/opt/service/scripts/backup-masterfileshare.sh'
+    minute: 0
+    hour: 6
+    date: '*'
+    month: '*'
+    weekday: 1
+    user: bastian
+    description: 'bastian backup masterfileshare'
+

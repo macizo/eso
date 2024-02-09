@@ -1,0 +1,27 @@
+lookup_options:
+  profile::base::ssh_keys:
+    merge: unique
+  profile::cis::mounts:
+    merge: first
+
+profile::base::ssh_keys:
+- title: 'entrust@r5-nid-t-sec-5-vica'
+  user: 'entrust'
+  pub_key: 'AAAAB3NzaC1yc2EAAAADAQABAAABAQC7g2H+xtAQL9XcG0jdudoqMno9DBjAHn0TGZFsKDLMONImevCzupP/5jM0VY8kG7Ro5AbszR3vIFFha6trA5ShebBsLdKcTSV/o4dNgRNR0gz0SXtJnqO1QSPZX+hA7d7H4eYifIXxyV60r1llgudbcNH78zCTW8ZkjVGWHYtr/pruZtN7Ij0em2NktRPXXCHXVK+nO3wOJKH/oCePFafL5E9J0Sen8Q5SOC5xmMlL8J1ZYMmwuf2A4R5AGbLs7mlLz43T5Up+vKs1d/jvD9Qw0hS/pBYbEdqAv/YYma1a0p9EQJzsEbjeM/xeYb2XMIQMOmoSXM4S8FA+wdyWlYNT'
+
+#overrides profile::cis::mounts in esec.nid.test
+profile::cis::mounts:
+- title: '/dev/shm'
+  options: 'defaults,size=1G,nosuid,noexec,nodev'
+  fstype: 'tmpfs'
+  device: 'tmpfs'
+
+- title: '/tmp'
+  options: 'defaults,rw,nosuid,nodev,noexec,relatime'
+  fstype: 'xfs'
+  device: '/dev/mapper/vg01-Tmp' #different in rhel 8: vg01-tmp
+
+- title: '/home'
+  options: 'defaults,nodev,nosuid'
+  fstype: 'xfs'
+  device: '/dev/mapper/vg01-home'

@@ -1,0 +1,42 @@
+---
+# node specific hiera data, most data will be merged with other sources in the hierarchy
+lookup_options: # looks up the data from all sources with the profile::base::files key in this case it finds it in common.yaml
+  profile::base::files:
+    merge: unique 
+  cron::job:
+    merge: unique
+  sudo::configs: # looks up the data from all sources with the sudo::configs key in this case it finds it in esec.sis.test 
+    merge:
+      strategy: deep
+      merge_hash_arrays: true
+
+sudo::configs:
+  'bastian_rsync':
+     template: 'sis/sudo/bastian_rsync_pp'
+  'bastian_tee':
+    template: 'sis/sudo/bastian_tee_pp'
+
+profile::base::files:
+- title: '/etc/hosts'
+  mode: '0644'
+  owner: 'root'
+  group: 'root'
+  content: 'sis/hosts/pp/hm-sis-pp-sec-5-vtsapp.erb'
+
+- title: '/opt/service/scripts/syncCommonFiles-sis-linux.ksh'
+  content: 'sis/scripts/syncCommonFiles-sis-linux-pp'
+  owner: 'bastian'
+  group: 'users'
+  mode: '0755'
+
+cron::job:
+  'Bastian-backup-masterfileshare':
+    ensure: absent
+    command: '/opt/service/scripts/backup-masterfileshare.sh'
+    minute: 0
+    hour: 6
+    date: '*'
+    month: '*'
+    weekday: 1
+    user: bastian
+    description: 'bastian backup masterfileshare'

@@ -1,0 +1,3 @@
+# This file is under Puppet control
+Host_Alias SISTEST = 10.20.138.0/24
+%sis SISTEST = NOPASSWD:ALL

@@ -1,0 +1,81 @@
+---
+# node specific hiera data, most data will be merged with other sources in the hierarchy
+lookup_options: # looks up the data from all sources with the profile::base::files key in this case it finds it in common.yaml
+  profile::base::files:
+    merge: unique 
+  profile::cis::mounts:
+    merge: first
+  profile::base::ssh_keys:
+    merge: first
+  profile::oracle::pkgs:
+    merge: first
+    
+profile::base::files:
+- title: '/etc/hosts'
+  mode: '0644'
+  owner: 'root'
+  group: 'root'
+  content: 'sis/hosts/prod/hm-sis-p-sec-1-vtrustdb.erb'
+
+#overrides profile::cis::mounts in esec.sis.prod
+profile::cis::mounts:
+- title: '/dev/shm'
+  options: 'defaults,size=30G,nosuid,noexec,nodev'
+  fstype: 'tmpfs'
+  device: 'tmpfs'
+
+- title: '/tmp'
+  options: 'defaults,rw,nosuid,nodev,noexec,relatime'
+  fstype: 'xfs'
+  device: '/dev/mapper/vg01-Tmp' #different in rhel 8: vg01-tmp
+
+- title: '/home'
+  options: 'defaults,nodev,nosuid'
+  fstype: 'xfs'
+  device: '/dev/mapper/vg01-home'
+
+profile::base::ssh_keys:
+- title: 'autopatch-key'
+  user: 'autopatch'
+  pub_key: 'AAAAB3NzaC1yc2EAAAADAQABAAABgQDR420qxL0GJCx5PUqiTwLEyrzPLAuIij7NFoMrxte5pyi9CrVpXdapYfjFKRm3ZGV3gNZt7sWCVEs7V54vgF6O+iNG13IzghJdiz9Flqu+jGv9CZAIdVwUq7UO7LAkk7jclMsnWXUhH++MBieP8pnyoPHYw+J6yKUdenQNfAepjWxkawavvXtKOzn3AjIGcqwPtUkk6mt9vDzWjvNEkhxDRsCOUSJTEp/8TiD/bR+9BZTZux0O6t5W+hhne+cJgBvi2yBQKNvHB8hgBD16SPLBOm+EtqlRmEgWkqpTYstHFQ+ksFlXxyucGYxExgF5nt9FwxddXpxFyKt4aculLC4eOehvZVvcxHKeiis1iuGPkwSKlqAL/zupf+WMoKG6ywg1mx0sGz3lNBcPQb+J7PBVNDtTksoRTh+rQ52T8dCDIgIMjbAzQ5kUtriC4JJZ+tjPQLqdSoq2BckYbbq2nPZSO3j38O7VEntkKleEh+LC69UwwrSUU5LNYxg3fLcuKmU='
+
+- title: 'oracle@r5-sis-p-sec-3-vtrustdb.esec.prod'
+  user: 'oracle'
+  pub_key: 'AAAAB3NzaC1yc2EAAAADAQABAAAAgQC43Rv8d/A+ORV4xH/boT1VDZXitjKX4CozWrjyJRePGwSSVPTeh4IVcmkrUoJ8fLKkQWwMWvwqlARbMEgsAxyojYmOX3HR5nhAjJa1GgSaqpSbfj3qqQeXssEjcIq9Hmh/OLlCXaCWlJ74L4HWfXA6oWXsi6TqTNqFoaaqDQFXqQ=='
+
+profile::oracle::pkgs:
+  - 'gcc'
+  - 'libXt'    
+  - 'libXft'
+  - 'libXrender'
+  - 'tuned'
+  - 'xterm'
+  - 'libstdc++-devel.x86_64'
+  - 'glibc-devel.x86_64'
+  - 'libaio-devel.x86_64'
+  - 'ksh.x86_64'
+  - 'elfutils-libelf-devel.x86_64'
+  - 'compat-libstdc++-33.x86_64'
+  - 'compat-libcap1.x86_64'
+  - 'binutils'
+  - 'compat-libcap1'
+  - 'gcc-c++'
+  - 'glibc'
+  - 'libgcc'
+  - 'libstdc++'
+  - 'libstdc++-devel'
+  - 'libaio'
+  - 'libaio-devel'
+  - 'make'
+  - 'unixODBC'
+  - 'unixODBC-devel'
+  - 'kmod-oracleasm.x86_64'
+  - 'compat-libstdc++-33'
+  - 'oracleasmlib'
+  - 'oracleasm-support'
+  - 'screen'
+  - 'wget'
+  - 'xorg-x11-xauth'
+  - 'xorg-x11-utils'
+  - 'sysstat'
+  - 'bc'

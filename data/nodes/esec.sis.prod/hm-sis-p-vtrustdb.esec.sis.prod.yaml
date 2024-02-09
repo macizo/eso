@@ -1,0 +1,36 @@
+---
+# node specific hiera data, most data will be merged with other sources in the hierarchy
+lookup_options: # looks up the data from all sources with the profile::base::files key in this case it finds it in common.yaml
+  profile::base::files:
+    merge: unique 
+  profile::cis::mounts:
+    merge: first
+
+# profile::base::files:
+# - title: '/etc/hosts'
+#   mode: '0644'
+#   owner: 'root'
+#   group: 'root'
+#   content: 'sis/hosts/prod/hm-sis-p-vtrustdb.erb'
+
+#overrides profile::cis::mounts in esec.sis.prod.yaml
+profile::cis::mounts:
+- title: '/dev/shm'
+  options: 'defaults,size=30G,nosuid,noexec,nodev'
+  fstype: 'tmpfs'
+  device: 'tmpfs'
+
+- title: '/tmp'
+  options: 'defaults,rw,nosuid,nodev,noexec,relatime'
+  fstype: 'xfs'
+  device: '/dev/mapper/vg01-tmp' #different in rhel 8: vg01-tmp
+
+- title: '/home'
+  options: 'defaults,nodev,nosuid'
+  fstype: 'xfs'
+  device: '/dev/mapper/vg01-home'
+
+- title: '/var/tmp'
+  options: 'defaults,nodev,nosuid,noexec'
+  fstype: 'xfs'
+  device: '/dev/mapper/vg01-var_tmp'

@@ -1,0 +1,23 @@
+# Copyright (c) 2014, 2017, Oracle and/or its affiliates. All rights reserved.
+#
+# Oracle OHASD startup
+
+[Unit]
+Description=Oracle High Availability Services
+After=network-online.target remote-fs.target autofs.service
+Wants=network-online.target remote-fs.target
+
+[Service]
+ExecStart=/etc/init.d/init.ohasd run >/dev/null 2>&1 </dev/null
+ExecStop=/etc/init.d/init.ohasd stop >/dev/null 2>&1 </dev/null
+TimeoutStopSec=60min
+Type=simple
+Restart=always
+
+# Do not kill any processes except init.ohasd after ExecStop, unless the
+# stop command times out.
+KillMode=process
+SendSIGKILL=yes
+
+[Install]
+WantedBy=multi-user.target graphical.target

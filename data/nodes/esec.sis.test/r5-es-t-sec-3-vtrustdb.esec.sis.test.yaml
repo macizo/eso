@@ -1,0 +1,70 @@
+---
+# node specific hiera data, most data will be merged with other sources in the hierarchy
+lookup_options: # looks up the data from all sources with the profile::base::files key in this case it finds it in common.yaml
+  profile::base::files:
+    merge: unique 
+  profile::cis::mounts:
+    merge: first
+  profile::oracle::pkgs:
+    merge: first
+
+profile::base::files:
+- title: '/etc/hosts'
+  mode: '0644'
+  owner: 'root'
+  group: 'root'
+  content: 'sis/hosts/test/r5-es-t-sec-3-vtrustdb.erb'
+
+#overrides profile::cis::mounts in esec.sis.test.yaml
+profile::cis::mounts:
+- title: '/dev/shm'
+  options: 'defaults,size=3G,nosuid,noexec,nodev'
+  fstype: 'tmpfs'
+  device: 'tmpfs'
+
+- title: '/tmp'
+  options: 'defaults,rw,nosuid,nodev,noexec,relatime'
+  fstype: 'xfs'
+  device: '/dev/mapper/vg01-Tmp' #different in rhel 8: vg01-tmp
+
+- title: '/home'
+  options: 'defaults,nodev,nosuid'
+  fstype: 'xfs'
+  device: '/dev/mapper/vg01-home'
+
+profile::oracle::pkgs:
+  - 'gcc'
+  - 'libXt'    
+  - 'libXft'
+  - 'libXrender'
+  - 'tuned'
+  - 'xterm'
+  - 'libstdc++-devel.x86_64'
+  - 'glibc-devel.x86_64'
+  - 'libaio-devel.x86_64'
+  - 'ksh.x86_64'
+  - 'elfutils-libelf-devel.x86_64'
+  - 'compat-libstdc++-33.x86_64'
+  - 'compat-libcap1.x86_64'
+  - 'binutils'
+  - 'compat-libcap1'
+  - 'gcc-c++'
+  - 'glibc'
+  - 'libgcc'
+  - 'libstdc++'
+  - 'libstdc++-devel'
+  - 'libaio'
+  - 'libaio-devel'
+  - 'make'
+  - 'unixODBC'
+  - 'unixODBC-devel'
+  - 'kmod-oracleasm.x86_64'
+  - 'compat-libstdc++-33'
+  - 'oracleasmlib'
+  - 'oracleasm-support'
+  - 'screen'
+  - 'wget'
+  - 'xorg-x11-xauth'
+  - 'xorg-x11-utils'
+  - 'sysstat'
+  - 'bc'

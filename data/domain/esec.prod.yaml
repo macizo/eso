@@ -1,0 +1,83 @@
+#specific data for SIS
+lookup_options:
+  profile::base::ssh_users:
+    merge: first
+  profile::base::dns:
+    merge: first
+  #pam::allowed_users
+  #uses the pam users in the common.yaml file since it applies to all the levels
+
+cron::job:
+  'puppet':
+    command: '/opt/puppetlabs/bin/puppet agent --test > /dev/null 2>&1'
+    minute: '*/15'
+    hour: '*'
+    date: '*'
+    month: '*'
+    weekday: '*'
+
+profile::base::ssh_users:
+- title: 'ehval'
+  ssh_title: 'ehval@hm-eso-common-1-mgmt.esec.padmrod'
+  uid: '1136'
+  pub_key: 'AAAAB3NzaC1yc2EAAAADAQABAAABAQDBxalCCsT6Tgp6A1a0u3havizhUzmgmXMLzWG2ZBx1/Q5oUnHA8E4er52zViln2p7/TJCo2KsF04L3xPIC2bWdxzJ+Gp00GNa8FG7j9bkSTfdKw5SJhZS4AUjYO4D58Ef2PNGd3M+DdQq1Et6Uv6tfM7KP3G+MdVUEwKNhnL59dk69/m+mm82xON3ke6G1xIxGuh99hn+6HqZdmbkvQ9CFMlTewee8TA341gjQ5r7916amIivtj8io1meAaJFi+DB7ndQ6qcd/pVfEBWryfu1wWRQKk7/Z+PmNFdEAjgxNQlnbl20QPV7DJ6lpHp62hl3FzTFETccNChXnodQw2JvX'
+  comment: 'user for Eduardo Hasbun'
+  groups: ['wheel','ssh-users']
+
+- title: 'aakki'
+  ssh_title: 'aakki@hm-eso-common-1-mgmt.esec.adm'
+  uid: '1056'
+  pub_key: 'AAAAB3NzaC1yc2EAAAADAQABAAABAQC6U9iwd0BUMp4iBmU1kO0i0S/coWte3nDE9Xhlxokj1OZRP9jln+XjIVxOfRHm8gTgAa8pFjNQ0F+3tK6zZ0eTaLOfttMfFVL1FaJm9tyP+ENrRRilR8to16wW2XbGyiJE6SFMxan1pXAmR8ETz0FZTMEqcChpUGv/7TMaQqzr28FewL04d7/nhe0IdUxlQjV0QxdUr6iU1ZPdaDA6OjTkpexNmQYQFfxm/H8J5acwlq4/9AfNFrd/Uud0/KLuSeDl6bOaNS28GxM3JhFA4MvBOv2DyxMpF3LUZ7O/ofhekC/wgcAc5kyU3TmOZPjzKj7u472fEYb/3GVpXoCWOmIv'
+  comment: 'Personal user Anupama'
+  groups: ['wheel','ssh-users']
+
+- title: 'ekokk'
+  uid: '1138'
+  ssh_title: 'ekokk@hm-eso-p-common-mgmt.esec.adm'
+  pub_key: 'AAAAB3NzaC1yc2EAAAADAQABAAABgQDFoMhZzhy1EGbMtKtc6adqEdPz2aWezEKum6hBl4jyQIFs+Y1qp2+BhVRxSME1J9Ssd5dxGjWddE2oCddHUvuKjbldJPM7MLeIWmqfrP8Fap6J2hQhIC1fF4Rx8Kq7VgNsjPEGo3Z4XnrlpN2GZMk14Xyk5yi7zuzE042KEFnVSmxErvbSF8Wg0FCOqXRZi3KjVomPSisOhZbnbo65llA6/aDX9O2HrD4gLj5SJuMHJ6Z//bsigz9WKxHdmc25X0gIo3cnk5zUc0/zAgyquq7fcV5K2loUhuChLeLEK9YDEvIC3kSIHT9TG/Tb9OhhLbtTDSbHTVfhuPURHj3Jy6ZSkOn/9acRqRMm6/tlR+UqAueTBqmhHGELf+WbQul7zuFSC2IkSKcFAr1LXDY/QfRT34m7j7qv/o33YkOZ5GB5axmA5AlaQ8gdyXSntWEmfFj5U6O8u1Oc6lPRCw9rLs7tlAEvHTk/BB4cDWgmTCS0T+rGx3bZzv5JOj4jgBAeaRk='
+  comment: 'Personal user Edvin'
+  groups: ['wheel', 'ssh-users']
+
+- title: 'mvegd'
+  uid: '1008'
+  ssh_title: 'mvegd@hm-eso-common-1-mgmt.esec.prod'
+  pub_key: 'AAAAB3NzaC1yc2EAAAADAQABAAABAQCmJ60UgLWcuH49OKvyK6aH65R9oseBM3NxAF7MLSbn1O82TMePwYvOWWzcBHzDjJVauJFPLO6E13Wf8TlvBxZ2QoVuqY3cwDEKfAV+p7NqI9PQPvoURCzGmmUXKzwUW4WwygLt1ENKytAJEV/VPnJ5Llslai2eDKEgYvHTHGO7R+ZwXRms4StoPIe1SNzbgeKgCKs9l5Z5FhLOGP5RPiFb7LlF/eec8rpuKaUmv/lSQeKN7rKD6TP0gHESNGmVOcLCPyvdnhfiAJWUKGOzb8iwgtgQ7PJQ60P8YTwZIvFLIx/HHuWireF75djNiuLNmJczQL/RhvzEHdcUJc1QeCHl'
+  comment: 'Personal user mvegd'
+  groups: ['wheel','ssh-users']
+
+- title: 'saspe'
+  uid: '1002'
+  ssh_title: 'saspe@hm-eso-common-1-mgmt.esec.prod'
+  pub_key: 'AAAAB3NzaC1yc2EAAAADAQABAAABAQCrhtrzLmp7yh0P9/0mnNZyfLlfzVPebzJx9+WUNWOvhQbsmcdXIdgiosQ8ShS9HkXX34x7r2RKLilFF2PbCV60V8CqZXWUEcE3jq1wiJKUsVlEzmes5/PNtSPcuo/jXLptPu1ZmW8a0rqovn14yinaap9ZxnTiBmSn1KBZvNYfzC00Za3BWiM20kCg2FX/7r3jX7ZK+TDF6PDhZfFuyZvXR7X+70HoVORGrQqttio2hgY41JFUQmOsO+gJbtsI4haG9cclm6MuNuVW7ZoycSgJRQRMJqgmJGMqvUiJ3IiGfioDvJ0VUS5fzj97jrgFxGGGQH4rldR/49QaGQxLh4p9'
+  comment: 'Personal user Suzanne'
+  groups: ['wheel','ssh-users']
+
+- title: 'hpanc'
+  uid: '1057'
+  ssh_title: 'hpanc@hm-eso-p-common-mgmt.esec.adm'
+  pub_key: 'AAAAB3NzaC1yc2EAAAABIwAAAQEAyhKroY6NZOqlM2DO5T6F1nztRclwgpbGRDxRAb47nXx+HMu2xeFYOAvCHSTxPi/OaUdEBzHl87L+vrl1Oie+9YHoOS27N6iVgonQT6a5LXjHAM6q1EkGUPSNA1J3wG6/5pwmRCXsnG+BwpMpIVTpIz6/ihbr9U/f96P5126ZaL35sJ3RAMSzaqbCT3csKIILcSHIYxCidDVCKQYrGp5i66zaiYhx0Ss/b+vha/wLXk/dWXM27PNripmuT/Z3akOh/OuxyBV/Wmhf57q5wzUd+usMZPnp77TVWlKD4f0RI1MhuuQQeRlBbSMw1ZvYxjvGJwpAElH++/ijmGhyklNWOQ=='
+  comment: 'Personal user Hari'
+  groups: ['wheel','ssh-users']
+
+- title: 'aroch'
+  uid: '1058'
+  ssh_title: 'aroch@hm-eso-p-common-mgmt.esec.adm'
+  pub_key: 'AAAAB3NzaC1yc2EAAAADAQABAAABgQCsjATmvBsjfcOLi40Dcd8ZetMp4CvsIvKpq7NKojbg9ha1E9LH0uTVyDVjGL3oxihIs3nmbPHnCkouy1caQnhIYGGt9w4F6UJZQQ1VvCtmIOzZ2li37zwzz0kZoOGGHE4HmUJ5QHuKvJzItVaIcgAznRchdnrg1AYLh9kUQJWn4o4i8g79SP/qA0IqAslkHSICwe6zi4d7hGicFZZBXLyhGdDIo29lmTcKp6sU2tOBQQhQumFOEj2ol4CQEQMFiKmCuvIhF/kqhh3qp3/h5ax8AsOux5ZVx8lIxpx5lClep5aijaBMBR8Pie8NVkjvfkLWXo9ZU7pw+pUWBUjzvnNnKLDUrtXjywMz3hzPXBQPMZ4Y0vSy5DNhAmBjohcqHCcPWuB5frq4YYY2VMnV64F+rDx5aLgqR/+x0dECMCFlNm3SSmrzATvZj1vEp98lxukbGgdU3Zq2epmQ2MJK+fh6t07rrPvB+M/1uGcuz361Q+4drEA2QAr/zdizQFDeU7s='
+  comment: 'Personal user Alex'
+  groups: ['wheel','ssh-users']
+
+profile::base::dns:
+- title: 'dns1'
+  path: '/etc/sysconfig/network-scripts/ifcfg-ens192'
+  line: 'DNS1=10.20.106.18'
+  match: 'DNS1'
+
+- title: 'dns2'
+  path: '/etc/sysconfig/network-scripts/ifcfg-ens192'
+  line: 'DNS2=10.20.106.17'
+  match: 'DNS2'
+
+- title: 'search'
+  path: '/etc/sysconfig/network-scripts/ifcfg-ens192'
+  line: 'SEARCH="esec.prod esec.adm"'
+  match: 'SEARCH'

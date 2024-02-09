@@ -1,0 +1,21 @@
+lookup_options:
+  pam::allowed_users: #creates a hash from all the sources of this key
+    merge:
+      strategy: deep
+      merge_hash_arrays: true
+  profile::base::system_users:
+    merge: unique
+  # profile::base::groups: 
+  #   merge: unique
+    
+#add users that are allowed to login here:
+pam::allowed_users:
+- 'entrust'
+
+profile::base::system_users:
+- title: 'entrust'
+  uid: '2009'
+  comment: 'Entrust system user'
+  ssh_title: 'nemid'
+  groups: ['users','ssh-users','easm_entrust_pg']
+

@@ -1,0 +1,33 @@
+---
+# node specific hiera data, most data will be merged with other sources in the hierarchy
+lookup_options:
+  profile::base::files:
+    merge: unique 
+  profile::cis::mounts: # so it overrides the values on the lower priority layers
+    merge: first 
+
+#profile::base::files:
+#- title: '/etc/hosts'
+#  mode: '0644'
+#  owner: 'root'
+#  group: 'root'
+#  content: 'sis/hosts/pp/hm-sis-pp-sec-1-vtrustdb.erb'
+
+#overrides profile::cis::mounts in esec.sis.pp
+profile::cis::mounts:
+- title: '/dev/shm'
+  options: 'defaults,size=6G,nosuid,noexec,nodev'
+  fstype: 'tmpfs'
+  device: 'tmpfs'
+
+- title: '/tmp'
+  options: 'defaults,rw,nosuid,nodev,noexec,relatime'
+  fstype: 'xfs'
+  device: '/dev/mapper/vg01-var_tmp' #different in rhel 8: vg01-tmp
+
+#lrwxrwxrwx. 1 root root 7 Mar  1 10:41 /dev/mapper/vg01-Home -> ../dm-2
+#hm-sis-pp-sec-1-vtrustdb.esec.sis.pp
+- title: '/home'
+  options: 'defaults,nodev,nosuid'
+  fstype: 'xfs'
+  device: '/dev/mapper/vg01-home'

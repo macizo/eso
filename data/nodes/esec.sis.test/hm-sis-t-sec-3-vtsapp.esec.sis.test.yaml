@@ -1,0 +1,83 @@
+---
+# node specific hiera data, most data will be merged with other sources in the hierarchy
+lookup_options: 
+  cron::job: # looks up the data from all sources with the cron::job key in this case it finds it in sis.esec.test
+    merge: unique 
+  profile::base::files:
+    merge: unique 
+  sudo::configs: # looks up the data from all sources with the sudo::configs key in this case it finds it in esec.sis.test 
+    merge:
+      strategy: deep
+      merge_hash_arrays: true
+  cron::job::multiple:
+    merge: unique
+  logrotate::rules:
+    merge:
+      strategy: deep
+      merge_hash_arrays: true
+  profile::base::dirs:
+    merge: unique
+  pam::allowed_users: #creates a hash from all the sources of this key
+    merge:
+      strategy: deep
+      merge_hash_arrays: true
+  profile::base::ssh_users: # looks up the data from all sources with the profile::base::ssh_users key in this case it finds it in common.yaml
+    merge: unique
+
+profile::base::files:
+- title: '/etc/hosts'
+  mode: '0644'
+  owner: 'root'
+  group: 'root'
+  content: 'sis/hosts/test/hm-sis-t-sec-3-vtsapp.erb'
+
+- title: '/opt/service/scripts/backup-masterfileshare.sh'
+  mode: '0755'
+  owner: 'bastian'
+  group: 'users'
+  content: 'sis/scripts/backup-masterfileshare.sh'
+
+- title: '/opt/service/scripts/syncCommonFiles-sis-linux.ksh'
+  content: 'sis/scripts/syncCommonFiles-sis-linux'
+  owner: 'bastian'
+  group: 'users'
+  mode: '0755'
+
+- title: '/opt/service/logs/maintenance/backup-masterFileshare.log'
+  owner: 'bastian'
+  group: 'users'
+  mode: '0644'
+
+sudo::configs:
+  'bastian':
+    template: 'sis/sudo/bastian'
+  'bastian_rsync':
+    template: 'sis/sudo/bastian_rsync_test'
+  'bastian_tee':
+    template: 'sis/sudo/bastian_tee_test'
+
+cron::job:
+  'Bastian-backup-masterfileshare':
+    command: '/opt/service/scripts/backup-masterfileshare.sh'
+    minute: 0
+    hour: 6
+    date: '*'
+    month: '*'
+    weekday: 1
+    user: bastian
+    description: 'bastian backup masterfileshare'
+
+profile::base::dirs:
+- title: '/opt/service/masterFileshare'
+  owner: 'bastian'
+  group: 'users'
+  mode: '0775'
+  file_mode: '0664'
+  recurse: True
+
+- title: '/opt/service/backup/masterFileshare'
+  owner: 'bastian'
+  group: 'users'
+  mode: '0775'
+  file_mode: '0664'
+  recurse: True

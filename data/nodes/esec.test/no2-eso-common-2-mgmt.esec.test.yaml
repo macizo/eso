@@ -1,0 +1,31 @@
+#info for puppet server
+lookup_options:
+  profile::base::system_users: # looks up the data from all sources with the profile::base::system_ssh_users key in this case it finds it in common.yaml
+    merge: unique
+  profile::base::latest: 
+    merge: unique
+  profile::base::ssh_keys: 
+    merge: unique
+  pam::allowed_users: #creates a hash from all the sources of this key
+    merge:
+      strategy: deep
+      merge_hash_arrays: true
+
+pam::allowed_users: # add users to this list
+ - 'gitlab-runner'
+ 
+profile::base::system_users:
+- title: 'gitlab-runner'
+  uid: '995'
+  comment: 'gitlab-runner system user for CI pipelines'
+  groups: ['users','ssh-users','wheel']
+
+profile::base::ssh_keys:
+- title: 'gitlab-runner@no2-eso-common-2-mgmt'
+  user: 'gitlab-runner'
+  pub_key: 'AAAAB3NzaC1yc2EAAAADAQABAAABgQDFAA4jY17rOcWkh1o/C5YOLhsK88+k3I9e0j2eH3C0RbI1AT6Z3QfaJhnjYN0E68J9GkOWbvXTB0tAeFl1iRAwfl/NEhxYglKJkfHnkVJEqv5vimH4zYhPFfxrLK7suyXb8ee1q485NmyJm81IjJheF8tsw2va6btuQPDMbjTl8myZBAFGyRroZCzQdemT30jKIFN90QtTxPOIYkqN1Jgqq1G3hgHg01e4NCycyfTlsH38o73duxYrROLokfSBdJgu4h803C3Wc5D4hIVreqKQGcWiNEQkNUmBi1QxTIDlrkF7QflLiMMPE9oyiC10hGmrsKusoiZlkgaVVK5NMCZAAjYz2oCLp5TkKfNBctZnrhOA1CkLAmo83Re8TxjKUFiWQRdcnWr9ALAiXtM4gUJaFuAGHtZmz/sdbfeOUOQW3JLPnGwYB8Ux858z9c/q2ByeVESGisJkyM+RI2a6Pwym/kAC4WbBbwuhs4pu4MRzPEijkKPwuK+BXc8vwylPq3s='
+          
+profile::base::latest: 
+- 'puppetserver'
+- 'puppet-bolt'
+- 'gitlab-runner'

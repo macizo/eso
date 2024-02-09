@@ -1,0 +1,4 @@
+# This file is under Puppet control
+Host_Alias RSYNCSERVER = 10.20.113.6,10.20.113.7,10.20.113.8,10.20.113.9,10.20.113.10,10.20.113.11,10.20.113.50,10.20.113.51
+Cmnd_Alias RSYNC = /bin/rsync
+bastian    RSYNCSERVER = NOPASSWD:RSYNC

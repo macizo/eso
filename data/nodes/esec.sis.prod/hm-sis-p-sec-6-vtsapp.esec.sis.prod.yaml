@@ -1,0 +1,124 @@
+---
+# node specific hiera data, most data will be merged with other sources in the hierarchy
+lookup_options: 
+  cron::job::multiple:
+    merge: unique 
+  profile::base::files:
+    merge: unique
+  profile::base::dirs:
+    merge: unique
+  profile::base::ssh_keys:
+    merge: first
+  profile::base::system_users:
+    merge: first
+  sudo::configs: # looks up the data from all sources with the sudo::configs key in this case it finds it in esec.sis.test 
+    merge:
+      strategy: deep
+      merge_hash_arrays: true
+
+profile::base::files:
+- title: '/etc/hosts'
+  mode: '0644'
+  owner: 'root'
+  group: 'root'
+  content: 'sis/hosts/prod/hm-sis-p-sec-6-vtsapp.erb'
+
+- title: '/opt/service/scripts/backup-masterfileshare.sh'
+  mode: '0755'
+  owner: 'bastian'
+  group: 'users'
+  content: 'sis/scripts/backup-masterfileshare-prod'
+
+- title: '/opt/service/scripts/syncCommonFiles-sis-linux.ksh'
+  mode: '0755'
+  owner: 'bastian'
+  group: 'users'
+  content: 'sis/scripts/syncCommonFiles-sis-prod'
+
+- title: '/opt/service/logs/maintenance/backup-masterFileshare.log'
+  owner: 'bastian'
+  group: 'users'
+  mode: '0644'
+  
+profile::base::dirs:
+- title: '/opt/service/masterFileshare'
+  owner: 'bastian'
+  group: 'users'
+  mode: '0775'
+  recurse: True
+
+- title: '/opt/service/backup/masterFileshare'
+  owner: 'bastian'
+  group: 'users'
+  mode: '0775'
+  recurse: True
+
+cron::job::multiple:
+  'Syncing_files':
+      jobs:
+        - {
+            minute: 0,
+            hour: 6,
+            date: '*',
+            month: '*',
+            weekday: 1,
+            user: bastian,
+            command: '/opt/service/scripts/backup-masterfileshare.sh',
+            description: 'Bastian backup masterfileshare',
+          }      
+        - {
+            minute: 15,
+            hour: 3,
+            date: '*',
+            month: '*',
+            weekday: '*',
+            user: root,
+            command: '/opt/service/scripts/syncLogsLinux.ksh -s -d',
+            description: 'sync',
+          }
+
+profile::base::ssh_keys:
+- title: 'bastian@hm-sis-p-sec-3-vtsapp'
+  user: 'bastian'
+  pub_key: 'AAAAB3NzaC1yc2EAAAABIwAAAQEAsGBVEWcxn2HBuOl7zdHAjZ3t0RKDaFuWY5hBDXNu5fPpD+rAL8FgtJIS6GHT6mGdClFDmhqlhB6bKIxMvzL9hqPTCP1HuNSxPzvCntDzGSUK+pfI1ZwAbDw8w4DndKI8aLh9S3QOya9jWs2O+XKME4VH4UyWoMConaxI8jWw8xxloulBJIdwUBPL3cdq1Tgbxf1+WYNjoKk3vLssnmouMxnjL4+CxJYEUoxuJhPWFRu4pf3WyTQRk8ids44fH2RN6tHlirRTgLVAfzFlSMnoePz4sRJBTtiC7JRRX5LLGCb5JcNFRZfkXbdMhWVQeoBEDIpJeJPzi2LeKC2+hlZfNQ=='
+
+- title: 'tomcat@hm-sis-p-sec-4-vtsapp'
+  user: 'tomcat'
+  pub_key: 'AAAAB3NzaC1yc2EAAAABIwAAAQEA1cxG22ZMEuFpaEF7ZqqS19xyEMNyx8rKs3scpNN0km1od2nsxfD6tUbB4xDrQOy/MpSgBFqUVQdg/k4YgWC3h42Z2V7SjkvKlOkBwnpUzcNrm0S990xPhVBs/WREnLQlUBj1l3LNBzTqInL0q0OPXEuWVDvBcgexNJSNcxU1YoYkJUKX/ButWV0WOAzgrQL572avS3owqIycCt7v1pg9416jLIu13WAVHpVNQzcQ6td2JT462oIN4xsRpXsgXXqsGEugNzLOSsxrG3t3zie9JjOkCiZCzAOyrs54vy9OmQXYI+djSygXYoSk/F6ivZPSMOh7u4xQOVOyTmbypbqw7w=='
+
+- title: 'autopatch-key'
+  user: 'autopatch'
+  pub_key: ''
+
+- title: 'llave'
+  user: 'ehval'
+  pub_key: 'AAAAB3NzaC1yc2EAAAADAQABAAABgQDAxIUrVAdelah7huT9G+m7CrfpK15LuD1nNJ8SzmfBnHN5q7y1ZRiNISipV+1gxEzdIzveT5/Ahc7MH20XGYi8eFJiSLulR1nkn+bGG83gFwkKle/tWg/KzRV2O11+bFJLsV/0WX71vbFMua962nm5lhU8xebtg+9ZF8QsWMNyvblpyyVASWLSVxo+G9yTdzlD8VqoLNAPMwi2Wp4/NGElu5MrpC9e/zUZTUEKF6+xJBoGvrSypk1NOuso2/49bEt4fa7JCffJamEOfqnh3bmeW+OkQ6GypVlZE8R1A/2FRbE2X0ZiR47uyHVFIjCiQqZVIe0w2UxhnRVBt8JQ31Kt/0XAQYYqyJW38hhfE19qvhTZ3BPevXccHpfKwlPPcNKqB6ksFidWeMwo6FpvdzQzdz0Ev1YgsPV+9zBs63na0gV05kkqkFSjblBL0jGf9K90bfmgD2ouFVpXEGTBhFKsVwj9liWUD0lhxerukuWNExnnv/niU64CNDIXmye9fzM='
+
+sudo::configs: 
+  'bastian':
+    template: 'sis/sudo/bastian_rsync_prod'
+
+profile::base::system_users:
+- title: 'tomcat'
+  uid: '571'
+  gid: users
+  comment: 'Tomcat System User'
+  groups: 'ssh-users'
+
+- title: 'bastian'
+  uid: '581'
+  comment: 'Bastian System User'
+  groups: ['users','ssh-users']
+
+- title: 'autopatch'
+  uid: '2019'
+  comment: 'autopatch system user'
+  groups: ['users','ssh-users','wheel']
+
+- title: 'loguser'
+  uid: '2006'
+  comment: 'Loguser System User'
+
+- title: 'nimbus'
+  uid: '2004'
+  comment: 'Nimbus System User'

@@ -1,0 +1,27 @@
+<%- | $kernel_shmall,
+      $kernel_shmmax,
+      $hugepages,
+|  -%>
+#managed by puppet
+#kernel paramaters for Oracle
+kernel.sem=250 256000 100 1024
+# kernel.shmall=1048576
+# kernel.shmmax=4294967296
+kernel.shmall=<%= $kernel_shmall %>
+kernel.shmmax=<%= $kernel_shmmax %>
+kernel.shmmni=4096
+fs.file-max=6815744
+net.ipv4.ip_local_port_range=9000 65500
+net.core.rmem_default=262144
+net.core.rmem_max=4194304
+net.core.wmem_default=262144
+net.core.wmem_max=1048586
+fs.aio-max-nr=1048576
+vm.hugetlb_shm_group=152
+# vm.nr_hugepages=1024
+vm.nr_hugepages=<%= $hugepages %>
+#vm.dirty_background_ratio=3
+#vm.dirty_ratio=15
+#vm.dirty_expire_centisecs=500
+#vm.dirty_writeback_centisecs=100
+#net.ipv6.conf.all.disable_ipv6=1

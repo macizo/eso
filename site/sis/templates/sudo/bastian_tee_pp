@@ -1,0 +1,4 @@
+# This file is under Puppet control
+Host_Alias PPSERVER = 10.20.140.6,10.20.140.7,10.20.140.8,10.20.140.9,10.20.140.10,10.20.140.11,10.20.140.50,10.20.140.51
+Cmnd_Alias TEE = /usr/bin/tee
+bastian    PPSERVER = NOPASSWD:TEE

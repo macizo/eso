@@ -1,0 +1,28 @@
+---
+# Hiera 5 local configuration file
+version: 5
+# defaults:
+#   data_hash: yaml_data
+# hierarchy:
+#  - name: Common
+#    data_hash: yaml_data
+
+defaults:
+  datadir: data
+  data_hash: yaml_data
+
+hierarchy:
+- name: "Per-node data (yaml version)"
+  path: "nodes/%{trusted.domain}/%{trusted.certname}.yaml"
+
+- name: "application"
+  path: "application/%{app}.yaml"
+
+- name: "Per-domain data"
+  path: "domain/%{trusted.domain}.yaml"
+
+- name: "Per-RHEL release"
+  path: "os_version/%{facts.os.release.major}.yaml"
+
+- name: "Other YAML hierarchy levels"
+  path: "common.yaml"

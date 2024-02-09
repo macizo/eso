@@ -1,0 +1,125 @@
+
+
+#
+# hosts         This file describes a number of hostname-to-address
+#               mappings for the TCP/IP subsystem.  It is mostly
+#               used at boot time, when no name servers are running.
+#               On small systems, this file can be used instead of a
+#               named name server.
+#
+#               This file is being replaced by CFEngine!!!
+#               IMPORTANT: THIS FILE IS UPDATED AUTOMATICALLY BY CFEngine ParseDNS
+#               All changes must be made through DNS
+#               You can add CNAME records into the zone files and these will be
+#               Appended to the corresponding host
+
+# Syntax:
+#
+# IP-Address  Full-Qualified-Hostname  Short-Hostname
+#
+
+127.0.0.1       localhost
+10.20.131.19 puppet no2-eso-common-2-mgmt.esec.test no2-eso-common-2-mgmt
+172.21.71.241 bid-dev-mgmt.esec.test bid-dev-mgmt
+172.21.71.233 bid-dev-test1.esec.test bid-dev-test1
+172.21.71.27 bid-hardening-test1.esec.test bid-hardening-test1
+10.20.145.10 hm-bid-dev-1-build.esec.test hm-bid-dev-1-build
+10.20.145.12 hm-bid-dev-1-buildslave.esec.test hm-bid-dev-1-buildslave
+10.20.145.11 hm-bid-dev-1-source.esec.test hm-bid-dev-1-source
+172.21.71.111 hm-bid-dev-1-vbankiddb.esec.test hm-bid-dev-1-vbankiddb
+10.20.131.37 hm-bid-dev-1-vbehavdb.esec.test hm-bid-dev-1-vbehavdb
+10.20.131.25 hm-bid-dev-1-vcc.esec.test hm-bid-dev-1-vcc
+10.20.131.34 hm-bid-dev-1-vccdb.esec.test hm-bid-dev-1-vccdb
+172.21.71.100 hm-bid-dev-1-vcertdb.esec.test hm-bid-dev-1-vcertdb
+10.20.131.23 hm-bid-dev-1-vdb.esec.test hm-bid-dev-1-vdb
+172.21.71.101 hm-bid-dev-1-veridata.esec.test hm-bid-dev-1-veridata
+10.20.131.55 hm-bid-dev-1-vsisdb.esec.test hm-bid-dev-1-vsisdb
+10.20.131.24 hm-bid-dev-2-vdb.esec.test hm-bid-dev-2-vdb
+172.21.71.110 hm-bid-dev-sec-2-vca.esec.test hm-bid-dev-sec-2-vca
+10.20.135.9 hm-eid-t-1-vca.esec.test hm-eid-t-1-vca raxserver2
+10.20.134.8 hm-eid-t-2-vca.esec.test hm-eid-t-2-vca
+10.20.135.24 hm-eid-t-5-vca.esec.test hm-eid-t-5-vca
+10.20.131.14 hm-eid-t-nimsrv-1.esec.test hm-eid-t-nimsrv-1
+10.20.135.10 hm-eid-t-sec-1-vdb.esec.test hm-eid-t-sec-1-vdb
+10.20.135.6 hm-eid-t-sec-1-vwebra.esec.test hm-eid-t-sec-1-vwebra
+10.20.134.16 hm-eid-t-sec-1-vwebradnb.esec.test hm-eid-t-sec-1-vwebradnb
+10.20.134.10 hm-eid-t-sec-2-vdbdnb.esec.test hm-eid-t-sec-2-vdbdnb db3dnb
+10.20.134.6 hm-eid-t-sec-2-vwebradnb.esec.test hm-eid-t-sec-2-vwebradnb
+172.21.71.199 hm-eso-t-1-vbuild.esec.test hm-eso-t-1-vbuild
+172.21.71.50 hm-eso-t-2-vbuild.esec.test hm-eso-t-2-vbuild
+172.21.71.26 hm-eso-t-2-vrepo.esec.test hm-eso-t-2-vrepo
+10.20.131.15 hm-eso-t-dbsw.esec.test hm-eso-t-dbsw
+10.20.131.12 hm-eso-t-man-1-puppet.esec.test hm-eso-t-man-1-puppet sendlog-server1
+10.20.131.18 hm-eso-t-man-2-mgmt.esec.test hm-eso-t-man-2-mgmt sendlog-server3
+10.20.131.50 hm-eso-t-sec-1-cao.esec.test hm-eso-t-sec-1-cao
+10.20.131.16 hm-eso-t-sec-1-github.esec.test hm-eso-t-sec-1-github
+10.20.131.17 hm-eso-t-sec-1-vcc.esec.test hm-eso-t-sec-1-vcc
+10.20.131.13 hm-eso-t-sec-1-vrepo.esec.test hm-eso-t-sec-1-vrepo
+10.20.139.20 hm-nid-t-sec-1-vica.esec.test hm-nid-t-sec-1-vica
+10.20.139.40 hm-nid-t-sec-1-vlog.esec.test hm-nid-t-sec-1-vlog
+10.20.139.6 hm-nid-t-sec-1-vpca.esec.test hm-nid-t-sec-1-vpca
+#10.20.138.18 hm-sis-t-sec-1-vca.esec.test hm-sis-t-sec-1-vca nets-ca nets-va
+10.20.140.18 nets-va
+10.20.140.18 nets-ca
+10.20.138.6 hm-sis-t-sec-3-vtsapp.esec.test hm-sis-t-sec-3-vtsapp backend1 hm-backend1
+10.20.138.8 hm-sis-t-sec-4-vtsapp.esec.test hm-sis-t-sec-4-vtsapp backend2 hm-backend2
+10.20.138.50 backend4 hm-backend4
+10.20.138.10 hm-sis-t-sec-5-vtsapp.esec.test hm-sis-t-sec-5-vtsapp backend3 hm-backend3
+10.20.135.16 lunasa-eid-t-2.esec.test lunasa-eid-t-2
+10.20.131.27 hm-eso-common-3-mgmt.esec.test
+10.20.135.17 lunasa-eid-t-3.esec.test lunasa-eid-t-3
+10.20.139.12 lunasa-nemid-t-1.esec.test lunasa-nemid-t-1
+10.20.139.13 lunasa-nemid-t-2.esec.test lunasa-nemid-t-2
+10.20.135.14 r5-eid-t-1-vca.esec.test r5-eid-t-1-vca raxserver1
+10.20.134.9 r5-eid-t-2-vca.esec.test r5-eid-t-2-vca
+10.20.135.25 r5-eid-t-5-vca.esec.test r5-eid-t-5-vca
+10.20.135.11 r5-eid-t-sec-1-vdb.esec.test r5-eid-t-sec-1-vdb
+10.20.135.5 r5-eid-t-sec-1-vwebra.esec.test r5-eid-t-sec-1-vwebra
+10.20.134.17 r5-eid-t-sec-1-vwebradnb.esec.test r5-eid-t-sec-1-vwebradnb
+10.20.134.11 r5-eid-t-sec-2-vdbdnb.esec.test r5-eid-t-sec-2-vdbdnb db1dnb
+10.20.134.7 r5-eid-t-sec-2-vwebradnb.esec.test r5-eid-t-sec-2-vwebradnb
+10.20.131.11 r5-eso-t-man-1-puppet.esec.test r5-eso-t-man-1-puppet sendlog-server2
+10.20.143.12 r5-eso-t-sec-1-hub.esec.test r5-eso-t-sec-1-hub
+10.20.131.28 r5-eso-t-sec-1-vdepot.esec.test r5-eso-t-sec-1-vdepot
+10.20.131.30 r5-eso-t-sec-1-vspacewalk.esec.test r5-eso-t-sec-1-vspacewalk
+10.20.143.13 r5-eso-t-sec-2-hub.esec.test r5-eso-t-sec-2-hub
+10.20.139.21 r5-nid-t-sec-1-vica.esec.test r5-nid-t-sec-1-vica
+10.20.139.41 r5-nid-t-sec-1-vlog.esec.test r5-nid-t-sec-1-vlog
+10.20.139.7 r5-nid-t-sec-1-vpca.esec.test r5-nid-t-sec-1-vpca
+10.20.138.19 r5-sis-t-sec-1-vca.esec.test r5-sis-t-sec-1-vca
+10.20.138.21 r5-sis-t-sec-1-vlog.esec.test r5-sis-t-sec-1-vlog
+10.20.138.7 r5-sis-t-sec-3-vtsapp.esec.test r5-sis-t-sec-3-vtsapp r5-backend1
+10.20.138.9 r5-sis-t-sec-4-vtsapp.esec.test r5-sis-t-sec-4-vtsapp r5-backend2
+10.20.138.11 r5-sis-t-sec-5-vtsapp.esec.test r5-sis-t-sec-5-vtsapp
+172.21.71.118 vm-eso-prb-118-w2k8.esec.test vm-eso-prb-118-w2k8
+172.21.71.119 vm-eso-prb-119-rhel7.esec.test vm-eso-prb-119-rhel7
+#172.22.5.67 db1 db2
+#10.20.138.31 db1 db2
+#172.22.5.68 db2
+#10.20.138.2
+#10.20.138.2
+172.22.101.55 dssdb1
+172.22.101.56 dssdb2
+192.168.140.9 trust-b2b node1esigning
+192.168.10.24 va-preprod.eurida.com
+192.168.140.13 node2esigning
+192.168.140.14 node1eident
+192.168.140.10 ti-test.bbsas.no
+192.168.4.30 order-test-sign.bbsas.no
+#91.102.24.223 activation-preprod1.bankid.no
+1.2.3.4 frode.test.no
+91.102.26.228 crl.systemtest7.trust2408.com
+91.102.26.225 ocsp.systemtest19.trust2408.com ocsp.systemtest22.trust2408.com
+10.20.138.50 www-test-ident.bbsas.no
+192.168.4.30 www-test-sign.bbsas.no
+192.168.4.53 order-test-id-rights.bbsas.no
+
+10.20.131.40 hm-eso-common-1-vcapsule.esec.test hm-eso-common-1-vcapsule
+10.20.131.27 hm-eso-common-3-mgmt.esec.test hm-eso-common-3-mgmt
+10.20.131.18 hm-eso-common-3-mgmt.esec.test hm-eso-common-1-mgmt
+
+10.20.131.43 hm-eso-common-2-vcapsule.esec.test hm-eso-common-2-vcapsule
+#10.20.138.24 hm-es-t-sec-1-vtrustdb.esec.test db1 db1sis
+​#10.20.138.25 r5-es-t-sec-3-vtrustdb.esec.test db2 db2sis
+10.20.138.67 hm-sis-t-vtrustdb.esec.test db1 db1sis
+10.20.138.66 no2-sis-t-vtrustdb.esec.test db2 db2sis

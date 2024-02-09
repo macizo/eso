@@ -1,0 +1,16 @@
+---
+# profile::base::dns:
+# - title: 'dns1'
+#   path: '/etc/sysconfig/network-scripts/ifcfg-ens192'
+#   line: 'DNS1=10.20.131.18'
+#   match: 'DNS1'
+
+# - title: 'dns2'
+#   path: '/etc/sysconfig/network-scripts/ifcfg-ens192'
+#   line: 'DNS2=10.20.131.19'
+#   match: 'DNS2'
+
+# - title: 'search'
+#   path: '/etc/sysconfig/network-scripts/ifcfg-ens192'
+#   line: 'SEARCH="esec.pp esec.test esec.sis.dev esec.sis.test esec.sis.pp esec.nid.test esec.nid.pp"'
+#   match: 'SEARCH'

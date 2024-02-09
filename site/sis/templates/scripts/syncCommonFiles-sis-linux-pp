@@ -1,0 +1,88 @@
+#!/bin/ksh
+########################################
+# rsync script to run on RHEL
+# main purpose is to sync a directory from a master server to specified target server and directory
+# Created March 4th 2015 prboh
+# Updated April 9th 2015 prboh
+# Updated March 2nd 2021 ehval added sudo for rsync, needs sudo for rsync for user on target servers
+# Managed by puppet
+# version 1.0
+########################################
+
+#### Variables subject to change for new servers/systems ###
+IPADDRESSES="10.20.140.6 10.20.140.7 10.20.140.8 10.20.140.9 10.20.140.10 10.20.140.11 10.20.140.50 10.20.140.51"
+#USER=root
+USER=bastian
+LOCALFILEPATH=/opt/service/masterFileshare
+DESTFILEPATH=/opt/service/fileshare
+
+### VARIABLES THAT YOU SHOULD NOT EDIT ###
+SCRIPTLOG="/opt/service/logs/maintenance/fileshare-rsync.$(date +'%G-%m').log"
+ERRORMESSAGE="Rsync could not synchronize fileshare for some reason at $(date +'%G-%B-%d %T')"
+
+SYNC=false
+### END VARIABLES ##
+
+usage(){
+        echo "
+        usage= $0 -s
+                -s Syncrhonize dirs and files in folder $LOCALFILEPATH to servers at: $IPADDRESSES
+        "
+    exit 1
+}
+error(){
+    echo "
+    [ ERROR ]   $1
+        Exiting
+    "
+    exit 5
+}
+logError(){
+        echo "$(date +'%F %T') [ERROR] Rsync had a problem and could not synchronize to $1, continuing with next server if any" | sudo tee -a $SCRIPTLOG
+        /usr/bin/logger "[ERROR] $ERRORMESSAGE"
+}
+
+synchronizeDir(){
+        # verify if there is a folder to sync
+        [ -d $LOCALFILEPATH ] || error "directory $LOCALFILEPATH does not exists, cannot synch from it then... DUH!"
+
+        # Execute synchronization
+        echo "$(date +'%F %T') [ INFO ] Starting Synchronizing:     $LOCALFILEPATH" | sudo tee -a $SCRIPTLOG
+
+        for ip in $IPADDRESSES
+        do
+                echo "$(date +'%F %T') [ INFO ] Starting Synchronizing files to:   $USER@$ip:$DESTFILEPATH" | sudo tee -a $SCRIPTLOG
+                # LINUX variant:
+                # Add the --delete to deleted dirs/file in destination that is not present in source
+                /usr/bin/rsync -azv --rsync-path="sudo rsync" --delete-after $LOCALFILEPATH/ $USER@$ip:$DESTFILEPATH | sudo tee -a $SCRIPTLOG || { logError $ip; continue; }
+                echo "$(date +'%F %T') [ INFO ] Finished Synchronizing files to:   $USER@$ip:$DESTFILEPATH" | sudo tee -a $SCRIPTLOG
+        done
+
+        echo "$(date +'%F %T') [ INFO ] Finished Synchronizing:     $LOCALFILEPATH" | sudo tee -a $SCRIPTLOG
+}
+
+[[ -z $1 ]] &&  { echo "
+        Please provide an input parameter"; usage; }
+#-------------GET INPUT PARAMETERS---------------------
+while getopts "s" options; do
+  case $options in
+    s   ) SYNC=true ;;
+    \?  ) print 'invalid option provided'
+                usage
+        ;;
+    h|* ) usage
+        ;;
+  esac
+done
+shift $(($OPTIND - 1))
+
+[[ -n $1 ]] && { echo " You have provided more options than you should\n"; usage; }
+
+[ $(uname) == "Linux" ] || exit
+#[ -d /opt/service/logs/maintenance ] || mkdir -p /opt/service/logs/maintenance
+
+
+$SYNC && synchronizeDir
+
+
+exit 0

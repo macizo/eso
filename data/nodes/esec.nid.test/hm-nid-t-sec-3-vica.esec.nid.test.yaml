@@ -1,0 +1,11 @@
+#RHEL 7
+#mount options managed in esec.nid.test.yaml
+lookup_options:
+  profile::base::ssh_keys:
+    merge: unique
+
+profile::base::ssh_keys:
+- title: 'entrust@r5-nid-t-sec-3-vica.esec.test'
+  user: 'entrust'
+  pub_key: 'AAAAB3NzaC1yc2EAAAADAQABAAABAQDlYdDq31ZJ10LfAk8lWNr8oxp7L0T5MFRVKRY3hUypnVVUPXCWthYc6ZsIwX1PX3gPPFUIPXh6q/+3sSPisL/ouyOhoq8QaQ3dPO0KsUtugvrxcP9ecFb9qDKu19yoq9eS7qngSB8pNBuNCRsqrPGS6DgU5WBIHJIk+ObMQiNQAc8E73QKzsnSe+oINvTjJBbGdMg8vPePLy2poBGTwMUCRRaDDGhKOuT8GEhoYVymH8N2JjrBcC+O4gQ4dwsIZSKFPrsVb6IhVMT9FM/FXrc4/u1Gbefx16jbMi9ll8Vvw4VfNNlSKdqmU+KCKWLP7p2JS2NETQxyA9/WhPv3gAbX'
+  options: 'from="r5-nid-t-sec-3-vica.esec.test"'

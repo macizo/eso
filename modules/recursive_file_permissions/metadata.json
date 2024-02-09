@@ -1,0 +1,94 @@
+{
+  "name": "npwalker-recursive_file_permissions",
+  "version": "0.6.1",
+  "author": "npwalker",
+  "summary": "Puppet defined type for managing permissions on large amounts of files",
+  "license": "Apache-2.0",
+  "source": "https://github.com/npwalker/recursive_file_permissions",
+  "project_page": "https://github.com/npwalker/recursive_file_permissions",
+  "issues_url": "https://github.com/npwalker/recursive_file_permissions/issues",
+  "dependencies": [
+
+  ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "OracleLinux",
+      "operatingsystemrelease": [
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "Scientific",
+      "operatingsystemrelease": [
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": [
+        "8"
+      ]
+    },
+    {
+      "operatingsystem": "Ubuntu",
+      "operatingsystemrelease": [
+        "16.04"
+      ]
+    },
+    {
+      "operatingsystem": "Fedora",
+      "operatingsystemrelease": [
+        "25"
+      ]
+    },
+    {
+      "operatingsystem": "SLES",
+      "operatingsystemrelease": [
+        "12"
+      ]
+    },
+    {
+      "operatingsystem": "AIX",
+      "operatingsystemrelease": [
+        "6.1",
+        "7.1"
+      ]
+    },
+    {
+      "operatingsystem": "Solaris",
+      "operatingsystemrelease": [
+        "11"
+      ]
+    },
+    {
+      "operatingsystem": "Darwin",
+      "operatingsystemrelease": [
+        "14",
+        "15",
+        "16",
+        "17"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "name": "puppet",
+      "version_requirement": ">= 4.6.0 < 8.0.0"
+    }
+  ],
+  "pdk-version": "1.19.0.pre (heads/master-0-g9316055)",
+  "template-url": "https://github.com/puppetlabs/pdk-templates#master",
+  "template-ref": "remotes/origin/master-0-ga58fd92"
+}

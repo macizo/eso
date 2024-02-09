@@ -1,0 +1,14 @@
+#info for puppet server
+lookup_options:
+  profile::base::latest: 
+    merge: unique
+  profile::base::ssh_keys: 
+    merge: unique
+  
+#pam::allowed_users: from common.yaml
+
+profile::base::latest:
+- 'puppetserver'
+- 'puppet-bolt'
+
+profile::base::password_enabled: true

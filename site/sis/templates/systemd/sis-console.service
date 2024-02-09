@@ -1,0 +1,25 @@
+# sis-console service is for launching the sis-console application as tomcat on the hosts that sis-console are supposed to operate on.
+# Written by Rahmi Acar rguld@nets.eu 2020-08-11
+
+# Systemd unit file for tomcat
+[Unit]
+Description=sis-console
+After=syslog.target network.target
+
+[Service]
+Type=forking
+
+ExecStart=/opt/tomcats/sis-console/bin/startup.sh
+ExecStop=/opt/tomcats/sis-console/bin/shutdown.sh
+
+PIDFile=/opt/tomcats/sis-console/logs/tomcat.pid
+KillMode=process
+
+User=tomcat
+Group=users
+UMask=0007
+RestartSec=10
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

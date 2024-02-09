@@ -1,0 +1,255 @@
+#specific data for SIS
+lookup_options:
+  profile::base::files:
+    merge: unique
+  profile::base::ssh_users: # looks up the data from all sources with the profile::base::ssh_users key in this case it finds it in common.yaml
+    merge: unique
+  profile::base::groups: # looks up the data from all sources with the profile::base::groups key in this case it finds it in common.yaml
+    merge: unique
+  cron::job: #looks up the data from all sources with the cron::job key in this case it finds it in common.yaml
+    merge: unique
+  profile::cis::allow_groups:  #looks up the data from all sources with the profile::cis::allow_groups key in this case it finds it in common.yaml
+    merge: unique
+  pam::allowed_users: #creates a hash from all the sources of this key
+    merge:
+      strategy: deep
+      merge_hash_arrays: true
+  profile::cis::mounts:
+    merge: unique
+  sudo::configs: # looks up the data from all sources with the sudo::configs key in this case it finds it in esec.sis.test and common.yaml
+    merge:
+      strategy: deep
+      merge_hash_arrays: true
+
+#A unique merge (also called an array merge) combines any number of array and scalar (string number boolean) values to return a merged flattened array with all 
+#matching values for a key. # All duplicate values are removed. The lookup fails if any of the values are hashes. The result is ordered from highest priority to 
+#lowest.
+#https://puppet.com/docs/puppet/7.0/hiera_merging.html#merge_behaviors
+
+cron::job:
+  'puppet':
+    command: '/opt/puppetlabs/bin/puppet agent --test > /dev/null 2>&1'
+    minute: '*/15'
+    hour: '*'
+    date: '*'
+    month: '*'
+    weekday: '*'
+    
+pam::allowed_users: # add users to this list
+ - 'selum'
+ - 'mssye'
+ - 'visar'
+ - 'csson'
+ - 'mfsir'
+ - 'schel'
+ - 'kodeg'
+ - 'amwon'
+ - 'visan'
+ - 'hajen'
+ - 'aglia'
+ - 'omart'
+ - 'vhcru'
+ - 'fnesv'
+ - 'moagr'
+ - 'rkari'
+ - 'hsugu'
+ - 'msure'
+ - 'krcho'
+ - 'bkjag'
+ - 'pthop'
+
+profile::cis::mounts:
+- title: '/dev/shm'
+  options: 'defaults,nosuid,noexec,nodev'
+  fstype: 'tmpfs'
+  device: 'tmpfs'
+
+profile::base::ssh_users:
+- title: 'selum'
+  uid: '1130'
+  ssh_title: 'sis_developer_selum'
+  groups: 'sis'
+  pub_key: 'AAAAB3NzaC1yc2EAAAADAQABAAACAQDMB2Bt+zkUrVHEl4CXKbEqpuzYFfnmrLWwmxVJjSOpOcry+emxVcdABlvTs5Qw72TKFmdrdJZaaGlI09toGLeyCGuB3NBtzOe+2ua+C9p3LN3WOAdXByq+6irU/paa7T0D+QEi5p+iwY0zW+Ij8ZHwo2jZ3fI+jGDPUb9toJzSqbKqs01Uv+f6LguoixOTAAdoWYr7S+aLPJ4sbsNgAPXLkKCn/Z30pvmbHLCYDRlj8UfoGoCMedg43ghj/zop1LoYMgkFBX7TcuS0iOIpONDY7tDTjeSp71ldVJe655AQqqzJiK29AiapS1LPK5/bg4Nj9UL/AcpInJ9+UZbOSfcfyaw86v9VE2REndhEEYGvmnSNeM9lR3vFhfuwoak1b4XlivfET52Rv1Fo3kFWccITXTzs7TlXsNFZVL3EGwV3zXPKOUh0joHdwQolYAhaGUTrbmJFWUODDa4k4guFez8J50PhHoND6UEhRccAKqxj/k5uuvIc8Q/7iF9+P/4DX227dd4osm419yl49tWJoMAtUQIIzN9uV4mxmdeULP3/JQncshOmsNn/jTwyWff4J+TZOA1aQziBF+d5ucN+x9nmcW1/CE9PnwSfHf8Cp5noWVhZeJrb2Unn4R3QmqYkqJiPBioqJ6I1vWW9dpimzDC1An0T42jZ2qxrQuplnkqkMw=='
+  comment: 'Personal user selum'
+
+- title: 'mssye'
+  uid: '1135'
+  ssh_title: 'mssye@sis'
+  groups: 'sis'
+  pub_key: 'AAAAB3NzaC1yc2EAAAADAQABAAACAQDGUlt07PnOnxTmyxjxxOuc3So+Sv/EFfG9pKX9KdLUWLEEq/Ivy/2WwaWi58roK81sXM9spmDJSE1hwkfkR3aqcjvlrA4z1TsrA/raMF57JYkSJbhdnxzpVxq+2IxHlwlF/J+d80hb/5hyD+63jSbMkMKAIOFb6AuGXr+MgMfCe7anR5xj6udAn3Rpf3hFL2JiZl1nyPRifE7VZRC7u+cZcDsNXFHi62yxBoK3noWravYhDiTvMWWi9qRjPc0neQfxqjLUDY9MCKg7YyoTy+Z2SNb9bfLx2i9SJB/k9cPmsSUf7Dhn2WzskIvl9txeZOKsrxPLZ2i5OfR5LDdkzpEuW5gp+xhmeHK7gucnDezierQXq/hkgC2jAa7ckw9fqfOCU5kus7r1ar0SW8teFW1IcRU7J0OG1Xo38YEKT2FhckMjqa9U2hq/SnyKv23ZRGzepYSZZk4t84bZSWDAhshYVDlv+D6qTelWKxbYgojd6ehDSUASXdOsplSUWHWL9UgpUQweIaPndyxq9h33PfTrsXlEfZxWIKyu2bKuEujVH60650r5W0iV1gHP1NSy6EXR5U7o6w2p3nyUsdp53VSgYmRmoEFr4qVKckeFuMlQkztz44Zt7+WUYNmybI0cLEXRJSavOFBFAgIxdOh13dlwXeHrg02AhhkbRekyoD5knQ=='
+  comment: 'Personal user mssye'
+
+- title: 'visar'
+  uid: '1122'
+  ssh_title: 'visar@INCHNWRK000181'
+  groups: 'sis'
+  pub_key: 'AAAAB3NzaC1yc2EAAAADAQABAAABAQDCeYM+YEgiZQw+bLXgf1CBoThNYAaYYwBypgREQaGokuXAAdA8WTWdEtZed2bZXj3xNZ0MOi9It+yO13drbLQpuFHTxCTsvSlQrFjq45uWB+HgLW4FlVR5GsvS73tUIkjQlRExglPPfLXGFTPw8kGIwO222P3XIB+HtJIwb+IqpVCCHJbOHEVuwXlXhFBv9lxwtSuaqiluKSKD+cyZANV9v6xio0Z9RYpALS/zLy58hika0tmsyicfI4mp8mubplsFVGC7lLk8GSZDWNm82gpfRYm0VLCJN9mo5d4OxQAAFoWnHF5McSHsiNxdoTgKtdJCpnO6WKyVlAHUgt9YyH4n'
+  comment: 'Personal user visar'
+
+- title: 'csson'
+  uid: '1133'
+  ssh_title: 'sis_developer_csson'
+  groups: 'sis'
+  pub_key: 'AAAAB3NzaC1yc2EAAAADAQABAAACAQDk9ySmK4WGLJDi4ReYQ8ifC/N8QnLgcj3BQCZr9/+CsM4rC0r7uAoAWO5RfQ+Wjgy8dd3ebnyEbx+38IALB0D2wWoqPIcwCIMnYJ+xDODFlkC8gfsG5uW57FC2mR5hAITxOqLEVTJOCam6ApiOzokNmhwER69LrJi7gUFbSHoBhXEej19IErExB8I0DMTgfPgtHTXfjeVg34bL7IBrvg3buOfJoJnn0a5GJA9FLKkcjN3RAG9czOUwjTuWDxbWFP+VhQu7X19vx1p44iD9QPFxyYzN8jrBqvoJHbxBL96tY768PVLc0rd8ZigcQP/v/pvxZ6Xfir5g5sw3vzvvV/0CzCw/lEExT7hYE3vq/L1krCcil4xawgCAbOdhPQUT/Y24KTwwgzbSqZiwi3N2FT42FwD7AB5rh/j5zzIou48j0J2QLyMinN5SP1zKCpEZbS3kfSOhlR6DVR/x3GhF09sxeTOtEe9xFoLRIGFun9OrQG+j4Mjt21iRDQYmK5hRKg1CGmekhvo1pRo/aY94EE84jM9NzlJ0tnQo5fdriINzMHbhcDbMQ5cTLY3nOCElMwQzQJHrxVZf0JXyR3zxlK8ivE4mSGd/WBEnZ5dtUIttoG9uQpZK3a8I0Zpe+nCmG/XjqHpSLTS+kiFqVDthqUBgU+LzBGXGiPsEI09OiVvsHw=='
+  comment: 'csson user'
+
+- title: 'mfsir'
+  uid: '1131'
+  ssh_title: 'sis_developer_mfsir'
+  groups: 'sis'
+  pub_key: 'AAAAB3NzaC1yc2EAAAADAQABAAABAQCm2caBm7zUB6fQhfbSMRDx24KNyj+8qsnkNpSktipU5K4CNJtseMsgsBLXa8lUINApIjxK1XIm2z+3CSHuTqP5n+YerLqqT+qcYv9whgIrjdGA8/qpqkGHIvbQdKU40j0R5Sx5J+h3J1Pm0YddK4Qxv1QQcM8O3b6K9RUqYiMY46L3pehX4Rz2+CHMs93gOUbsWcSEHmp6PGHzSdcNmrohP/qS6TG+hY9fgX+W6UMWm85tVo0VVQbxHHi2v2vaQ1gnNsJ2RdeBoI8eZs7zVxU7zHg6SfSNgmojurgcW/ESQC/fw9Hc7vdh3RwPgL/Oj+tGKMrEvdcfNfVUy1vgtPK5'
+  comment: 'Personal user mfsir'
+
+- title: 'schel'
+  uid: '1112'
+  ssh_title: 'schel@INCHNWRK000150'
+  groups: 'sis'
+  pub_key: 'AAAAB3NzaC1yc2EAAAADAQABAAABAQC43ay7yMvimrDEyi0ZXx5O/cMgX49Zj9+hl131oNiaorV22iu9ppE27NOKHqfsM8E8v6OAEg+P+vyRSvichJ2lqixSpnKLqEa2eTdtjMkNu44MtwwPI8KqK4jGACWiGfp71U9lDM8XAKxh+Q/g3WftjO6SBk8jzTwK5PWaK8Vd2fzxqvJgT88fUJ5+tlNZTVnnK7m2RU9T3Kp9mDsCG4LVpSw2Zf2jDuT9kqmZ/hhjlbxAIJAJdC3zVLxfy1TSzAbLnRi4KDvIZUEFGAzZB4dsL84GGrQWi7fvPtTQ9ln0VGtgBoqGvDlu3YiNHat6w1FgI/cf/mpUDljm5mrfTs7D'
+  comment: 'Personal user schel'
+
+- title: 'kodeg'
+  uid: '1110'
+  ssh_title: 'rsa-key-20131017'
+  groups: 'sis'
+  pub_key: 'AAAAB3NzaC1yc2EAAAABJQAAAQEAoOpqIjL6UWiRZ4m9V65KKmUOuYTwR6/HSuYcV22R26viYYJbJLKAgBX/hCiYH4Ndi+yRdtvHFc1qITzZmB+ociJqQ+iNcdtFVLCXBzQOd0Ql46TEMX7+PoLma/VBWIv4Y79ihwHndGcIy/2nX4rAjHxgFwGYo4A9Yeg0XnR/zZ0UbqyA1N0p+hRSJvOXexYdZkb/CUzu61bsRzefaN8nvzDHSkzmlTS4ap+v9dyqWT5j1M/hN2JuZPgIMmIPFpFttyesAnVi2+MozQyllDVgJWqMJ6BvP2ApGqBkH536PSoq9tzFMGycSZVVQinfJLEnvjgtyrSCIdNyXwD9/I8y3Q=='
+  comment: 'Personal user kodeg'
+
+- title: 'amwon'
+  uid: '1123'
+  ssh_title: 'amwon-rsa-key-20151203'
+  groups: 'sis'
+  pub_key: 'AAAAB3NzaC1yc2EAAAABJQAAAIEAl1yhS4KAsa1rrnL9dYP8TiGhAQTMTedJxGOQOqtWcozzFMIQKsSgXic2EQYki1ZnpApwynNA+wsONozWYTkVzlDqbr1vn9eCngvsvKxVhqF2xdJr54Hs1WhddQwzdZAR/eZ4XRpV0LUlMkSfV7Qa8Avmk8cqKBDpccOsAvDJsz8='
+  comment: 'A developer user'
+
+- title: 'visan'
+  uid: '1124'
+  ssh_title: 'visan@sis'
+  groups: 'sis'
+  pub_key: 'AAAAB3NzaC1yc2EAAAABJQAAAQEAsrAukqPih9cj2psnFztdqfMww+O2kl/h/IN8VQVSBL21splgs4i+BCd+yKU1ruxB/ymDJgGoblabK9GcIIZSZX7BpqsjGlugjpa3YI/4mlkxjm6Lip+LMZ391w6BrwZ4parVJ2WItGqn2yZ4RRcNljLPHCpe/lEqpCFI+fKIPF2ocrBic6B2Z9PhjZO53zux0HjeybGnZRdFh6jz1GicmM6FOIBXdkqZyQbFqPtMvpH8Q3x0QywIhAEZf+0MGV1vfnfAVUfISOo45nrJSor0WDmCqmXtcFaXOoC6XXgrOYX2xUVCIESStZibG/wXCLqsEPLkFCTIT3yZTq3qmUQIlw=='
+  comment: 'Personal user visan'
+
+- title: 'hajen'
+  uid: '1114'
+  ssh_title: 'hajen@NOOSLLPT104466'
+  groups: 'sis'
+  pub_key: 'AAAAB3NzaC1yc2EAAAADAQABAAABAQCcgfVLFkoVYloR6WhqLtMKb7T9b09yR350aviuQkRZarVeuImYW379oeeE5TgALyAE5Nq3s2XdfWcfwfgPidj0YKsfXSN0j+54+PG6csuNtcoWPj9goqf6yJnu4Wu3YDehS/ClsI+bO0i5kWD9lcd1uBXmJo5vDuxlQR3hSZYcCrTKNe5yphbEtbc5WYq/bYQ4BrDQtLUlNLKpLrfB1QPP8pmRg+EU8PTEjS+Kr8LSDEWnaJ2jwFaAjeDMolqUJa0JLm8f/tMhzHtKN9ZSxMQOVpEVhJJqGWySOE2a6QNMcxijXHGOSGrlgph8NztjSK7YtXVIRu+njwWzGqmRx20v'
+  comment: 'Personal user hajen'
+
+- title: 'aglia'
+  uid: '1118'
+  ssh_title: 'rsa-key-20171003'
+  groups: 'sis'  
+  pub_key: 'AAAAB3NzaC1yc2EAAAABJQAAAQEAjs7GoWUUngq6bv5Nozz+qEJDiVt0FJL3lQDDfylYJmOxTM57MJ0UpL/Y8m7dyXR2dr8hcUE22lcTuhk0fK0zPE3yhFO4W/tPRhqomct/+wIqUjzqFtGQwL7EOfIPTC3dZocGUoDVkPhLkQ5hbcT4qJ2bWsXSKBXpjwImJdZA0RI6Eg/W5oDee8rHITS6ZW1kXsmOUaYfYymAjF2Jwhk53mokY1z8P42tA8mRjeYy8FxR9Ln/gJJPcQKPU4J+Abc24YlBcWULEfnTRicvrWT4zt4nMESPN3d9NRLUdL0hGi7rF+ydcvFlrdxVngMeRqQorkcXav+q7uD4z4+NRg6oHw=='
+  comment: 'Personal user aglia'
+
+- title: 'omart'
+  uid: '1125'
+  ssh_title: 'rsa-key-20180214'
+  groups: 'sis'
+  pub_key: 'AAAAB3NzaC1yc2EAAAABJQAAAQEAwF1wqpaCiaOWhgYFrnI+yUGW6ggnhpGvx0YRznM8kQkAIGZegzNDS60ObDsoQvvmOX+e3D8zeBWUISJ1Kos6jhAshyncOwytsLc5BNj59C+vszi28FelzLUpR2MeEKEG241t46/ybhfGo4FVoQBUdiksPMcW+gGorxnQN2zU7/SXBUeUVw5Py9qEhfQE/nklDttAsTlWmNLgn2yUh8uVmuhJKcb/sdfPIneS69vmSet2oj0iM+DlbDYZQ6gcrX2ISOJAJy3vyiyYOB2H6oupdgBRa/wtSaWk5rWff9o/nSRBVMTYLzF0ozVSNYAQN8VgIPzmAWOeI35kBhrVSjNCdw=='
+  comment: 'Personal user omart'
+
+- title: 'vhcru'
+  uid: '1126'
+  ssh_title: 'rsa-key-20180214-vhcru'
+  groups: 'sis'
+  pub_key: 'AAAAB3NzaC1yc2EAAAABJQAAAQEAis3RKLibL24HHnQOlCFJrqTd94P54cVyjPY/cPIzXHvBRF8/lc7f+eVBW4eDfozYZl8TeUM+JbCJ45cS2iCih6QB62+WaSiB7g0H2c1Xk4miZw6Z+0FDkRENlWuLL7bfiiHJkx6uekknEr3rYbsHfqLgKZg6fa7Nml5r6Ucr/TV0kfg7xmKcoJYv1C3ss5BpN2KXVpSZXP7Ksw0n82nyhHtaaxE+ZfLdl+sjMQ27UuBMrP9QXGpdLUg2IUDcFM+3O4qM/AJWc5KCgJZISkd6xGo6zctVrcB9wok5G+wNBRTV9bvjkgXdX9VoXnNBoI7nvYz5nzWVmV9HndqDi6VW8Q=='
+  comment: 'Personal user vhcru'
+
+- title: 'fnesv'
+  uid: '1116'
+  ssh_title: 'rsa-key-20170913'
+  groups: 'sis'
+  pub_key: 'AAAAB3NzaC1yc2EAAAABJQAAAQEAm3HAOxlSUllO5H8u1234eXce1UJvxjYeWxFh0OKR6mb6lJ/Lhyx+hLv0MWSCjV5/lUvmbOG24dK9n17MLlBe3ejHCBdVN6QU7bo+8JkOFRRVKd9rbdOxFPGo9YNwLuioM7a0Wt6GTr2ov8os1tnFNSKnQgdsQ6QHgLb2+jSNDMZf08H2s6zQ/8LaMtpGXlGqAFhwWU29A/s4Su37oMT2sgo7Cg6guM/3Jmu9YmsrKLrDb9aHVQedAVHX/JQf3LITfjc/jrT8ZyVLR91SPaRNWDVcO5h7dSh16X/QLaOVcKrEZtxR0ujMr5W4gLNtkdxazPCOrK1d2wqxsZwTQlNsWw=='
+  comment: 'Personal user fnesv'
+
+- title: 'moagr'
+  uid: '1025'
+  ssh_title: 'moagr@sis'
+  groups: 'sis'
+  pub_key: 'AAAAB3NzaC1yc2EAAAADAQABAAACAQCykzMXFLqs7YfvlcKI1KJ4Z78bhUp/kXv/orZ4i2fau9xK5dw5GqA+GidUotaLsBBH+FTKM4h/nOx/YyR1YGKeNmVXKA6VXSaHsRQXGfTy6NPeZNHPIwRcAeZlt9O9XiVJEX0d9OSxxjNVNGDv0tWUseMCaDE9so16wiTgg8uTlUZsnlCTj2AYahGQnUEduwAPEpVUAwe0oR8yxi0DNU4+SAZLUbR8RIbRs8WZNTLiEjzR6d34fG4cQTVSVXwW4SiREFNwfkgCKHZZaKFp9ZRmBShfvZTsZlusbF4I+pB7RCGCGDs/JjHZM0Ye6vJ+GAEFEHSQR8tZxXTDb9a0UBcOFuk8tuSgSvms4o4o9eoJzy3v7oLrODbGRB50Lpau4THFiocXNE9Qe1B8jwNduf2KwBf7U/X2td+mzAFX/quek1YdMT/OM+X86QrE9RYQrsLHFxHwb8oTGGKJ3hUWWoCCaY0HOqfK5VRvln3kOyQtrVbrqeO8DZhvHBQRnmYngn+KzkvWHgAF9nfNLhJ/GBRgY7dEMeG8sssJokrjV3ujeNQ1eCoQtdY7Dj19wv2Qo8YVtYy1VidVp/gbdDPcQzDqEGNHlHWFimKbiXFRcQv+Ov8LtpM61Wuxi564IGUVNKDArwu9+S5eXaUenPUqJ1u/RteAKnctMxXFYddmD4B23Q=='
+  comment: 'Personal user moagr'
+
+- title: 'rkari'
+  uid: '1121'
+  ssh_title: 'rkari@INCHNWRK000181'
+  groups: 'sis'
+  pub_key: 'AAAAB3NzaC1yc2EAAAADAQABAAABAQDZB68HKBfappBKbJCFyeyIhwRzkEvS3rwWBhnTIBumddYXts8RdJNmuKlzMKw8XhtEy6VXhrAcxvH0ywnNa3J/KmUTxfb3cWzKh4VMjjTz9iVTGoB4bReD4iu4+MtT10e4tz+5I908mgmW1OQMuys1CLzAKDjJvVlApVkLrdKsUbDBhj4A35ymkXOnrsgSpZjFx0N+IaCnRh/zQtjtGbvhnHJyNa+l0IT5r/i+EDoHrhGCvmsCjM3f0dk1gRU60IKStN6KOkQh52lZEyxb8LkFMvz/srfee4PLkK3ZuPuAEV8qBIJlVun2nA/xDIsTAw4RIWGztUp/feZCygYhK3o3'
+  comment: 'Personal user Rakesh Karyauppa'
+
+- title: 'hsugu'
+  uid: '1030'
+  ssh_title: 'hsugu@nooslvdi003704'
+  groups: 'sis'
+  pub_key: 'AAAAB3NzaC1yc2EAAAADAQABAAABgQC7OdPa3xbSgwlu48BVTri2XHUoCvaZnIzYXyEW56tNDsJUdnEwF2WIZx4FpYym7lyB7bNLJqO6IXguCrbgWE0wT7ONyUBKqyfcXwFKr1PFmwbLFdBFAZ2Dub9oXMo/c/wsQrSO6znBvgUwqQUxCczVKUVqGRmBuDDqMpjAkwzj2ID7O/x894zsxpLv4FuAjhVavo2wojq7ZKfkntTUwPovkI5RmEKxZ+w8SqhGWvns2L2Sb7DkNFyR49TdDrf4IkLNORnBuoeIONLbndemDOvsk3oJdTkO3QVE1TspuYFnF3WCVsfKLFg0SEliSlwnrwe1ZAOIt5VNqg2y8LRi628e8W7nu9M8aNyliSmPN4a27lct/Sc9GOT2yprKSrI8d6JCL+fTiI21naebp8J2V6Wch+NVTLivVoCq1A2+Ao+ly5+1T2eMPHmUJBc8L5rkvpclezcrynGTQAlrywXRaX/ViWBnOEKSGlAjWhomhqTeh9YQy/5LulhiJKjjlpZiB4M='
+  comment: 'Personal user Harishma Sugumaran'
+
+- title: 'msure'
+  uid: '1031'
+  ssh_title: 'msure@nooslvdi003099'
+  groups: 'sis'
+  pub_key: 'AAAAB3NzaC1yc2EAAAADAQABAAABAQDHuELy/0hnJSMlgwI/OkFoZqOFsmFnOG/G33jFMc8nyM7lj2gFtnq1TdBSLlaOUtxgO8CeN2AmoJLMk1MfU720lJs/S6yTepLVLA87iJjkRMQLCJH73MIp/oVaBNxzSDcVsjqTzahVJuZjvHBRoP04YzCVgeXaNA+8yRQW3wYERZ16alMuAzWqf5L0pK1srk+GoFfbiLrtVix3WiiRC8zofP2ubBUQUNhK4nEYuA9wpdpcjfIGb9TJvxqCdtua0rfg7RqXISFYiPR9yEADbEoXomQLFjlhDbx86+bGga1X9k50mA+GPSGDzXGKrDcCA7K9R3ZxY2grwMmVNjUj6AjZ'
+  comment: 'Personal user Murthineni Suresh Babu'
+  
+- title: 'krcho'
+  uid: '1032'
+  ssh_title: 'krcho@nooslvdi001923'
+  groups: 'sis'
+  pub_key: 'AAAAB3NzaC1yc2EAAAADAQABAAABAQC6LWIWbIH8m2m8qseV9EFNXg6tf0a0u98rPIBLfdLVNAMJDxlspCoG98tgkAs8wNkgPTv/2pcUevC3k161cVMbqFYcbZBPRl1Xdqcd0OJyZH8j74LxidDpWHPcmqoceMenh2qDvdVVcotIv2T+6mAEvMWV0Hi9qYlf2w1YfScJOeZhPZZN9c0xkg0hCbHQpc24vsop0srblL6iTdau7fVx3hJH74D/XlEq2gPj/kdM7pNKd8e229CPRZnxLAFknaCEqiHF1wvPpWHcA6zOSkxcRl9/xdXZ5Q6aR2WkaZg7aTqP9T5BCPlMj7qLX3yx/9qfJL6L0c6mbgRdBQ8xq2Tt'
+  comment: 'Personal user krcho'
+
+- title: 'bkjag'
+  uid: '1033'
+  ssh_title: 'bkjag@nooslvdi004071'
+  groups: 'sis'
+  pub_key: 'AAAAB3NzaC1yc2EAAAADAQABAAABgQC5WY9iqBWFWVQRzax2DGkPSYeqe66njaq5XJypoGZ1PdoXWWM5Pr1iVYQoRgtdwAZUp4GjVVRkerWjrxB41e3LGrvL96W6IaKg9bveWNbzQfluzdVkw3rPXWwAo4mGfe8j9za2Q6N4cPawEMYobemW9+Te/AZQm3mT9oCTDTr/MuPclh6+/U5tWPQPbiyBswCqgXjgoAa/TbUfwHVQNPttN2gp1G0jd3e0cUuEKxaDNCQOwpbqO/8DtI2z8Ob/42bj9SgvmekZA0duUADs+ZEUpxoD4mvEZh8QcqHfQOe+28kusa+D6n+0j2sZsu1ZXhTH7d+rrsA1eFB3jgkCdewmFdI3T1X3j3VKfJWIQT++bfVKODUv6QncUMaOQPheBBimXrZnryCOkSSPSFRDKwUK3KtvTLbZ+XeXAs5NjgBeHss1vivCXc3Vg5J2J1JP3ZWsfmP35ajXeA+G6Z5zCDYlKY6OPLLy3kUu9hUWUezM8u6XoQHWW3Du093DU/3at0s='
+  comment: 'Personal user bkjag'
+
+- title: 'pthop'
+  uid: '1034'
+  ssh_title: 'pthop@nooslvdi004066'
+  groups: 'sis'
+  pub_key: 'AAAAB3NzaC1yc2EAAAADAQABAAABAQDZPCjAgjv8NAZ2oweEjTl0gUT5NcWYyIoBdvS2Ln5UKsTYQMLatT1u2ZLoTgaYIGg9ZRsHKxS/nwoHy2Q0LXesGimKh5UroDjqBuWQRHoCj+/czm/lAPj5499tjiC8F1T1X7/ugV0iwzyywyr2N3LnCsefW/+8Lvq72gsWZd4OGnR26BDHrpLy7wqmaaJKrRO6DON8y4LkA7fv24bTVzL4zoOw2AE+9j5+faT+z2UCCRJrVu9As/xNH4lVpkUwoNtCiw5mNrUho8DqC693Cr5p1QW6NyJF56tUZlMs0SKV082/ab1ZofItM/mmN7oxeYYJJkoR0mgalItzxGxp/19b'
+  comment: 'Personal user pthop'
+  
+- title: 'ssant'
+  ensure: absent
+
+- title: 'test'
+  ensure: absent
+
+- title: 'entrust'
+  ensure: absent
+
+- title: 'rguld'
+  ensure: absent
+
+profile::base::groups: 
+- title: 'sis'
+  gid: '5001'
+
+- title: bvaktnemid
+  ensure: absent
+  
+sudo::configs:
+  'sisSudo':
+     template: 'sis/sudo/sis_dev'
+
+profile::cis::allow_groups:
+- 'sis'
+
+profile::base::dns:
+- title: 'dns1'
+  path: '/etc/sysconfig/network-scripts/ifcfg-ens192'
+  line: 'DNS1=10.20.131.18'
+  match: 'DNS1'
+
+- title: 'dns2'
+  path: '/etc/sysconfig/network-scripts/ifcfg-ens192'
+  line: 'DNS2=10.20.131.19'
+  match: 'DNS2'
+
+- title: 'search'
+  path: '/etc/sysconfig/network-scripts/ifcfg-ens192'
+  line: 'SEARCH="esec.sis.dev esec.sis.test esec.sis.pp esec.adm esec.pp esec.test"'
+  match: 'SEARCH' 

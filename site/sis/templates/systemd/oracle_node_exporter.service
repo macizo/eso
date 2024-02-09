@@ -1,0 +1,19 @@
+[Unit]
+Description=Oracle Node Exporter
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=oracle
+Group=oinstall
+Environment="ORACLE_SID=CTRUST"
+Environment="ORACLE_BASE=/u01/app/oracle"
+Environment="ORACLE_HOME=/u01/app/oracle/product/12.1.0/dbhome_1"
+Environment="PATH=/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/opt/puppetlabs/bin:/home/oracle/.local/bin:/home/oracle/bin:/u01/app/oracle/product/12.1.0/dbhome_1/bin"
+Environment="LD_LIBRARY_PATH=/u01/app/oracle/product/12.1.0/dbhome_1/lib"
+
+Type=simple
+ExecStart=/usr/local/bin/prometheus_oracle_exporter-amd64 -configfile=/home/oracle/prometheus/oracle.conf
+
+[Install]
+WantedBy=multi-user.target

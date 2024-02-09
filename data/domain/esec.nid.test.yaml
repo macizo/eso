@@ -1,0 +1,134 @@
+#specific data for NEMID
+lookup_options: 
+  profile::base::system_users: 
+    merge: unique 
+  profile::base::ssh_users: # looks up the data from all sources with the profile::base::system_users key in this case it finds it in common.yaml
+    merge: unique 
+  profile::base::groups:
+    merge: unique
+  profile::cis::allow_groups: 
+    merge: unique
+  profile::cis::mounts:
+    merge: first
+  pam::allowed_users: #creates a hash from all the sources of this key
+    merge:
+      strategy: deep
+      merge_hash_arrays: true
+  sudo::configs: # looks up the data from all sources with the sudo::configs key in this case it finds it in esec.sis.test and common.yaml
+    merge:
+      strategy: deep
+      merge_hash_arrays: true
+  profile::base::ssh_keys:
+    merge: unique
+  profile::base::pkgs: 
+    merge: unique
+
+pam::allowed_users: # add users to this list
+ - 'hnata'
+ - 'subha'
+ - 'vivku'
+ - 'skmat'
+ - 'pbatc'
+ - 'shgaw'
+ 
+profile::base::ssh_users:
+- title: 'hnata'
+  uid: '1057'
+  ssh_title: 'hnata@NOOSLLPT114575'
+  comment: 'hnata system user'
+  groups: 'bvaktnemid'
+  pub_key: 'AAAAB3NzaC1yc2EAAAADAQABAAABgQDHP7d+Mi4FVAgtdgHrfhjdN1pmcfcqX8eufXhr+j4Nkv+KdWDmZ2dPnZiAhiuQzRUTR28PnHdR6872RTn1B8qZ7LiFpmnPolmRLHIv7DKOlNOooCc2maZ/TUfPSucetrFv4NdcHokq1sa3+WJqlnVGiuhf6BVUND5hHzWYGe5jqaGILvP92POwJ9Ufy6BIdxGhATe3NHOCCfLBwwOrTvuHuHrTDfioR2Q6oOWNIsL9VowZZEacGT8VeKUx5mNe8lumdp9zdU6tLdlnUeToaUymB+Ah183mHkT381Px+1pW8tQMYeT12G+f4Hkeng3DHplbVTyAxd1/GsmFEsaI/jqcgRY94T9Vtrf+ZMnSofFQRsq1JqRP1OXGO9S3uQDWJ0ydXGfPT2tZSewKPx09aFj4iqniVi3umPR4NireMlfh72/LkP/FqXBEb2BPVNr2p9uQBs9QgR4S9Xsd/IMfl9sY3G7aWVmIORSc5w1/1TxAYDAvVcbLwTvZfGlfCo6ffuU='
+
+- title: 'subha'
+  uid: '1059'
+  ssh_title: 'subha@NOOSLLPT114897'
+  groups: 'bvaktnemid'
+  pub_key: 'AAAAB3NzaC1yc2EAAAADAQABAAABgQCdHPhJBHzDY+Ray+LsSHw4sYxWbjmI3Z+i0k1SG7mv5JkulNa97atwBGFFute7tv7p7absSVHBFUHaVnmMQdu2nQUqAQKZqDTpWywj8HT+pd7Z9hBY5Bhkxt5q+3B4bLjI9ZCF/ESCd3PnAZLfYdusILKwlEyyYCKk1OiO3eE2PJw+BOKX2yqWYgzkfyl7dNgOWmTO2+ulG+k5QTrZtduJMr3NA/j3KXl4ac5vJWsUkxg+pBS8AxgpkhVow5w3AmDUkXsmq3NYK/i7DprLQjeQJWZjf9RLqtIchURCy8uWLBc/6/sPES74g/KN5vY4QfOGDxUKsSPJT1szzTvjip44T7TiO77PljFfC62CD5w9ymMV5QvDj11nHUIqA6hdzedRKJumn/tUNTLdSVBZ552QiRRRAA0yfA/Q6P1YS6BlEgrKE2imUZ4D6R7EXtZcVxYSOkqpIAqQJDMimcco+qEX9wiMZUXhXC7JrDEoRVROJt2NCyfKhtepAkHptlPfi3M='
+  comment: 'Personal user subha'
+
+- title: 'vivku'
+  uid: '1140'
+  ssh_title: 'vivku@NOOSLLPT120823'
+  groups: 'bvaktnemid'
+  pub_key: 'AAAAB3NzaC1yc2EAAAADAQABAAABgQDl2hbE3nBJV61sq2yw1SZjhzOcKnp80ndgZBLVMYicLhXKODSOgJoXi2l0S8kjP0Z1zVgEJ2ONSBUvZ6RjQPJfWNSeMXR9Mo8L1sOX2tuCSSPDpemeDn7UrAmVPrCOtg2xQ+fuqk2fXWx8jKyLsEErnWgCsRIklEIDhgvE6tqS9155I671AOHf8YfF5d1Hjd2/XhJfi4w+FHekGz/xpIHKXoWeXvTlW1GViW4nGG7LNpDTs8q4++PYMxHF2pFyOFRV59Hmg/mGik+/YfrIr2YsNM+Sy5G+x5623fxyeH9pDbEDFMu4ijh7Lv3F1UgEkjOZWmj1sMFFyXfC3jIpnw+nUjw2iee5dxR4VE3D96iobXJmU8QjxR1VTcJ8uCPmmSs9zQjtB0h02HXunBtAMOncs7wOukjgPc6tZIBYU19H0SpNphc04MqFilPvQNd5bGUGt4WrFyCBVSCPUP9zw4pdcvNroVIdRs8NzuHz6QRjtx17Ca4M0mmVXTEVsG+z890='
+  comment: 'Personal user vivku'
+
+- title: 'skmat' #hm-nid-t-sec-1-vpca' or $hostname == 'r5-nid-t-sec-1-vpca'
+  uid: '1058'
+  ssh_title: 'skmat@NOOSLLPT120404'
+  groups: 'bvaktnemid'
+  pub_key: 'AAAAB3NzaC1yc2EAAAADAQABAAABgQDTLyhAfr9yin+xvuI3Px8My0/js+DEwbShfFriVaCDptvnoSQsppZJ9bu15tHsINQKuIIgGMxtXIIpPy7wzjBIM9jpMZUfS3gZDc2z+Cf1jg9wC4gu5Ntqh7dHfax37d6h15Ku1CNIS12NfgsF8LdZLCp5KqXNR3/TWSh0yADWWXD89nMTAq0UPWk7c5fxtw6snT/ulBxjTSllRbXTBHcs/0k7c+SvPPtOzp38EFKhL5vNMTLNIOdI+7j9Ofet47Mm2JZwrPFEsAqXvH9neiHOVAQODDiMjNeMYPyi2nr0BAU5JWHU3GXQZrtZy0/4qjjZ9oRjlW9926tEj6Fp9jpiBlaZRVva+nRMt5LDAGPBgZ8i84fqfCza2JX/z+bSH1KC6wbUIK8KneRHdzBD6uAbI/hgKUBwnKxIddPn7oOMTP89gVhCZbICjwHHPy1OM2Ak72GbOrCk/Ts7Kt6DRH4zX40qSLlByN1/UXux/s7qPStBCJKKw59xOk7DS5LAZZ0='
+  comment: 'Personal user skmat'
+
+- title: 'pbatc' #hm-nid-t-sec-1-vpca' or $hostname == 'r5-nid-t-sec-1-vpca'
+  uid: '1070'
+  ssh_title: 'pbatc@NOOSLLPT121622'
+  groups: 'bvaktnemid'
+  pub_key: 'AAAAB3NzaC1yc2EAAAADAQABAAABAQDat6JWjN7B4B2ar5eK+L5GnBnkq84a6uE0/9MClLOm4wJ8VypRNZTzW0zmMBtABU7f7Xrzln6ln/37cMShDRDT4uNMC7etfaq39e4cFPyk85f6L4CHTJavanUyhnrNEGyYwjHPTNh0KDwxa/vxdM9H1xDvtVmED3cqgv4L86BqGTSn+RJexwSbS43Q7FabDPj2I2megmL3Xejeh3adtUEfjqvOe0Ad9yfYh2/TCcPPltBmdeg/aE+K2i6rqMvzjuiASCOMLUnDeWljoeX6KcH7p9JnitLK4910R8lui2/Vz80AkBbhUqeYRyhUY3xCSzmCJWyjILlOKUbhj9mtGce/'
+  comment: 'Personal user pbatc'
+
+- title: 'shgaw' #hm-nid-t-sec-1-vpca' or $hostname == 'r5-nid-t-sec-1-vpca'
+  uid: '1061'
+  ssh_title: 'shgaw@nooslvdi003860'
+  groups: 'bvaktnemid'
+  pub_key: 'AAAAB3NzaC1yc2EAAAADAQABAAABAQDZX8aqgTXEIku4w7Pyg09IWvW43zHuWsbu+Z/J1f14TIwhi3/3ieObNp784yBIQT5nXw69JABQ5lF8iTD2OEaqlGuAlqdnplga/dxngYYJtRYMRma5CNuQe76k0Zb1A+Eh5x65Zw2WgL7NpEAblUZYDmFGL3HhXvjD2jFAQ/4sLssmmmrVykCzNhqgz04s8jdFuQaNxmVj4o8OVagbXM700R48IShpVfGVhKReRJu7hnAzbk8v58Oc3oNnAL4Sq6vxXt1ZFzIG8doOVUMnbU4tDkukg0hFw6LwkszcE57b4R+dJiBVjmVhPvcHOqW1+B55E7U0xNZXUf7u+pzGmCi3'
+  comment: 'Personal user shgaw'
+
+- title: 'etage'
+  ensure: 'absent'
+  
+# profile::base::system_users: #users is the secondary group by default, home is /home/{user}
+# - title: 'entrust'
+#   uid: '2009'
+#   comment: 'Entrust System User'
+ 
+# - title: 'unicert'
+#   uid: '2002'
+#   comment: 'Unicert System User'
+
+profile::cis::allow_groups:
+- 'bvaktnemid'
+
+profile::base::groups: 
+- title: 'bvaktnemid'
+  gid: '5000'
+
+- title: 'sis'
+  ensure: 'absent'
+  
+sudo::configs:
+  'bvaktnemid':
+     template: 'nemid/sudoersNemid'
+
+profile::base::pkgs: 
+ - 'openldap-clients'
+
+#overrides profile::cis::mounts in 7.yaml 
+profile::cis::mounts:
+- title: '/dev/shm'
+  options: 'defaults,size=1G,nosuid,noexec,nodev'
+  fstype: 'tmpfs'
+  device: 'tmpfs'
+
+- title: '/tmp'
+  options: 'defaults,rw,nosuid,nodev,noexec,relatime'
+  fstype: 'xfs'
+  device: '/dev/mapper/rhel-tmp' #for nid test, in others vg01-Tmp  
+
+- title: '/home'
+  options: 'defaults,nodev,nosuid'
+  fstype: 'xfs'
+  device: '/dev/mapper/rhel-home' #for nid test, in others vg01-home
+
+profile::base::ssh_keys:
+- title: 'skmat@nets.eu'
+  user: 'skmat'
+  pub_key: 'AAAAB3NzaC1yc2EAAAADAQABAAACAQCvtcymR8ddrZn3pJV5bxJrUXDe1yA6gbkKsBq8ZXRftK0jM4LFGxZIdskX2VC+W4qiSsG5Sl91eKJtkcy/InWwO5nFoDpoeVBxaGeXTvHnNr3P8OF3NCWiXrGiuU7+sEdkSWpK8iK3b2nxm6c2rPS3NmdOCYXYsk+6DyHCXcpr3t7oY84OOzASabLOybiNinugFgcXXi56GAjSJFxqXXe8pUN93KCJi6+u8oLVzzgZP0XJI84PsLvf57x/Z8MIEZicMfzMwYP7cw6m8UL6lT0ZFXclDMUIPWo6etGCjJZjFaiD83Vdj9YGByN61/xX8Mafv1XZK8peyNPUngZDUSPN2HmvEVGJZGuAxigbT1QrX5P8I+55ALtWMw49+xOOksgaIOFi2OhhX/YivFHGD67H1r6rLGGFSSyawDsRgsyskkkzCP9zAAg3/gswfe/MKH5u/dQgGvDPZ7WR9FPRGWNXpNfJylu5bk9MRcjZoVwWnq5yO1eQDmbW6n08NNt5fvePgomLDbyHfCkZFF9so4Bho5eWEbbS2vKSr0TrU1X6NAqZaE5rPMzckrcwy0BEh1RuO3ing578DWJmVQXfClCQZEtBYbOxGWHCbrVrnZrYZ6n8cFqmS6J2sD0PHe9rBHYmV95CXU5s/BXMOdCMBpvx1DPmZVhCniAJm6RysUkYHw=='
+  
+- title: 'hnata@NOOSLLPT120015'
+  user: 'hnata'
+  pub_key: 'AAAAB3NzaC1yc2EAAAADAQABAAABgQCqvywAgR2i01Ayw1AOxYKAzwNkT+9Iisv331Wkb5AcDBqpHfmOVHvMT2bDF+JfBciGNrIzUW7SPJUlVsTRgRX0Ekuu9t5EIFkYKtmf4jM2ytfOQ9faxwtRqkDh6GCU+RXlfN61Fmry7Z6vjsgx2W62ZXjxCYIwzHbFU0TzifKFhM1cRVwpBK126yX4TYHHS8GeOrJ/m1N1GVkBrRHkhwBr9x67RH5PRe007d8ExmsvNyFU/bQr94Ye0wY+9x3Aidj3+B9o3QKgvcz1OIAYSOmHCu1Eq+cP7M+Cq3Uazf3rJbksoPfR3JZmJO57oFWYHzfiJN4mcm0hFPar9F7cdu7cdsd/LiwoLAJZGeRg008gZl35zo5Vq+aB+S0Iy+QN573scYxiUXhVBqHKRgPF3yAeeb11lfefSqzE8FJBufQltknmpb4yBVf09eTr/6BNob2U+JRNBUYOJevui78zVK2k3Z6x/pu9cqWpakem6xW9ITVhW/p4niGMIXNB17Pp6os='
+
+- title: 'developer_subha'
+  user: 'subha'
+  pub_key: 'AAAAB3NzaC1yc2EAAAADAQABAAABgQCdHPhJBHzDY+Ray+LsSHw4sYxWbjmI3Z+i0k1SG7mv5JkulNa97atwBGFFute7tv7p7absSVHBFUHaVnmMQdu2nQUqAQKZqDTpWywj8HT+pd7Z9hBY5Bhkxt5q+3B4bLjI9ZCF/ESCd3PnAZLfYdusILKwlEyyYCKk1OiO3eE2PJw+BOKX2yqWYgzkfyl7dNgOWmTO2+ulG+k5QTrZtduJMr3NA/j3KXl4ac5vJWsUkxg+pBS8AxgpkhVow5w3AmDUkXsmq3NYK/i7DprLQjeQJWZjf9RLqtIchURCy8uWLBc/6/sPES74g/KN5vY4QfOGDxUKsSPJT1szzTvjip44T7TiO77PljFfC62CD5w9ymMV5QvDj11nHUIqA6hdzedRKJumn/tUNTLdSVBZ552QiRRRAA0yfA/Q6P1YS6BlEgrKE2imUZ4D6R7EXtZcVxYSOkqpIAqQJDMimcco+qEX9wiMZUXhXC7JrDEoRVROJt2NCyfKhtepAkHptlPfi3M='

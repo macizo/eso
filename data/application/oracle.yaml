@@ -1,0 +1,204 @@
+lookup_options: 
+  profile::base::ssh_keys:
+    merge: unique
+  profile::base::dirs:
+    merge: unique
+  profile::base::files:
+    merge: unique
+  profile::base::groups: 
+    merge: unique
+  profile::base::system_users:
+    merge: unique
+  profile::base::pkgs:
+    merge: unique
+  pam::allowed_users: #creates a hash from all the sources of this key
+    merge:
+      strategy: deep
+      merge_hash_arrays: true
+
+pam::allowed_users: # add users to this list
+ - 'oracle'
+ 
+profile::base::groups: 
+- title: 'dba'
+  gid: '2005'
+ 
+- title: 'asmdba'
+  gid: '2007'
+
+- title: 'oper'
+  gid: '2008'
+
+- title: 'oinstall'
+  gid: '2000'
+
+- title: 'operators'
+  gid: '1000'
+
+profile::base::system_users:
+- title: 'oracle'
+  uid: '2000'
+  gid: 'oinstall'
+  comment: 'Oracle System User'
+  ssh_title: 'Oracle-key'
+  groups: ['dba', 'asmdba', 'oper', 'wheel','ssh-users', 'oinstall']
+
+# systemd::dropin_files:
+#   oracle_node_exporter.service:
+#     unit: oracle_node_exporter.service
+#     content: 'sis/systemd/oracle_node_exporter.service'
+#   oracle-ohasd.service:
+#     unit: oracle-ohasd.service
+    # content: 'sis/systemd/oracle-ohasd.service'
+  # node_exporter.service:
+  #   unit: node_exporter.service
+  #   content: 'sis/systemd/node_exporter.service'
+
+systemd::manage_logind: true
+
+systemd::logind_settings:
+  RemoveIPC: 'no'
+
+profile::base::files:
+- title: '/opt/service/scripts/hugepages.sh'
+  mode: '0755'
+  owner: 'root'
+  group: 'root'
+  content: 'oracle/hugepages.sh'
+        
+- title: '/opt/service/scripts/orcl_gpgkey.sh'
+  mode: '0755'
+  owner: 'root'
+  group: 'root'   
+  content: 'oracle/orcl_gpgkey.sh'
+
+- title: '/usr/local/bin/meminfo'
+  mode: '0755'
+  owner: 'root'
+  group: 'root'   
+  content: 'oracle/meminfo'
+  
+profile::base::dirs:
+- title: '/opt/service'
+  owner: 'root'
+  group: 'users'
+  mode:  '0755'
+
+- title: '/opt/service/scripts'
+  owner: 'root'
+  group: 'root'
+  mode:  '0755'
+
+- title: '/opt/service/logs'
+  ensure: absent
+  force: true
+
+- title: '/opt/service/logs/maintenance'
+  ensure: absent
+  force: true
+
+- title: '/opt/service/logs/archive'
+  ensure: absent
+  force: true
+
+- title: '/opt/service/properties'
+  ensure: absent
+  force: true
+
+- title: '/opt/service/software'
+  ensure: absent
+  force: true
+
+- title: '/opt/service/fileshare'
+  ensure: absent
+  force: true
+
+- title: '/etc/logrotate.d/all_sis_app_logrotate_pp' # it is scheduled in /etc/cron.daily/logrotate by default
+  ensure: absent
+  force: true
+
+- title: '/opt/service/scripts/logcleaning-sis-pp.ksh'
+  ensure: absent
+  force: true
+
+- title: '/opt/service/scripts/cleantomcat.sh'
+  ensure: absent
+  force: true
+
+- title: '/opt/service/scripts/fixmem.sh'
+  ensure: absent
+  force: true
+
+profile::base::ssh_keys:
+- title: 'oracle@hm-es-t-sec-1-vtrustdb.esec.test'
+  user: 'oracle'
+  pub_key: 'AAAAB3NzaC1yc2EAAAADAQABAAAAgQDS5BEEMUIgRHC2tAV8Wn6/PFTKUxkqqnExS7VkXgJiw2eD9f8VgXq2ttvP/9bBFRbUQaseO1LAM1xIRWooV3ksXuVDiyOQSsorxVMs2gzIXlluJ5kqlZJLc9P94bCtkUbGk1BPYUlDP8P7+1vlOIKVmzY6PWzJyBZukmfvc3ZKvQ=='
+
+- title: 'oracle@r5-es-t-sec-3-vtrustdb.esec.test'
+  user: 'oracle'
+  pub_key: 'AAAAB3NzaC1yc2EAAAADAQABAAAAgQDRPWv2cBs4NxW/mF9v6O7DU61VEmjdH7GGgSWFjTyZqow2USOqoF0ERuUjE+1ILaB1rJlCj9Xq5xB8mr0Iov+TfHbkcDP/8K1HFyHacNVwYAK0JgdtXo9ZR0Yjb40Kkq4ly+XwRggn938S9pfaDSutCE8tWC/BF2Q5fCplB9KHlw=='
+
+- title: 'oracle@r5-bid-pp-sec-1-vccdb.esec.pp'
+  user: 'oracle'
+  pub_key: 'AAAAB3NzaC1kc3MAAACBAPXsufPpoFclZyxA19crUdHfRU9xut/kRDS/bwGyhmsqr1Ov9hthzQKMKq6WFCbm64dReSZIcbJ9HZ1iOP/GzuPX+fCQ8YRCZUCO7TNOVyIjCmunivxW3PB2VesasqSIopeou3/Zxb5JJQ33ebsKmAMsr2ZOglO22viC3FmRvUdlAAAAFQCdT1UkHo2jppiOCZQiPY1KxwE+oQAAAIBA54gdSwB7hu9J92zDYxVB9PWREG12tUt0PScBm/93E9sxrtae7l7zdJncYE5SsZdcywE4Gvcik0CI8fhmqiV7CrLuaCnfp0ePjcHP79sXy9pVpDMjBP43YPdxynDv2sB3FRKU3WdkjY/ogwzDFiztnBIY6NVaHTDlhaauPlVmqgAAAIEAlDzNp87eADYw74o/BbgLjTGVWrk07yM+ICKn4HjemxCcwQfBUcsLpFhixXYzYTH+zJjZHV7RUQiOtTEIib9iEXq/pBw08lAhvkG97927I/aJ3yB3ooEDnX8ag8PvJycMc1p0Qnp36szHEjyuN8yqLsZV3RlmHPVQ3kaKcoBSp04='
+  type: 'ssh-dss'
+
+
+profile::oracle::pkgs: # RHEL 8
+  - 'bc'
+  - 'binutils'
+  - 'elfutils-libelf'
+  - 'elfutils-libelf-devel'
+  - 'gcc'
+  - 'gcc-c++'
+  - 'glibc'
+  - 'glibc-devel'
+  - 'ksh'
+  - 'libaio'
+  - 'libaio-devel'
+  - 'libgcc'
+  - 'libibverbs'
+  - 'libnsl'
+  - 'librdmacm'
+  - 'libstdc++'
+  - 'libstdc++-devel'
+  - 'libXrender'
+  - 'libX11'
+  - 'libXau'
+  - 'libxcb'
+  - 'libXft'
+  - 'libXi'
+  - 'libXtst'
+  - 'libXt'    
+  - 'make'
+  - 'oracleasmlib'
+  - 'oracleasm-support'
+  - 'smartmontools'
+  - 'screen'
+  - 'sysstat'
+  - 'tuned'
+  - 'unixODBC'
+  - 'unixODBC-devel'
+  - 'wget'
+  - 'xorg-x11-xauth'
+  - 'xorg-x11-utils'
+  - 'xterm'
+  - 'tmux'
+ #- 'compat-libstdc++-33' enable for rhel7 if needed
+ # - 'compat-libcap1'
+ # - 'kmod-oracleasm.x86_64' doesn't work on rhel8
+
+# Security settings for Oracle
+pam::limits_fragments:
+  10-oracle:
+    list:
+      - 'oracle  soft    nproc   2047'
+      - 'oracle  hard    nproc   16384'
+      - 'oracle  soft    nofile  2048'
+      - 'oracle  hard    nofile  65536'
+      - 'oracle  soft    stack   10240'
+      - 'oracle  soft    memlock unlimited'
+      - 'oracle  hard    memlock unlimited'
+
+      
+      

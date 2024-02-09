@@ -1,0 +1,55 @@
+/opt/service/logs/maintenance/ts*.log {
+        su tomcat users
+        # logrotate automatically by file size 500 MB
+        size 500M
+        create 0640 tomcat users
+        # keep only last 7 rotations
+        rotate 7
+        copytruncate
+        compress
+        missingok
+        # is rotated when 500MB is reached, 7 rotations mean that he keeps max 3.5 GB, after 3 days the log files are deleted
+        maxage 3
+}
+
+/opt/service/logs/maintenance/signing*.log {
+        su tomcat users
+        # logrotate automatically by file size 500 MB
+        size 500M
+        create 0640 tomcat users
+        # keep only last 7 rotations
+        rotate 7
+        copytruncate
+        compress
+        missingok
+        # is rotated when 500MB is reached, 7 rotations mean that he keeps max 3.5 GB, after 3 days the log files are deleted
+        maxage 3
+}
+
+/opt/service/logs/maintenance/certificate*.log {
+        su tomcat users
+        # logrotate automatically by file size 500 MB
+        size 500M
+        create 0640 tomcat users
+        # keep only last 7 rotations
+        rotate 7
+        copytruncate
+        compress
+        missingok
+        # is rotated when 500MB is reached, 7 rotations mean that he keeps max 3.5 GB, after 3 days the log files are deleted
+        maxage 3
+}
+
+/opt/service/logs/maintenance/activemq*.log {
+        su tomcat users
+        # logrotate automatically by file size 500 MB
+        size 500M
+        create 0640 tomcat users
+        # keep only last 7 rotations
+        rotate 7
+        copytruncate
+        compress
+        missingok
+        # is rotated when 500MB is reached, 7 rotations mean that he keeps max 3.5 GB, after 3 days the log files are deleted
+        maxage 3
+}

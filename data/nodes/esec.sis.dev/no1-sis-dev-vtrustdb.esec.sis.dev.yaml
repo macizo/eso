@@ -1,0 +1,25 @@
+---
+lookup_options: 
+  profile::cis::mounts: # so it overrides the values on the lower priority layers
+    merge: first
+
+profile::cis::mounts:
+- title: '/dev/shm'
+  options: 'defaults,size=2G,nosuid,noexec,nodev'
+  fstype: 'tmpfs'
+  device: 'tmpfs'
+
+- title: '/tmp'
+  options: 'defaults,rw,nosuid,nodev,noexec,relatime'
+  fstype: 'xfs'
+  device: '/dev/mapper/vg01-tmp' #different in rhel 8: vg01-tmp
+
+- title: '/home'
+  options: 'defaults,nodev,nosuid'
+  fstype: 'xfs'
+  device: '/dev/mapper/vg01-home'
+
+- title: '/var/tmp'
+  options: 'defaults,nodev,nosuid,noexec'
+  fstype: 'xfs'
+  device: '/dev/mapper/vg01-var_tmp'

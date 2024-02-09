@@ -1,0 +1,9 @@
+# Security settings for Oracle
+oracle  soft    nproc   2047
+oracle  hard    nproc   16384
+oracle  soft    nofile  2048
+oracle  hard    nofile  65536
+oracle  soft    stack   10240
+oracle  soft    memlock unlimited
+oracle  hard    memlock unlimited
+

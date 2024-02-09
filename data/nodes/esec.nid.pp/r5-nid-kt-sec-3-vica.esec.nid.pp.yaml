@@ -1,0 +1,21 @@
+#RHEL 7
+lookup_options:
+  profile::cis::mounts:
+    merge: first
+
+#overrides profile::cis::mounts in esec.nid.pp and 7.yaml
+profile::cis::mounts:
+- title: '/dev/shm'
+  options: 'defaults,size=1G,nosuid,noexec,nodev'
+  fstype: 'tmpfs'
+  device: 'tmpfs'
+
+- title: '/tmp'
+  options: 'defaults,rw,nosuid,nodev,noexec,relatime'
+  fstype: 'xfs'
+  device: '/dev/mapper/rhel-tmp' #different in other servers, ie vg01-*
+
+- title: '/home'
+  options: 'defaults,nodev,nosuid'
+  fstype: 'xfs'
+  device: '/dev/mapper/rhel-home'
