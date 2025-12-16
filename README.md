@@ -1,151 +1,191 @@
-ESO – Puppet Control Repository
-Overview
+# ESO – Puppet Control Repository
 
-This repository is a Puppet control repository used to manage and enforce system configuration, security baselines, and user management across Linux servers in a structured and repeatable way.
+## Overview
 
-It follows standard Puppet control-repo practices and is designed for on-premise, production environments, with a strong focus on:
+This repository is a **Puppet control repository** used to manage and enforce **system configuration, security baselines, and access control** across Linux servers in a structured and repeatable way.
 
-System hardening
+It follows standard Puppet control-repo practices and is designed for **on-premise, production environments**, with a strong focus on:
 
-User and SSH access management
+- Infrastructure as Code (IaC)
+- System hardening and compliance
+- User and SSH access management
+- Stability and maintainability
 
-Service management
+This project demonstrates a **Linux / platform engineering mindset**, where reliability and clarity are prioritized over unnecessary complexity.
 
-Compliance and consistency
+---
 
-This project demonstrates infrastructure-as-code, Linux system administration, and platform reliability skills.
+## Why this project exists
 
-Architecture
+This repository exists to demonstrate how I approach managing Linux systems at scale:
 
-The repository is structured according to Puppet best practices:
+- Treating configuration as versioned code
+- Enforcing consistent and auditable system state
+- Keeping infrastructure predictable and easy to reason about
+- Designing for long-lived, production systems
 
+It reflects real-world operational practices rather than a minimal or synthetic demo.
+
+---
+
+## Repository structure
+
+The repository follows Puppet best practices:
+
+```text
 .
 ├── Puppetfile
 ├── environment.conf
 ├── hiera.yaml
 ├── data/                  # Hiera data (node / role configuration)
 ├── manifests/             # Site-wide manifests
-├── site/                  # Site-specific profiles & roles
+├── site/                  # Site-specific roles and profiles
 └── modules/               # Puppet modules (internal & third-party)
 
-Key Components
+```
 
-Hiera (data/ + hiera.yaml)
-Separates configuration data from code, allowing clean overrides per environment, role, or node.
+## Key components
 
-Modules/
-Includes both:
+### Puppetfile
 
-Well-known upstream modules (stdlib, concat, ssh, sudo, systemd, selinux, etc.)
+Defines and pins module dependencies to ensure reproducible environments.
 
-Custom or extended modules for organization-specific needs
+### Hiera
 
-What This Repository Manages
+Implemented using `hiera.yaml` and the `data/` directory.
 
-This control repo is used to manage:
+Responsibilities include:
 
-🔐 User & Access Management
+- Separation of configuration data from code
+- Clean overrides per node, role, or environment
+- Reduction of duplication across manifests
 
-System users and SSH users
+### Modules
 
-SSH key distribution
+The `modules/` directory contains:
 
-Privilege management via sudo
+- Well-known upstream Puppet modules
+- Site-specific modules and extensions
 
-Consistent user policies across hosts
+---
 
-🛡️ Security & Hardening
+## What this repository manages
 
-Auditd configuration
+### User and access management
 
-PAM configuration
+- System users and SSH users
+- SSH key distribution
+- Privilege management using sudo
+- Consistent access policies across hosts
 
-NSSwitch and authentication policies
+### Security and hardening
 
-⚙️ System Configuration
+- Auditd configuration
+- PAM configuration
+- NSSwitch and authentication policies
 
-Kernel parameters (sysctl)
+### System configuration
 
-Cron jobs
+- Kernel parameters (sysctl)
+- Cron jobs
+- Log rotation
+- File permissions and ownership
+- Systemd service definitions
 
-Log rotation
+### Services and observability
 
-Systemd service definitions
+- Prometheus exporters
+- Custom systemd units
+- Service lifecycle management
 
-File permissions and ownership
+---
 
-📊 Observability & Services
+## Example workflow
 
-Prometheus exporters
+A typical workflow using this control repository:
 
-Custom systemd units
+1. Define node- or role-specific configuration in Hiera
+2. Apply roles and profiles from the `site/` manifests
+3. Puppet enforces:
+   - Correct users and SSH keys
+   - Security baselines
+   - Required services and configurations
+4. Systems converge to a known, auditable, and repeatable state
 
-Service lifecycle management
+---
 
-Example Use Case
+## Design decisions
 
-A typical workflow:
+The following design choices were made intentionally:
 
-Define node or role data in Hiera
+- Preference for simple, predictable manifests over complex logic
+- Strong separation between code and data using Hiera
+- Minimal customization unless there is a clear operational benefit
+- Emphasis on idempotency and safe convergence
+- Stability and clarity prioritized over feature density
 
-Apply profiles from site/ manifests
+These decisions reflect experience operating production systems, where maintainability and reliability are critical.
 
-Puppet enforces:
+---
 
-Correct users and SSH keys
+## Scope and limitations
 
-Security baselines
+This repository focuses on **core system configuration and security baselines**.
 
-Required services and configurations
+The following areas are intentionally out of scope:
 
-Systems remain consistent, auditable, and reproducible
+- Application-level configuration
+- Environment-specific secrets
+- Runtime application deployments
+- One-off host customizations
 
-Design Principles
+These concerns are better handled by deployment tooling or application teams, allowing this repository to remain responsible for stable and repeatable system state.
 
-This repository was built with the following principles in mind:
+---
 
-Stability over cleverness
-Avoid unnecessary complexity in favor of predictable behavior.
+## Possible future improvements
 
-Separation of code and data
-Logic lives in modules; configuration lives in Hiera.
+If this repository were to be extended further, potential improvements could include:
 
-Idempotency and repeatability
-Systems converge safely regardless of starting state.
+- Explicit role and profile examples for specific server types
+- Continuous integration validation of Puppet syntax and catalog compilation
+- Automated compliance checks against defined security baselines
 
-Production-first mindset
-Designed for long-lived servers in regulated or sensitive environments.
+These improvements were intentionally not implemented to keep the repository focused and easy to review.
 
-Skills Demonstrated
+---
 
-This project showcases experience with:
+## Skills demonstrated
 
-Linux system administration
+This project demonstrates experience with:
 
-Puppet (control repo, Hiera, modules)
+- Linux system administration
+- Puppet (control repositories, Hiera, and modules)
+- Infrastructure as Code (IaC)
+- Security hardening and compliance
+- User and access management
+- Systemd and service management
+- Operating production on-premise environments
 
-Infrastructure as Code (IaC)
+---
 
-Security hardening and compliance
+## Notes for reviewers
 
-User and access management
+This repository reflects real-world infrastructure management rather than a toy project.
 
-Service management with systemd
+The emphasis is on:
 
-Operating production, on-premise environments
+- Maintainability
+- Predictability
+- Operational safety
 
-Notes for Reviewers
+This approach is representative of enterprise and regulated environments.
 
-This repository reflects real-world infrastructure management, not a minimal demo.
-The focus is on maintainability, clarity, and operational safety, similar to environments found in:
+---
 
-Enterprises
+## License
 
-Regulated industries
+Internal or educational use only.
 
-Mission-critical platforms
-
-License
-
-Internal / educational use.
 Third-party modules retain their respective licenses.
+
